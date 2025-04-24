@@ -1,0 +1,274 @@
+/**
+ * Script pour recréer complètement le fichier Home.js avec une structure correcte
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+// Chemin du fichier Home.js
+const homePath = path.join(__dirname, 'Home.js');
+console.log(`Préparation d'une version propre de ${homePath}...`);
+
+// Créer une sauvegarde du fichier actuel
+const backupPath = `${homePath}.backup.${Date.now()}`;
+if (fs.existsSync(homePath)) {
+  fs.writeFileSync(backupPath, fs.readFileSync(homePath, 'utf8'));
+  console.log(`Sauvegarde créée: ${backupPath}`);
+}
+
+// Contenu propre pour Home.js avec pagination
+const cleanContent = `import React, { useState, useEffect, useCallback } from 'react';
+import { 
+  Box, 
+  Alert, 
+  CircularProgress, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  MenuItem, 
+  Typography, 
+  Paper, 
+  Button,
+  TablePagination
+} from '@mui/material';
+import axios from 'axios';
+import DataTable from './DataTable';
+import config from '../config';
+
+const Home = () => {
+  // États pour les données et le chargement
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  // États pour les tables
+  const [tables, setTables] = useState([]);
+  const [loadingTables, setLoadingTables] = useState(false);
+  const [selectedTable, setSelectedTable] = useState('fournisseurs_fournisseurs_v18');
+  
+  // États pour les filtres et les colonnes visibles
+  const [filters, setFilters] = useState({});
+  const [visibleColumns, setVisibleColumns] = useState(new Set());
+  const [savedFilterSettings, setSavedFilterSettings] = useState({});
+  
+  // États pour la pagination
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalRows, setTotalRows] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  
+  // Fonction pour charger la liste des tables
+  const fetchTables = useCallback(async () => {
+    setLoadingTables(true);
+    try {
+      const response = await axios.get(\`\${config.apiUrl}/fournisseurs/tables\`);
+      setTables(response.data);
+    } catch (error) {
+      console.error('Erreur lors du chargement des tables:', error);
+    } finally {
+      setLoadingTables(false);
+    }
+  }, []);
+  
+  // Fonction pour charger les données de la table sélectionnée
+  const fetchData = useCallback(async (tableName, page = currentPage, size = pageSize) => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Utiliser une taille de page très grande pour récupérer toutes les données en une seule requête
+      const fetchSize = 10000;
+      
+      // Si le nom de la table est 'fournisseurs', utiliser la route standard
+      // Sinon, utiliser une route spécifique pour la table sélectionnée
+      const url = tableName === 'fournisseurs' 
+        ? \`\${config.apiUrl}/fournisseurs?page=1&pageSize=\${fetchSize}\` 
+        : \`\${config.apiUrl}/fournisseurs/table/\${tableName}?page=1&pageSize=\${fetchSize}\`;
+      
+      console.log('Fetching all data from:', url);
+      const response = await axios.get(url);
+      console.log('Response received:', response.data);
+      
+      // Traiter les données en fonction du format de réponse
+      if (response.data && Array.isArray(response.data.data)) {
+        // Format avec pagination explicite
+        const allData = response.data.data;
+        setData(allData);
+        
+        // Mettre à jour les informations de pagination
+        // Nous utilisons la pagination côté client maintenant
+        setTotalRows(allData.length);
+        setTotalPages(Math.ceil(allData.length / size));
+        setCurrentPage(page);
+        setPageSize(size);
+        
+        console.log(\`Toutes les données récupérées: \${allData.length} lignes\`);
+      } else if (Array.isArray(response.data)) {
+        // Format tableau simple (ancienne API)
+        const allData = response.data;
+        setData(allData);
+        setTotalRows(allData.length);
+        setTotalPages(Math.ceil(allData.length / size));
+        setCurrentPage(page);
+        
+        console.log(\`Toutes les données récupérées: \${allData.length} lignes\`);
+      } else {
+        console.error('Format de données non reconnu:', response.data);
+        setData([]);
+        setTotalRows(0);
+        setTotalPages(0);
+      }
+    } catch (error) {
+      console.error(\`Erreur lors du chargement des données de la table \${tableName}:\`, error);
+      setError(\`Erreur lors du chargement des données de la table \${tableName}\`);
+      // En cas d'erreur, initialiser data avec un tableau vide pour éviter l'erreur "data is not iterable"
+      setData([]);
+      setTotalRows(0);
+      setTotalPages(0);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage, pageSize]);
+  
+  // Charger la liste des tables au chargement initial
+  useEffect(() => {
+    fetchTables();
+  }, [fetchTables]);
+  
+  // Charger les données de la table sélectionnée lorsqu'elle change
+  useEffect(() => {
+    if (selectedTable) {
+      // Réinitialiser la page
+      setCurrentPage(0);
+      fetchData(selectedTable, 0, pageSize);
+      
+      // Appliquer les filtres sauvegardés si disponibles
+      if (savedFilterSettings && savedFilterSettings[selectedTable]) {
+        setFilters(savedFilterSettings[selectedTable].filters || {});
+        setVisibleColumns(savedFilterSettings[selectedTable].visibleColumns || new Set());
+      } else {
+        // Réinitialiser les filtres et les colonnes visibles
+        setFilters({});
+        setVisibleColumns(new Set());
+      }
+    }
+  }, [selectedTable, savedFilterSettings, pageSize, fetchData]);
+  
+  // Gestionnaire de changement de table
+  const handleTableChange = (event) => {
+    const newTable = event.target.value;
+    setSelectedTable(newTable);
+    // Pas besoin de fetchData ici car l'effet ci-dessus s'en chargera
+  };
+  
+  // Fonction pour sauvegarder les paramètres de filtres et colonnes visibles
+  const saveFilterSettings = () => {
+    setSavedFilterSettings(prev => ({
+      ...prev,
+      [selectedTable]: {
+        filters,
+        visibleColumns
+      }
+    }));
+    
+    // Recharger les données avec les filtres appliqués
+    fetchData(selectedTable, 0, pageSize);
+  };
+  
+  // Gestionnaire de changement de page
+  const handlePageChange = (event, newPage) => {
+    console.log(\`Changement de page: \${newPage + 1} sur \${totalPages}\`);
+    setCurrentPage(newPage);
+    // Pas besoin de recharger les données car nous avons déjà toutes les données
+  };
+  
+  // Fonction pour changer la taille de page
+  const handlePageSizeChange = (event) => {
+    const newSize = parseInt(event.target.value, 10);
+    setPageSize(newSize);
+    setCurrentPage(0); // Revenir à la première page
+    // Pas besoin de recharger les données car nous avons déjà toutes les données
+  };
+  
+  // Rendu conditionnel
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert severity="error" sx={{ mt: 2 }}>
+        {error}
+      </Alert>
+    );
+  }
+  
+  // Rendu principal
+  return (
+    <Box className="home-container">
+      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h4" gutterBottom>
+          Gestion des Fournisseurs
+        </Typography>
+        
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel id="table-select-label">Table</InputLabel>
+            <Select
+              labelId="table-select-label"
+              value={selectedTable}
+              onChange={handleTableChange}
+              disabled={loadingTables || loading}
+            >
+              {tables.map(table => (
+                <MenuItem key={table} value={table}>
+                  {table}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          
+          <Button 
+            variant="contained" 
+            onClick={saveFilterSettings}
+            sx={{ ml: 2 }}
+          >
+            Sauvegarder les filtres
+          </Button>
+        </Box>
+        
+        <Box sx={{ width: '100%', overflow: 'auto' }}>
+          <DataTable 
+            data={data.slice(currentPage * pageSize, (currentPage + 1) * pageSize)}
+            tableName={selectedTable}
+          />
+          
+          <TablePagination
+            component="div"
+            count={totalRows}
+            page={currentPage}
+            onPageChange={handlePageChange}
+            rowsPerPage={pageSize}
+            onRowsPerPageChange={handlePageSizeChange}
+            rowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
+            labelRowsPerPage="Lignes par page:"
+            labelDisplayedRows={({ from, to, count }) => 
+              \`Affichage de \${from} à \${to} sur \${count} lignes\`
+            }
+          />
+        </Box>
+      </Paper>
+    </Box>
+  );
+};
+
+export default Home;`;
+
+// Écrire le contenu propre dans le fichier
+fs.writeFileSync(homePath, cleanContent);
+console.log(`Fichier ${homePath} entièrement recréé avec une structure correcte!`);
+
+console.log('Veuillez redémarrer l\'application frontend pour appliquer les modifications.');

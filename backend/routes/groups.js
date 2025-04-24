@@ -1,0 +1,397 @@
+const express = require('express');
+const router = express.Router();
+const pool = require('../db');
+const ExcelJS = require('exceljs');
+const { Parser } = require('json2csv');
+
+// Créer un nouveau groupe
+router.post('/', async (req, res) => {
+  const { name, filters, visibleColumns } = req.body;
+  console.log('Création de groupe avec:', { name, filters, visibleColumns });
+
+  if (!name) {
+    return res.status(400).json({ error: 'Le nom du groupe est requis' });
+  }
+
+  const client = await pool.connect();
+  
+  try {
+    await client.query('BEGIN');
+
+    // Vérifier si le groupe existe déjà
+    const groupName = `group_${name.toLowerCase()}`;
+    const exists = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables 
+        WHERE schemaname = 'public' 
+        AND tablename = '${groupName}'
+      )`
+    );
+
+    if (exists.rows[0].exists) {
+      return res.status(400).json({ error: 'Un groupe avec ce nom existe déjà' });
+    }
+
+    // Créer la table de métadonnées si elle n'existe pas
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS system_group_metadata (
+        group_name TEXT PRIMARY KEY,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        filters JSONB,
+        visible_columns JSONB
+      )
+    `);
+
+    // Construire la requête de création du groupe
+    let sql = `CREATE TABLE "${groupName}" AS SELECT `;
+
+    // Sélectionner toutes les colonnes ou seulement celles spécifiées
+    if (visibleColumns && visibleColumns.length > 0) {
+      sql += visibleColumns.map(col => `"${col}"`).join(', ');
+    } else {
+      sql += '*';
+    }
+
+    sql += ' FROM fournisseurs';
+
+    // Ajouter les filtres si présents
+    if (filters && Object.keys(filters).length > 0) {
+      const conditions = [];
+      
+      Object.entries(filters).forEach(([column, values]) => {
+        if (values && values.length > 0) {
+          const valueList = values.map(v => `'${v.replace(/'/g, "''")}'`).join(',');
+          conditions.push(`"${column}" IN (${valueList})`);
+        }
+      });
+
+      if (conditions.length > 0) {
+        sql += ' WHERE ' + conditions.join(' AND ');
+      }
+    }
+
+    console.log('Création du groupe avec la requête:', sql);
+
+    // Créer la table du groupe
+    await client.query(sql);
+
+    // Sauvegarder les métadonnées
+    const metadataResult = await client.query(`
+      INSERT INTO system_group_metadata (group_name, filters, visible_columns)
+      VALUES ($1, $2, $3)
+      RETURNING created_at
+    `, [groupName, JSON.stringify(filters || {}), JSON.stringify(visibleColumns || [])]);
+
+    // Compter le nombre de lignes
+    const countResult = await client.query(`SELECT COUNT(*) FROM "${groupName}"`);
+    const rowCount = parseInt(countResult.rows[0].count);
+
+    await client.query('COMMIT');
+
+    const response = {
+      message: 'Groupe créé avec succès',
+      name: name,
+      record_count: rowCount,
+      created_at: metadataResult.rows[0].created_at
+    };
+
+    console.log('Réponse:', response);
+    res.status(201).json(response);
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('Erreur lors de la création du groupe:', error);
+    res.status(500).json({ 
+      error: 'Erreur interne du serveur',
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
+});
+
+// Récupérer la liste des regroupements
+router.get('/', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    // Récupérer toutes les tables qui commencent par 'group_' sauf les tables système
+    const tablesResult = await client.query(`
+      SELECT tablename
+      FROM pg_tables t
+      WHERE 
+        t.schemaname = 'public' 
+        AND t.tablename LIKE 'group_%'
+        AND t.tablename NOT LIKE 'system_%'
+        AND t.tablename != 'group_metadata'
+        AND t.tablename != 'metadata'
+        AND t.tablename NOT LIKE '%metadata%'
+    `);
+
+    // Récupérer les informations pour chaque table de manière sécurisée
+    const groupPromises = tablesResult.rows
+      .filter(row => !row.tablename.includes('metadata'))  // Filtre supplémentaire en JavaScript
+      .map(async (row) => {
+        const tableName = row.tablename;
+        const countResult = await client.query(`SELECT COUNT(*) FROM "${tableName}"`);
+        const metadataResult = await client.query(
+          'SELECT created_at FROM system_group_metadata WHERE group_name = $1',
+          [tableName]
+        );
+
+        return {
+          tablename: tableName,
+          record_count: parseInt(countResult.rows[0].count),
+          created_at: metadataResult.rows[0]?.created_at || new Date()
+        };
+      });
+
+    const groups = await Promise.all(groupPromises);
+    groups.sort((a, b) => b.created_at - a.created_at);
+
+    // Formater les noms des groupes (enlever le préfixe 'group_')
+    const formattedGroups = groups
+      .filter(group => !group.tablename.includes('metadata'))  // Filtre final pour plus de sécurité
+      .map(group => ({
+        name: group.tablename.replace('group_', ''),
+        record_count: group.record_count,
+        created_at: group.created_at
+      }));
+
+    console.log('Groupes trouvés:', formattedGroups);
+
+    res.json(formattedGroups);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des regroupements:', error);
+    res.status(500).json({ 
+      error: 'Erreur interne du serveur',
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
+});
+
+// Récupérer les données d'un groupe spécifique
+router.get('/:name', async (req, res) => {
+  const { name } = req.params;
+  const client = await pool.connect();
+  
+  try {
+    const groupName = `group_${name.toLowerCase()}`;
+    console.log('Récupération des données pour le groupe:', groupName);
+    
+    // Vérifier si le groupe existe
+    const exists = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables 
+        WHERE schemaname = 'public' 
+        AND tablename = $1
+      )
+    `, [groupName]);
+
+    if (!exists.rows[0].exists) {
+      return res.status(404).json({ error: 'Groupe non trouvé' });
+    }
+
+    // Récupérer les colonnes de la table
+    const columnsQuery = await client.query(`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_schema = 'public' 
+      AND table_name = $1
+      ORDER BY ordinal_position
+    `, [groupName]);
+    
+    console.log('Colonnes trouvées:', columnsQuery.rows);
+
+    // Récupérer les données du groupe
+    const dataQuery = await client.query(`SELECT * FROM "${groupName}"`);
+    console.log('Nombre de lignes trouvées:', dataQuery.rows.length);
+
+    // Récupérer les métadonnées pour les filtres et colonnes visibles
+    const metadataQuery = await client.query(`
+      SELECT filters, visible_columns FROM system_group_metadata 
+      WHERE group_name = $1
+    `, [groupName]);
+
+    const response = {
+      name: name,
+      columns: columnsQuery.rows.map(col => ({
+        name: col.column_name,
+        type: col.data_type
+      })),
+      data: dataQuery.rows,
+      record_count: dataQuery.rows.length,
+      created_at: metadataQuery.rows[0]?.created_at
+    };
+
+    // Ajouter les filtres et colonnes visibles si présents
+    if (metadataQuery.rows[0]) {
+      response.filters = metadataQuery.rows[0].filters;
+      response.visibleColumns = metadataQuery.rows[0].visible_columns;
+    }
+
+    console.log('Réponse envoyée:', {
+      name: response.name,
+      columnCount: response.columns.length,
+      recordCount: response.record_count,
+      createdAt: response.created_at
+    });
+
+    res.json(response);
+
+  } catch (error) {
+    console.error('Erreur lors de la récupération du groupe:', error);
+    res.status(500).json({ 
+      error: 'Erreur interne du serveur',
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
+});
+
+// Export d'un groupe (Excel ou CSV)
+router.post('/export/:format', async (req, res) => {
+  console.log('=== Export Groupe ===');
+  console.log('URL:', req.url);
+  console.log('Format:', req.params.format);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  
+  if (!req.body || !req.body.groupName) {
+    console.error('Nom du groupe manquant dans la requête');
+    return res.status(400).json({ error: 'Le nom du groupe est requis' });
+  }
+
+  const { groupName } = req.body;
+  const format = req.params.format.toLowerCase();
+  
+  if (!['excel', 'csv'].includes(format)) {
+    return res.status(400).json({ error: 'Format non supporté. Utilisez excel ou csv.' });
+  }
+
+  console.log('Nom du groupe à exporter:', groupName);
+  console.log('Format d\'export:', format);
+  
+  const client = await pool.connect();
+
+  try {
+    // Vérifier si le groupe existe
+    const tableName = `group_${groupName.toLowerCase()}`;
+    const exists = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables 
+        WHERE schemaname = 'public' 
+        AND tablename = $1
+      )
+    `, [tableName]);
+
+    if (!exists.rows[0].exists) {
+      return res.status(404).json({ error: 'Groupe non trouvé' });
+    }
+
+    // Récupérer les données du groupe
+    const result = await client.query(`SELECT * FROM "${tableName}"`);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Aucune donnée trouvée dans le groupe' });
+    }
+
+    if (format === 'csv') {
+      // Export CSV
+      const json2csvParser = new Parser();
+      const csv = json2csvParser.parse(result.rows);
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="${groupName}_${new Date().toISOString().split('T')[0]}.csv"`
+      );
+
+      res.send(csv);
+    } else {
+      // Export Excel
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet(groupName);
+
+      // Ajouter les en-têtes
+      if (result.rows.length > 0) {
+        worksheet.columns = Object.keys(result.rows[0]).map(key => ({
+          header: key,
+          key: key,
+          width: 15
+        }));
+      }
+
+      // Ajouter les données
+      worksheet.addRows(result.rows);
+
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      );
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="${groupName}_${new Date().toISOString().split('T')[0]}.xlsx"`
+      );
+
+      await workbook.xlsx.write(res);
+      res.end();
+    }
+
+  } catch (error) {
+    console.error(`Erreur lors de l'export ${format}:`, error);
+    res.status(500).json({ error: `Erreur lors de l'export ${format}` });
+  } finally {
+    client.release();
+  }
+});
+
+// Supprimer un groupe
+router.delete('/:name', async (req, res) => {
+  const { name } = req.params;
+  const client = await pool.connect();
+
+  try {
+    const groupName = `group_${name.toLowerCase()}`;
+    
+    await client.query('BEGIN');
+    
+    // Vérifier si le groupe existe
+    const exists = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables 
+        WHERE schemaname = 'public' 
+        AND tablename = '${groupName}'
+      )
+    `);
+
+    if (!exists.rows[0].exists) {
+      return res.status(404).json({ error: 'Groupe non trouvé' });
+    }
+
+    // Supprimer les métadonnées et la table
+    await client.query('DELETE FROM system_group_metadata WHERE group_name = $1', [groupName]);
+    await client.query(`DROP TABLE "${groupName}" CASCADE`);
+    
+    await client.query('COMMIT');
+    
+    res.json({ 
+      message: 'Groupe supprimé avec succès',
+      name: name
+    });
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('Erreur lors de la suppression du groupe:', error);
+    res.status(500).json({ 
+      error: 'Erreur interne du serveur',
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
+});
+
+module.exports = router;

@@ -1,0 +1,14 @@
+docker exec gestion_fournisseurs_db /usr/bin/pg_dump -U admin gestion_fournisseurs --clean > backup_gestion_fournisseurs_date.sql.gz
+
+cat backup_gestion_fournisseurs_date.sql | docker exec -i gestion_fournisseurs_db psql -U admin -d gestion_fournisseurs
+
+
+node .\clean_database.js
+PS C:\App\AppGetionFournisseurs\AppGetionFournisseurs_2.3\scripts\backups> .\import_db.bat gestion_fournisseurs_20250107_103247.sql
+
+
+docker exec gestion_fournisseurs_db_V3 /usr/bin/pg_dump -U admin gestion_fournisseurs --clean > backup_gestion_f
+ournisseurs_21042025_16h13.sql.gz
+
+cd backend
+node drop_table.js nom_de_la_table

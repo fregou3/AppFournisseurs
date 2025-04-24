@@ -1,0 +1,38 @@
+eval2_raisons_relation
+eval2_criteres_selection
+eval2_localisation
+eval2_region_intervention
+eval2_pays_intervention
+eval2_qualification_tiers
+eval2_nature_tiers
+eval2_categorisation_tiers
+eval2_intervention_autre_partie
+eval2_evaluation_risque
+eval2_interaction_tiers_autre_partie
+eval2_encadrement_relation
+eval2_flux_financier
+eval2_modalites_paiement_reglement
+eval2_niveau_dependance_tiers_vs_clarins
+eval2_niveau_dependance_clarins_vs_tiers
+eval2_modalites_de_renouvellement_contrat
+eval2_antecedents_avec_le_tiers
+eval2_duree_envisagee_de_la_relation_contractuelle
+
+
+
+
+
+
+
+faire la même chose avec la ligne "17	Durée envisagée de la relation contractuelle", 
+la liste déroulante doit utiliser les données de la table eval2_antecedents_avec_le_tiers avec les données suivantes :
+Oui	0
+Non	1
+
+
+
+
+
+
+
+

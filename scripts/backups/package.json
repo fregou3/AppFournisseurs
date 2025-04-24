@@ -1,0 +1,10 @@
+{
+  "name": "database-scripts",
+  "version": "1.0.0",
+  "description": "Scripts de gestion de la base de données",
+  "main": "clean_database.js",
+  "dependencies": {
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1"
+  }
+}

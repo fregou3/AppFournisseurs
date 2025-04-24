@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Pagination</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        select, button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .pagination button {
+            min-width: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #09f;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test de Pagination - Table fournisseurs_fournisseurs_v18</h1>
+        
+        <div class="controls">
+            <label for="pageSize">Lignes par page:</label>
+            <select id="pageSize">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+                <option value="250">250</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+            </select>
+            
+            <button id="loadData">Charger les données</button>
+            <button id="loadAllData">Charger toutes les données (peut prendre du temps)</button>
+        </div>
+        
+        <div id="info" class="info">
+            Chargez les données pour voir les informations de pagination.
+        </div>
+        
+        <div class="pagination">
+            <button id="firstPage" disabled>&lt;&lt;</button>
+            <button id="prevPage" disabled>&lt;</button>
+            <span id="pageInfo">Page 0 sur 0</span>
+            <button id="nextPage" disabled>&gt;</button>
+            <button id="lastPage" disabled>&gt;&gt;</button>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+        
+        <div id="tableContainer"></div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentPage = 1;
+        let pageSize = 50;
+        let totalPages = 0;
+        let totalRows = 0;
+        let currentData = [];
+        let allColumns = [];
+        
+        // Éléments DOM
+        const pageSizeSelect = document.getElementById('pageSize');
+        const loadDataBtn = document.getElementById('loadData');
+        const loadAllDataBtn = document.getElementById('loadAllData');
+        const infoDiv = document.getElementById('info');
+        const firstPageBtn = document.getElementById('firstPage');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const lastPageBtn = document.getElementById('lastPage');
+        const pageInfoSpan = document.getElementById('pageInfo');
+        const tableContainer = document.getElementById('tableContainer');
+        const loadingDiv = document.getElementById('loading');
+        
+        // URL de l'API
+        const apiBaseUrl = 'http://localhost:5006';
+        const tableName = 'fournisseurs_fournisseurs_v18';
+        
+        // Fonction pour charger les données avec pagination
+        async function loadDataWithPagination() {
+            try {
+                showLoading(true);
+                
+                pageSize = parseInt(pageSizeSelect.value);
+                const url = `${apiBaseUrl}/test-pagination/${tableName}?page=${currentPage}&pageSize=${pageSize}`;
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentData = result.data;
+                    totalRows = result.pagination.totalRows;
+                    totalPages = result.pagination.totalPages;
+                    
+                    updatePaginationInfo();
+                    renderTable(currentData);
+                } else {
+                    infoDiv.textContent = `Erreur: ${result.error}`;
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des données:', error);
+                infoDiv.textContent = `Erreur lors du chargement des données: ${error.message}`;
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Fonction pour charger toutes les données
+        async function loadAllData() {
+            try {
+                showLoading(true);
+                
+                const url = `${apiBaseUrl}/all-rows/${tableName}`;
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentData = result.data;
+                    totalRows = result.count;
+                    totalPages = 1;
+                    currentPage = 1;
+                    
+                    infoDiv.textContent = `Toutes les données chargées: ${totalRows} lignes au total`;
+                    renderTable(currentData);
+                    
+                    // Désactiver les boutons de pagination
+                    updatePaginationButtons(true);
+                } else {
+                    infoDiv.textContent = `Erreur: ${result.error}`;
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement de toutes les données:', error);
+                infoDiv.textContent = `Erreur lors du chargement de toutes les données: ${error.message}`;
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Fonction pour mettre à jour les informations de pagination
+        function updatePaginationInfo() {
+            const start = (currentPage - 1) * pageSize + 1;
+            const end = Math.min(currentPage * pageSize, totalRows);
+            
+            infoDiv.textContent = `Affichage de ${start} à ${end} sur ${totalRows} lignes`;
+            pageInfoSpan.textContent = `Page ${currentPage} sur ${totalPages}`;
+            
+            updatePaginationButtons();
+        }
+        
+        // Fonction pour mettre à jour les boutons de pagination
+        function updatePaginationButtons(disableAll = false) {
+            if (disableAll) {
+                firstPageBtn.disabled = true;
+                prevPageBtn.disabled = true;
+                nextPageBtn.disabled = true;
+                lastPageBtn.disabled = true;
+                return;
+            }
+            
+            firstPageBtn.disabled = currentPage === 1;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            lastPageBtn.disabled = currentPage === totalPages;
+        }
+        
+        // Fonction pour afficher/masquer le spinner de chargement
+        function showLoading(show) {
+            loadingDiv.style.display = show ? 'flex' : 'none';
+            loadDataBtn.disabled = show;
+            loadAllDataBtn.disabled = show;
+        }
+        
+        // Fonction pour générer le tableau HTML
+        function renderTable(data) {
+            if (!data || data.length === 0) {
+                tableContainer.innerHTML = '<p>Aucune donnée disponible</p>';
+                return;
+            }
+            
+            // Récupérer toutes les colonnes à partir du premier élément
+            allColumns = Object.keys(data[0]);
+            
+            // Générer le HTML du tableau
+            let tableHtml = '<table>';
+            
+            // En-tête du tableau
+            tableHtml += '<thead><tr>';
+            allColumns.forEach(column => {
+                tableHtml += `<th>${column}</th>`;
+            });
+            tableHtml += '</tr></thead>';
+            
+            // Corps du tableau
+            tableHtml += '<tbody>';
+            data.forEach(row => {
+                tableHtml += '<tr>';
+                allColumns.forEach(column => {
+                    tableHtml += `<td>${row[column] !== null ? row[column] : ''}</td>`;
+                });
+                tableHtml += '</tr>';
+            });
+            tableHtml += '</tbody></table>';
+            
+            tableContainer.innerHTML = tableHtml;
+        }
+        
+        // Gestionnaires d'événements
+        loadDataBtn.addEventListener('click', loadDataWithPagination);
+        loadAllDataBtn.addEventListener('click', loadAllData);
+        
+        firstPageBtn.addEventListener('click', () => {
+            currentPage = 1;
+            loadDataWithPagination();
+        });
+        
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                loadDataWithPagination();
+            }
+        });
+        
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadDataWithPagination();
+            }
+        });
+        
+        lastPageBtn.addEventListener('click', () => {
+            currentPage = totalPages;
+            loadDataWithPagination();
+        });
+        
+        pageSizeSelect.addEventListener('change', () => {
+            currentPage = 1;
+            loadDataWithPagination();
+        });
+        
+        // Charger les données au chargement de la page
+        loadDataWithPagination();
+    </script>
+</body>
+</html>

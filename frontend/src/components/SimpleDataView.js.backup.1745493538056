@@ -1,0 +1,146 @@
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination } from '@mui/material';
+import axios from 'axios';
+import config from '../config';
+
+const SimpleDataView = () => {
+  // États
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalRows, setTotalRows] = useState(0);
+  
+  // Table par défaut
+  const tableName = 'fournisseurs_fournisseurs_v18';
+  
+  // Chargement des données
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // Utiliser une taille de page très grande pour récupérer toutes les données
+        const url = `${config.apiUrl}/fournisseurs/table/${tableName}?page=1&pageSize=10000`;
+        console.log('Fetching data from:', url);
+        
+        const response = await axios.get(url);
+        console.log('Response received:', response.data);
+        
+        // Traiter les données
+        let allData = [];
+        if (response.data && Array.isArray(response.data.data)) {
+          allData = response.data.data;
+        } else if (Array.isArray(response.data)) {
+          allData = response.data;
+        }
+        
+        console.log(`Données récupérées: ${allData.length} lignes`);
+        setData(allData);
+        setTotalRows(allData.length);
+      } catch (err) {
+        console.error('Erreur lors du chargement des données:', err);
+        setError('Erreur lors du chargement des données');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
+  
+  // Gestionnaires de pagination
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  
+  // Calculer les données à afficher pour la page actuelle
+  const displayedData = data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  
+  // Déterminer les colonnes à afficher
+  const columns = data.length > 0 ? Object.keys(data[0]).slice(0, 10) : [];
+  
+  // Rendu conditionnel
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+      </Box>
+    );
+  }
+  
+  if (error) {
+    return (
+      <Box p={3}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+  
+  return (
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        Affichage simple des données
+      </Typography>
+      
+      <Typography variant="body1" gutterBottom>
+        Table: {tableName} | Total: {totalRows} lignes
+      </Typography>
+      
+      <Paper elevation={3}>
+        <TableContainer sx={{ maxHeight: 600 }}>
+          <Table stickyHeader size="small">
+            <TableHead>
+              <TableRow>
+                {columns.map(column => (
+                  <TableCell key={column} sx={{ fontWeight: 'bold', backgroundColor: '#3f51b5', color: 'white' }}>
+                    {column}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {displayedData.map((row, index) => (
+                <TableRow key={index} hover>
+                  {columns.map(column => (
+                    <TableCell key={column}>
+                      {row[column] !== null && row[column] !== undefined ? String(row[column]) : ''}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+              {displayedData.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={columns.length} align="center">
+                    Aucune donnée disponible
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50, 100, 250, 500]}
+          component="div"
+          count={totalRows}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Lignes par page:"
+          labelDisplayedRows={({ from, to, count }) => 
+            `Affichage de ${from} à ${to} sur ${count} lignes`
+          }
+        />
+      </Paper>
+    </Box>
+  );
+};
+
+export default SimpleDataView;

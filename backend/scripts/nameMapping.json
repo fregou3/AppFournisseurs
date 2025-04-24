@@ -1,0 +1,9 @@
+{
+  "2D Design Dekorasyon": "2D DESIGN DEKORASYON INSAAT TAAHHUT SANAYI VE TICARET LIMITED SIRKETI",
+  "3C PICARDIE": "3C PICARDIE SARL",
+  "fallbackMappings": {
+    "2D": "2D DESIGN",
+    "3C": "3C PICARDIE",
+    "PICARDIE": "3C PICARDIE"
+  }
+}

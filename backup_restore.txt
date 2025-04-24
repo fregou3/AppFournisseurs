@@ -1,0 +1,10 @@
+Export de la base de données :
+Windows : .\export_db.bat
+Linux/MacOS : ./export_db.sh
+Le script créera un dossier backups et y sauvegardera un fichier SQL avec la date et l'heure dans le nom.
+Import de la base de données :
+Windows : .\import_db.bat chemin\vers\fichier.sql
+Linux/MacOS : ./import_db.sh chemin/vers/fichier.sql
+
+
+~/AppGetionFournisseurs_2.1/scripts/backups$ ./import_db.sh gestion_fournisseurs_20250107_103247.sql

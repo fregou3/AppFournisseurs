@@ -1,0 +1,46 @@
+utiliser calculateAllScores.js pour calculer les scores de tous les fournisseurs
+cd backend/scripts && node calculateAllScores.js
+
+
+
+
+
+cacher dans la page "Level 1 Assesment" et dans les regroupements et les exports Excel les colonnes suivantes :
+
+HUYI MODIFICATION
+PARTNERS TRADUCTION
+Activity Area
+Notation ESG
+Santé financière
+Risques compliance
+Calcul méthode ADEME
+Scope 1
+Scope 2
+Scope 3
+Vision gloable
+ORGANIZATION 3
+ORGANIZATION ZONE
+Comments
+Adresse fournisseur
+Analyse des risques Loi Sapin II
+details
+Note Risque Financier
+Note de Conformité
+risque_detaille
+
+
+- Scores mis à jour : 4500
+- Scores inchangés : 2188
+- Erreurs : 0
+- Total traité : 6688
+
+
+ajouter une page d'authentification permettant d'accéder a l'application avec le nom d'utilistateur "AppFournisseurs@clarins.com" et le mot de passe "App2025Clarins". Il ne sera pas possible d'accéder a l'application sans passer l'authentification
+Email : AppFournisseurs@clarins.com
+Mot de passe : App2025Clarins
+
+
+docker-compose logs -f
+docker-compose up -d --build frontend
+
+docker exec gestion_fournisseurs_backend ls /app
