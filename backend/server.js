@@ -2,15 +2,32 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+require('dotenv').config();
 
-const app = express();
+// Configuration de l'environnement
+const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 5005;
 
-// Configuration CORS pour le développement local
-app.use(cors({
-  origin: 'http://localhost:3005', // URL du frontend React en développement
+const app = express();
+
+// Configuration CORS en fonction de l'environnement
+const corsOptions = {
   credentials: true
-}));
+};
+
+// En production, accepter les requêtes du serveur Nginx et de l'environnement de développement
+if (isProduction) {
+  corsOptions.origin = [
+    'http://localhost:3005',  // Développement local
+    'http://localhost:80',    // Nginx local
+    process.env.PRODUCTION_DOMAIN || '*' // Domaine de production
+  ];
+} else {
+  // En développement, accepter uniquement les requêtes du frontend local
+  corsOptions.origin = 'http://localhost:3005';
+}
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json({ limit: '100mb' }));

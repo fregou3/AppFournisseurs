@@ -11,6 +11,8 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
+    "cross-env": "^7.0.3",
+    "http-proxy-middleware": "^2.0.6",
     "moment": "^2.30.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -22,7 +24,10 @@
   },
   "scripts": {
     "start": "set PORT=3005 && react-scripts start",
+    "start:dev": "cross-env PORT=3005 REACT_APP_ENV=development react-scripts start",
+    "start:prod-local": "cross-env PORT=3005 REACT_APP_ENV=production react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "cross-env REACT_APP_ENV=production PUBLIC_URL=/fournisseurs react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
