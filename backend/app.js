@@ -14,10 +14,12 @@ app.use(express.json());
 const fournisseursRouter = require('./routes/fournisseurs');
 const groupsRouter = require('./routes/groups');
 const tableStructureRouter = require('./routes/table_structure');
+const columnMappingRouter = require('./routes/column-mapping');
 
 app.use('/fournisseurs', fournisseursRouter);
 app.use('/groups', groupsRouter);
 app.use('/table-structure', tableStructureRouter);
+app.use('/column-mapping', columnMappingRouter);
 
 // Test endpoint
 app.get('/test', (req, res) => {

@@ -16,16 +16,32 @@ router.post('/', async (req, res) => {
   const client = await pool.connect();
   
   try {
+    // Validation supplémentaire des données d'entrée
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ error: 'Le nom du groupe est invalide ou manquant' });
+    }
+    
+    // S'assurer que filters est un objet
+    if (filters && typeof filters !== 'object') {
+      return res.status(400).json({ error: 'Les filtres doivent être un objet' });
+    }
+    
+    // S'assurer que visibleColumns est un tableau
+    if (visibleColumns && !Array.isArray(visibleColumns)) {
+      return res.status(400).json({ error: 'Les colonnes visibles doivent être un tableau' });
+    }
+    
     await client.query('BEGIN');
 
     // Vérifier si le groupe existe déjà
-    const groupName = `group_${name.toLowerCase()}`;
-    const exists = await client.query(`
-      SELECT EXISTS (
+    const groupName = `group_${name.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
+    const exists = await client.query(
+      `SELECT EXISTS (
         SELECT 1 FROM pg_tables 
         WHERE schemaname = 'public' 
-        AND tablename = '${groupName}'
-      )`
+        AND tablename = $1
+      )`,
+      [groupName]
     );
 
     if (exists.rows[0].exists) {
@@ -42,12 +58,54 @@ router.post('/', async (req, res) => {
       )
     `);
 
+    // Vérifier si les colonnes visibles existent
+    if (visibleColumns && visibleColumns.length > 0) {
+      const columnsQuery = `
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'fournisseurs'
+      `;
+      
+      const columnsResult = await client.query(columnsQuery);
+      const existingColumns = columnsResult.rows.map(row => row.column_name);
+      
+      const invalidColumns = visibleColumns.filter(col => !existingColumns.includes(col));
+      if (invalidColumns.length > 0) {
+        await client.query('ROLLBACK');
+        return res.status(400).json({ 
+          error: `Les colonnes suivantes n'existent pas: ${invalidColumns.join(', ')}` 
+        });
+      }
+    }
+
+    // Vérifier si les colonnes de filtrage existent
+    if (filters && Object.keys(filters).length > 0) {
+      const columnsQuery = `
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'fournisseurs'
+      `;
+      
+      const columnsResult = await client.query(columnsQuery);
+      const existingColumns = columnsResult.rows.map(row => row.column_name);
+      
+      const invalidFilterColumns = Object.keys(filters).filter(col => !existingColumns.includes(col));
+      if (invalidFilterColumns.length > 0) {
+        await client.query('ROLLBACK');
+        return res.status(400).json({ 
+          error: `Les colonnes de filtrage suivantes n'existent pas: ${invalidFilterColumns.join(', ')}` 
+        });
+      }
+    }
+
     // Construire la requête de création du groupe
     let sql = `CREATE TABLE "${groupName}" AS SELECT `;
 
     // Sélectionner toutes les colonnes ou seulement celles spécifiées
     if (visibleColumns && visibleColumns.length > 0) {
-      sql += visibleColumns.map(col => `"${col}"`).join(', ');
+      // Déduplicater les colonnes pour éviter l'erreur "column specified more than once"
+      const uniqueColumns = [...new Set(visibleColumns)];
+      sql += uniqueColumns.map(col => `"${col}"`).join(', ');
     } else {
       sql += '*';
     }
@@ -76,11 +134,28 @@ router.post('/', async (req, res) => {
     await client.query(sql);
 
     // Sauvegarder les métadonnées
-    const metadataResult = await client.query(`
-      INSERT INTO system_group_metadata (group_name, filters, visible_columns)
-      VALUES ($1, $2, $3)
-      RETURNING created_at
-    `, [groupName, JSON.stringify(filters || {}), JSON.stringify(visibleColumns || [])]);
+    // S'assurer que les données sont valides pour JSON
+    let filtersJson;
+    let visibleColumnsJson;
+    
+    try {
+      filtersJson = JSON.stringify(filters || {});
+      visibleColumnsJson = JSON.stringify(visibleColumns || []);
+    } catch (jsonError) {
+      await client.query('ROLLBACK');
+      console.error('Erreur lors de la conversion en JSON:', jsonError);
+      return res.status(400).json({ 
+        error: 'Format de données invalide', 
+        details: jsonError.message 
+      });
+    }
+    
+    const metadataResult = await client.query(
+      `INSERT INTO system_group_metadata (group_name, filters, visible_columns)
+       VALUES ($1, $2, $3)
+       RETURNING created_at`,
+      [groupName, filtersJson, visibleColumnsJson]
+    );
 
     // Compter le nombre de lignes
     const countResult = await client.query(`SELECT COUNT(*) FROM "${groupName}"`);
@@ -101,10 +176,35 @@ router.post('/', async (req, res) => {
   } catch (error) {
     await client.query('ROLLBACK');
     console.error('Erreur lors de la création du groupe:', error);
-    res.status(500).json({ 
-      error: 'Erreur interne du serveur',
-      details: error.message 
-    });
+    
+    // Gestion spécifique des erreurs selon leur code
+    switch (error.code) {
+      case '42703': // Colonne inexistante
+        return res.status(400).json({
+          error: `Erreur de colonne: ${error.message}`,
+          details: error.hint || error.message
+        });
+      case '42P01': // Table inexistante
+        return res.status(400).json({
+          error: `Erreur de table: ${error.message}`,
+          details: error.hint || error.message
+        });
+      case '22P02': // Format de données invalide
+        return res.status(400).json({
+          error: `Format de données invalide: ${error.message}`,
+          details: error.hint || error.message
+        });
+      case '23505': // Violation de contrainte d'unicité
+        return res.status(400).json({
+          error: `Conflit de données: ${error.message}`,
+          details: error.hint || error.message
+        });
+      default:
+        return res.status(500).json({ 
+          error: 'Erreur interne du serveur',
+          details: error.message 
+        });
+    }
   } finally {
     client.release();
   }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { correctColumnNames, correctFilters } from '../utils/column-mapper';
 import {
   Table,
   TableBody,
@@ -685,12 +686,17 @@ const DataTable = ({
     setError(null);
 
     try {
+      // Corriger les noms de colonnes avant d'envoyer la requête
+      const correctedVisibleColumns = correctColumnNames(Array.from(visibleColumns));
+      const correctedFilters = correctFilters(filters);
+      
       const groupData = {
         name: groupName,
-        filters: filters,
-        visibleColumns: Array.from(visibleColumns)
+        filters: correctedFilters,
+        visibleColumns: correctedVisibleColumns
       };
-
+      
+      console.log('Envoi des données corrigées pour la création du groupe:', groupData);
       await axios.post(`${config.apiUrl}/groups`, groupData);
 
       setSnackbar({

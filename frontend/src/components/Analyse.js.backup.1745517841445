@@ -11,15 +11,6 @@ import {
 } from 'recharts';
 import axios from 'axios';
 import config from '../config';
-// Import des données fictives pour enrichir les visualisations
-import {
-  fictiveHighRiskSuppliers,
-  fictiveGeographicDistribution,
-  fictiveGeographicStats,
-  fictiveZoneScores,
-  generateEnhancedStats,
-  generateRiskEvolution
-} from './mock-data';
 
 const Analyse = () => {
   const [data, setData] = useState([]);
@@ -58,18 +49,13 @@ const Analyse = () => {
   };
 
   const calculateStats = (fournisseurs) => {
-    // Calcul des statistiques réelles
-    const realStats = {
+    const stats = {
       totalFournisseurs: fournisseurs.length,
       risqueEleve: fournisseurs.filter(f => f.score >= 7).length,
       risqueMoyen: fournisseurs.filter(f => f.score >= 4 && f.score < 7).length,
       risqueFaible: fournisseurs.filter(f => f.score < 4).length
     };
-    
-    // Enrichissement avec des données fictives
-    const enhancedStats = generateEnhancedStats(realStats);
-    console.log('Statistiques enrichies:', enhancedStats);
-    setStats(enhancedStats);
+    setStats(stats);
   };
 
   // Fonctions pour le tri des tableaux
@@ -109,63 +95,45 @@ const Analyse = () => {
       }
     });
 
-    // Données réelles
-    const realZoneScores = Array.from(zonesMap)
+    return Array.from(zonesMap)
       .filter(([_, data]) => data.count > 0) 
       .map(([zone, data]) => ({
         zone,
         scoreMoyen: data.count > 0 ? (data.total / data.count).toFixed(2) : 0
-      }));
-    
-    // Enrichir avec des données fictives
-    const enrichedZoneScores = [...realZoneScores];
-    const existingZones = new Set(realZoneScores.map(item => item.zone));
-    
-    fictiveZoneScores.forEach(fictZone => {
-      if (!existingZones.has(fictZone.zone)) {
-        enrichedZoneScores.push({ ...fictZone });
-      }
-    });
-    
-    return enrichedZoneScores;
+      }))
+      .filter(item => parseFloat(item.scoreMoyen) > 0); 
   };
 
-  // Données pour la distribution géographique
-  const getDistributionGeographique = () => {
-    // Obtenir les données réelles
-    const distribution = new Map();
+  // Nouvelles données pour le radar chart des catégories
+  const getRadarData = () => {
+    const categories = new Map();
     data.forEach(item => {
-      const zone = item['ORGANIZATION ZONE'] || 'Non spécifié';
-      distribution.set(zone, (distribution.get(zone) || 0) + 1);
-    });
-
-    const realDistribution = Array.from(distribution).map(([zone, count]) => ({
-      zone,
-      count,
-      percentage: ((count / (data.length || 1)) * 100).toFixed(1)
-    }));
-    
-    // Si les données réelles sont insuffisantes, utiliser les données fictives
-    if (realDistribution.length < 3) {
-      return fictiveGeographicDistribution;
-    }
-    
-    // Enrichir avec des zones manquantes
-    const allZones = ['EUROPE', 'NORTH AMERICA', 'SOUTH AMERICA', 'ASIA', 'AFRICA', 'MIDDLE EAST', 'OCEANIA'];
-    const existingZones = new Set(realDistribution.map(item => item.zone));
-    
-    // Ajouter les zones manquantes
-    const enrichedDistribution = [...realDistribution];
-    allZones.forEach(zone => {
-      if (!existingZones.has(zone)) {
-        const fictitiousZone = fictiveGeographicDistribution.find(item => item.zone === zone);
-        if (fictitiousZone) {
-          enrichedDistribution.push({ ...fictitiousZone });
-        }
+      const category = item['Activity Area'] || 'Non spécifié';
+      if (!categories.has(category)) {
+        categories.set(category, {
+          category,
+          scoreTotal: 0,
+          count: 0,
+          maxScore: 0
+        });
+      }
+      const catData = categories.get(category);
+      if (item.score) {
+        const score = parseFloat(item.score);
+        catData.scoreTotal += score;
+        catData.count += 1;
+        catData.maxScore = Math.max(catData.maxScore, score);
       }
     });
-    
-    return enrichedDistribution;
+
+    return Array.from(categories.values())
+      .filter(cat => cat.count > 0)
+      .map(cat => ({
+        category: cat.category,
+        scoreMoyen: (cat.scoreTotal / cat.count).toFixed(2),
+        maxScore: cat.maxScore
+      }))
+      .slice(0, 8); // Limiter aux 8 principales catégories
   };
 
   // Données pour la matrice de risques
@@ -179,9 +147,13 @@ const Analyse = () => {
   };
 
   // Données pour l'évolution des risques
-  const getEvolutionRisque = () => {
-    // Utilisation de la fonction pour générer des données d'évolution des risques
-    const evolution = generateRiskEvolution(stats);
+  const getEvolutionRisques = () => {
+    const evolution = Array(12).fill(0).map((_, i) => ({
+      mois: i + 1,
+      risqueEleve: Math.random() * stats.risqueEleve,
+      risqueMoyen: Math.random() * stats.risqueMoyen,
+      risqueFaible: Math.random() * stats.risqueFaible
+    }));
     return evolution;
   };
 
@@ -189,9 +161,7 @@ const Analyse = () => {
   const getFournisseursRisque = () => {
     // Vérifier que data est bien un tableau
     const dataArray = Array.isArray(data) ? data : [];
-    
-    // Obtenir les données réelles
-    const realData = dataArray
+    return dataArray
       .filter(f => Math.round(f.score) === scoreFilter)
       .sort((a, b) => b.score - a.score)
       .map(f => ({
@@ -203,79 +173,21 @@ const Analyse = () => {
         localisation: f['Country of Supplier Contact'], 
         natureTier: f['Activity Area'] 
       }));
-    
-    // Enrichir avec des données fictives
-    const enrichedData = [...realData];
-    
-    // Ajouter des fournisseurs fictifs si les données réelles sont insuffisantes
-    if (enrichedData.length < 10) {
-      // Filtrer les fournisseurs fictifs pour correspondre au score sélectionné
-      const filteredFictiveSuppliers = fictiveHighRiskSuppliers
-        .filter(f => Math.round(f.score) === scoreFilter)
-        .map(f => ({ ...f }));
-      
-      enrichedData.push(...filteredFictiveSuppliers);
-    }
-    
-    return enrichedData;
   };
 
-  // Fonction pour calculer les statistiques par catégorie de fournisseur et pour le graphique radar
-  const getScoresByCategory = () => {
-    const stats = new Map();
-
-    // Traiter chaque fournisseur
-    data.forEach(f => {
-      const category = f['Activity Area'] || 'Non spécifié';
-      if (!stats.has(category)) {
-        stats.set(category, { total: 0, count: 0, maxScore: 0 });
-      }
-      const categoryData = stats.get(category);
-      if (f.score) {
-        const score = parseFloat(f.score);
-        categoryData.total += score;
-        categoryData.count += 1;
-        categoryData.maxScore = Math.max(categoryData.maxScore, score);
-      }
+  // Données pour la distribution géographique
+  const getDistributionGeographique = () => {
+    const distribution = new Map();
+    data.forEach(item => {
+      const zone = item['ORGANIZATION ZONE'] || 'Non spécifié';
+      distribution.set(zone, (distribution.get(zone) || 0) + 1);
     });
 
-    // Données réelles
-    const realCategoryScores = Array.from(stats)
-      .filter(([_, data]) => data.count > 0) 
-      .map(([category, data]) => ({
-        category,
-        scoreMoyen: data.count > 0 ? (data.total / data.count).toFixed(2) : 0,
-        maxScore: data.maxScore
-      }));
-    
-    // Données fictives pour enrichir les catégories
-    const fictiveCategoryScores = [
-      { category: 'Logistique', scoreMoyen: '5.8', maxScore: 8 },
-      { category: 'Informatique', scoreMoyen: '4.2', maxScore: 7 },
-      { category: 'Production', scoreMoyen: '6.5', maxScore: 9 },
-      { category: 'Communication', scoreMoyen: '3.9', maxScore: 6 },
-      { category: 'Transport', scoreMoyen: '5.3', maxScore: 8 },
-      { category: 'Matières premières', scoreMoyen: '7.1', maxScore: 10 },
-      { category: 'Immobilier', scoreMoyen: '4.7', maxScore: 7 },
-      { category: 'Conseil', scoreMoyen: '3.5', maxScore: 6 }
-    ];
-    
-    // Si les données réelles sont insuffisantes, utiliser les données fictives
-    if (realCategoryScores.length < 3) {
-      return fictiveCategoryScores;
-    }
-    
-    // Enrichir avec des données fictives
-    const enrichedCategoryScores = [...realCategoryScores];
-    const existingCategories = new Set(realCategoryScores.map(item => item.category));
-    
-    fictiveCategoryScores.forEach(fictCategory => {
-      if (!existingCategories.has(fictCategory.category)) {
-        enrichedCategoryScores.push({ ...fictCategory });
-      }
-    });
-    
-    return enrichedCategoryScores;
+    return Array.from(distribution).map(([zone, count]) => ({
+      zone,
+      count,
+      percentage: ((count / data.length) * 100).toFixed(1)
+    }));
   };
 
   // Fonction pour calculer les statistiques par région géographique
@@ -287,26 +199,42 @@ const Analyse = () => {
       const continent = f['ORGANIZATION ZONE'] || 'Non spécifié';
       const pays = f['ORGANIZATION COUNTRY'] || 'Non spécifié';
       const score = parseFloat(f.score) || 0;
+      const nom = f['PARTNERS GROUP'];
 
-      // Initialiser les données du continent s'il n'existe pas encore
+      // Initialiser ou mettre à jour les statistiques du continent
       if (!stats.has(continent)) {
         stats.set(continent, {
-          totalFournisseurs: 0,
-          scoreTotal: 0,
-          pays: new Map()
+          continent,
+          pays: new Map(),
+          totalScore: 0,
+          count: 0,
+          fournisseurs: new Set(),
+          moyenneScore: 0
         });
       }
 
-      // Mettre à jour les données du continent
-      const continentData = stats.get(continent);
-      continentData.totalFournisseurs += 1;
-      continentData.scoreTotal += score;
+      const continentStats = stats.get(continent);
+      continentStats.totalScore += score;
+      continentStats.count += 1;
+      continentStats.fournisseurs.add(nom);
+      continentStats.moyenneScore = continentStats.totalScore / continentStats.count;
 
-      // Mettre à jour les données du pays
-      if (!continentData.pays.has(pays)) {
-        continentData.pays.set(pays, 0);
+      // Initialiser ou mettre à jour les statistiques du pays
+      if (!continentStats.pays.has(pays)) {
+        continentStats.pays.set(pays, {
+          pays,
+          totalScore: 0,
+          count: 0,
+          fournisseurs: new Set(),
+          moyenneScore: 0
+        });
       }
-      continentData.pays.set(pays, continentData.pays.get(pays) + 1);
+
+      const paysStats = continentStats.pays.get(pays);
+      paysStats.totalScore += score;
+      paysStats.count += 1;
+      paysStats.fournisseurs.add(nom);
+      paysStats.moyenneScore = paysStats.totalScore / paysStats.count;
     });
 
     return stats;
@@ -400,7 +328,7 @@ const Analyse = () => {
                 Évolution des Risques
               </Typography>
               <ResponsiveContainer>
-                <ComposedChart data={getEvolutionRisque()}>
+                <ComposedChart data={getEvolutionRisques()}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="mois" />
                   <YAxis />
@@ -620,7 +548,7 @@ const Analyse = () => {
                 Analyse des Risques par Catégorie
               </Typography>
               <ResponsiveContainer>
-                <RadarChart data={getScoresByCategory()}>
+                <RadarChart data={getRadarData()}>
                   <PolarGrid />
                   <PolarAngleAxis dataKey="category" />
                   <PolarRadiusAxis />
@@ -648,7 +576,7 @@ const Analyse = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {getScoresByCategory().map((row, index) => (
+                    {getRadarData().map((row, index) => (
                       <TableRow key={index}>
                         <TableCell>{row.category}</TableCell>
                         <TableCell>{row.scoreMoyen}</TableCell>

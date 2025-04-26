@@ -1,0 +1,5002 @@
+[
+  {
+    "id": 10000,
+    "PARTNERS GROUP": "Supplier 10000",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10001,
+    "PARTNERS GROUP": "Supplier 10001",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10002,
+    "PARTNERS GROUP": "Supplier 10002",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10003,
+    "PARTNERS GROUP": "Supplier 10003",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10004,
+    "PARTNERS GROUP": "Supplier 10004",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 5
+  },
+  {
+    "id": 10005,
+    "PARTNERS GROUP": "Supplier 10005",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 7
+  },
+  {
+    "id": 10006,
+    "PARTNERS GROUP": "Supplier 10006",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 8
+  },
+  {
+    "id": 10007,
+    "PARTNERS GROUP": "Supplier 10007",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 8
+  },
+  {
+    "id": 10008,
+    "PARTNERS GROUP": "Supplier 10008",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 3
+  },
+  {
+    "id": 10009,
+    "PARTNERS GROUP": "Supplier 10009",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 10
+  },
+  {
+    "id": 10010,
+    "PARTNERS GROUP": "Supplier 10010",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10011,
+    "PARTNERS GROUP": "Supplier 10011",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10012,
+    "PARTNERS GROUP": "Supplier 10012",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10013,
+    "PARTNERS GROUP": "Supplier 10013",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 8
+  },
+  {
+    "id": 10014,
+    "PARTNERS GROUP": "Supplier 10014",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 5
+  },
+  {
+    "id": 10015,
+    "PARTNERS GROUP": "Supplier 10015",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10016,
+    "PARTNERS GROUP": "Supplier 10016",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10017,
+    "PARTNERS GROUP": "Supplier 10017",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 5
+  },
+  {
+    "id": 10018,
+    "PARTNERS GROUP": "Supplier 10018",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10019,
+    "PARTNERS GROUP": "Supplier 10019",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 6
+  },
+  {
+    "id": 10020,
+    "PARTNERS GROUP": "Supplier 10020",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 6
+  },
+  {
+    "id": 10021,
+    "PARTNERS GROUP": "Supplier 10021",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10022,
+    "PARTNERS GROUP": "Supplier 10022",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10023,
+    "PARTNERS GROUP": "Supplier 10023",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10024,
+    "PARTNERS GROUP": "Supplier 10024",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10025,
+    "PARTNERS GROUP": "Supplier 10025",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 7
+  },
+  {
+    "id": 10026,
+    "PARTNERS GROUP": "Supplier 10026",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 4
+  },
+  {
+    "id": 10027,
+    "PARTNERS GROUP": "Supplier 10027",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10028,
+    "PARTNERS GROUP": "Supplier 10028",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10029,
+    "PARTNERS GROUP": "Supplier 10029",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 5
+  },
+  {
+    "id": 10030,
+    "PARTNERS GROUP": "Supplier 10030",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10031,
+    "PARTNERS GROUP": "Supplier 10031",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 9
+  },
+  {
+    "id": 10032,
+    "PARTNERS GROUP": "Supplier 10032",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10033,
+    "PARTNERS GROUP": "Supplier 10033",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10034,
+    "PARTNERS GROUP": "Supplier 10034",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 9
+  },
+  {
+    "id": 10035,
+    "PARTNERS GROUP": "Supplier 10035",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10036,
+    "PARTNERS GROUP": "Supplier 10036",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 1
+  },
+  {
+    "id": 10037,
+    "PARTNERS GROUP": "Supplier 10037",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10038,
+    "PARTNERS GROUP": "Supplier 10038",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 9
+  },
+  {
+    "id": 10039,
+    "PARTNERS GROUP": "Supplier 10039",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10040,
+    "PARTNERS GROUP": "Supplier 10040",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10041,
+    "PARTNERS GROUP": "Supplier 10041",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 6
+  },
+  {
+    "id": 10042,
+    "PARTNERS GROUP": "Supplier 10042",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10043,
+    "PARTNERS GROUP": "Supplier 10043",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10044,
+    "PARTNERS GROUP": "Supplier 10044",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10045,
+    "PARTNERS GROUP": "Supplier 10045",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 9
+  },
+  {
+    "id": 10046,
+    "PARTNERS GROUP": "Supplier 10046",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10047,
+    "PARTNERS GROUP": "Supplier 10047",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10048,
+    "PARTNERS GROUP": "Supplier 10048",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10049,
+    "PARTNERS GROUP": "Supplier 10049",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 1
+  },
+  {
+    "id": 10050,
+    "PARTNERS GROUP": "Supplier 10050",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 3
+  },
+  {
+    "id": 10051,
+    "PARTNERS GROUP": "Supplier 10051",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 6
+  },
+  {
+    "id": 10052,
+    "PARTNERS GROUP": "Supplier 10052",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 9
+  },
+  {
+    "id": 10053,
+    "PARTNERS GROUP": "Supplier 10053",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10054,
+    "PARTNERS GROUP": "Supplier 10054",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 7
+  },
+  {
+    "id": 10055,
+    "PARTNERS GROUP": "Supplier 10055",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 3
+  },
+  {
+    "id": 10056,
+    "PARTNERS GROUP": "Supplier 10056",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 8
+  },
+  {
+    "id": 10057,
+    "PARTNERS GROUP": "Supplier 10057",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10058,
+    "PARTNERS GROUP": "Supplier 10058",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10059,
+    "PARTNERS GROUP": "Supplier 10059",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 10
+  },
+  {
+    "id": 10060,
+    "PARTNERS GROUP": "Supplier 10060",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10061,
+    "PARTNERS GROUP": "Supplier 10061",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10062,
+    "PARTNERS GROUP": "Supplier 10062",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 10
+  },
+  {
+    "id": 10063,
+    "PARTNERS GROUP": "Supplier 10063",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 7
+  },
+  {
+    "id": 10064,
+    "PARTNERS GROUP": "Supplier 10064",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 6
+  },
+  {
+    "id": 10065,
+    "PARTNERS GROUP": "Supplier 10065",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10066,
+    "PARTNERS GROUP": "Supplier 10066",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 6
+  },
+  {
+    "id": 10067,
+    "PARTNERS GROUP": "Supplier 10067",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10068,
+    "PARTNERS GROUP": "Supplier 10068",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 1
+  },
+  {
+    "id": 10069,
+    "PARTNERS GROUP": "Supplier 10069",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 7
+  },
+  {
+    "id": 10070,
+    "PARTNERS GROUP": "Supplier 10070",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 2
+  },
+  {
+    "id": 10071,
+    "PARTNERS GROUP": "Supplier 10071",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10072,
+    "PARTNERS GROUP": "Supplier 10072",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 4
+  },
+  {
+    "id": 10073,
+    "PARTNERS GROUP": "Supplier 10073",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10074,
+    "PARTNERS GROUP": "Supplier 10074",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 10
+  },
+  {
+    "id": 10075,
+    "PARTNERS GROUP": "Supplier 10075",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 6
+  },
+  {
+    "id": 10076,
+    "PARTNERS GROUP": "Supplier 10076",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 1
+  },
+  {
+    "id": 10077,
+    "PARTNERS GROUP": "Supplier 10077",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 5
+  },
+  {
+    "id": 10078,
+    "PARTNERS GROUP": "Supplier 10078",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10079,
+    "PARTNERS GROUP": "Supplier 10079",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10080,
+    "PARTNERS GROUP": "Supplier 10080",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 10
+  },
+  {
+    "id": 10081,
+    "PARTNERS GROUP": "Supplier 10081",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 6
+  },
+  {
+    "id": 10082,
+    "PARTNERS GROUP": "Supplier 10082",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10083,
+    "PARTNERS GROUP": "Supplier 10083",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 7
+  },
+  {
+    "id": 10084,
+    "PARTNERS GROUP": "Supplier 10084",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 2
+  },
+  {
+    "id": 10085,
+    "PARTNERS GROUP": "Supplier 10085",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10086,
+    "PARTNERS GROUP": "Supplier 10086",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10087,
+    "PARTNERS GROUP": "Supplier 10087",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10088,
+    "PARTNERS GROUP": "Supplier 10088",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 10
+  },
+  {
+    "id": 10089,
+    "PARTNERS GROUP": "Supplier 10089",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 5
+  },
+  {
+    "id": 10090,
+    "PARTNERS GROUP": "Supplier 10090",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10091,
+    "PARTNERS GROUP": "Supplier 10091",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10092,
+    "PARTNERS GROUP": "Supplier 10092",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 2
+  },
+  {
+    "id": 10093,
+    "PARTNERS GROUP": "Supplier 10093",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 10
+  },
+  {
+    "id": 10094,
+    "PARTNERS GROUP": "Supplier 10094",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 3
+  },
+  {
+    "id": 10095,
+    "PARTNERS GROUP": "Supplier 10095",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10096,
+    "PARTNERS GROUP": "Supplier 10096",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10097,
+    "PARTNERS GROUP": "Supplier 10097",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10098,
+    "PARTNERS GROUP": "Supplier 10098",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 10
+  },
+  {
+    "id": 10099,
+    "PARTNERS GROUP": "Supplier 10099",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10100,
+    "PARTNERS GROUP": "Supplier 10100",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 3
+  },
+  {
+    "id": 10101,
+    "PARTNERS GROUP": "Supplier 10101",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10102,
+    "PARTNERS GROUP": "Supplier 10102",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 10
+  },
+  {
+    "id": 10103,
+    "PARTNERS GROUP": "Supplier 10103",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10104,
+    "PARTNERS GROUP": "Supplier 10104",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 8
+  },
+  {
+    "id": 10105,
+    "PARTNERS GROUP": "Supplier 10105",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10106,
+    "PARTNERS GROUP": "Supplier 10106",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 3
+  },
+  {
+    "id": 10107,
+    "PARTNERS GROUP": "Supplier 10107",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 5
+  },
+  {
+    "id": 10108,
+    "PARTNERS GROUP": "Supplier 10108",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 8
+  },
+  {
+    "id": 10109,
+    "PARTNERS GROUP": "Supplier 10109",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10110,
+    "PARTNERS GROUP": "Supplier 10110",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 6
+  },
+  {
+    "id": 10111,
+    "PARTNERS GROUP": "Supplier 10111",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10112,
+    "PARTNERS GROUP": "Supplier 10112",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10113,
+    "PARTNERS GROUP": "Supplier 10113",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 10
+  },
+  {
+    "id": 10114,
+    "PARTNERS GROUP": "Supplier 10114",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 6
+  },
+  {
+    "id": 10115,
+    "PARTNERS GROUP": "Supplier 10115",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 6
+  },
+  {
+    "id": 10116,
+    "PARTNERS GROUP": "Supplier 10116",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10117,
+    "PARTNERS GROUP": "Supplier 10117",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10118,
+    "PARTNERS GROUP": "Supplier 10118",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 6
+  },
+  {
+    "id": 10119,
+    "PARTNERS GROUP": "Supplier 10119",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10120,
+    "PARTNERS GROUP": "Supplier 10120",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 3
+  },
+  {
+    "id": 10121,
+    "PARTNERS GROUP": "Supplier 10121",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10122,
+    "PARTNERS GROUP": "Supplier 10122",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10123,
+    "PARTNERS GROUP": "Supplier 10123",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 8
+  },
+  {
+    "id": 10124,
+    "PARTNERS GROUP": "Supplier 10124",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10125,
+    "PARTNERS GROUP": "Supplier 10125",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 2
+  },
+  {
+    "id": 10126,
+    "PARTNERS GROUP": "Supplier 10126",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10127,
+    "PARTNERS GROUP": "Supplier 10127",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 2
+  },
+  {
+    "id": 10128,
+    "PARTNERS GROUP": "Supplier 10128",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10129,
+    "PARTNERS GROUP": "Supplier 10129",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10130,
+    "PARTNERS GROUP": "Supplier 10130",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 5
+  },
+  {
+    "id": 10131,
+    "PARTNERS GROUP": "Supplier 10131",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10132,
+    "PARTNERS GROUP": "Supplier 10132",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10133,
+    "PARTNERS GROUP": "Supplier 10133",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10134,
+    "PARTNERS GROUP": "Supplier 10134",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10135,
+    "PARTNERS GROUP": "Supplier 10135",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10136,
+    "PARTNERS GROUP": "Supplier 10136",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10137,
+    "PARTNERS GROUP": "Supplier 10137",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10138,
+    "PARTNERS GROUP": "Supplier 10138",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 6
+  },
+  {
+    "id": 10139,
+    "PARTNERS GROUP": "Supplier 10139",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 1
+  },
+  {
+    "id": 10140,
+    "PARTNERS GROUP": "Supplier 10140",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 7
+  },
+  {
+    "id": 10141,
+    "PARTNERS GROUP": "Supplier 10141",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 3
+  },
+  {
+    "id": 10142,
+    "PARTNERS GROUP": "Supplier 10142",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 1
+  },
+  {
+    "id": 10143,
+    "PARTNERS GROUP": "Supplier 10143",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 6
+  },
+  {
+    "id": 10144,
+    "PARTNERS GROUP": "Supplier 10144",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 7
+  },
+  {
+    "id": 10145,
+    "PARTNERS GROUP": "Supplier 10145",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 8
+  },
+  {
+    "id": 10146,
+    "PARTNERS GROUP": "Supplier 10146",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 10
+  },
+  {
+    "id": 10147,
+    "PARTNERS GROUP": "Supplier 10147",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 10
+  },
+  {
+    "id": 10148,
+    "PARTNERS GROUP": "Supplier 10148",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10149,
+    "PARTNERS GROUP": "Supplier 10149",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 10
+  },
+  {
+    "id": 10150,
+    "PARTNERS GROUP": "Supplier 10150",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 7
+  },
+  {
+    "id": 10151,
+    "PARTNERS GROUP": "Supplier 10151",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10152,
+    "PARTNERS GROUP": "Supplier 10152",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 4
+  },
+  {
+    "id": 10153,
+    "PARTNERS GROUP": "Supplier 10153",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10154,
+    "PARTNERS GROUP": "Supplier 10154",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10155,
+    "PARTNERS GROUP": "Supplier 10155",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 4
+  },
+  {
+    "id": 10156,
+    "PARTNERS GROUP": "Supplier 10156",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 9
+  },
+  {
+    "id": 10157,
+    "PARTNERS GROUP": "Supplier 10157",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 8
+  },
+  {
+    "id": 10158,
+    "PARTNERS GROUP": "Supplier 10158",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10159,
+    "PARTNERS GROUP": "Supplier 10159",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10160,
+    "PARTNERS GROUP": "Supplier 10160",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10161,
+    "PARTNERS GROUP": "Supplier 10161",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 3
+  },
+  {
+    "id": 10162,
+    "PARTNERS GROUP": "Supplier 10162",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 5
+  },
+  {
+    "id": 10163,
+    "PARTNERS GROUP": "Supplier 10163",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 8
+  },
+  {
+    "id": 10164,
+    "PARTNERS GROUP": "Supplier 10164",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10165,
+    "PARTNERS GROUP": "Supplier 10165",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10166,
+    "PARTNERS GROUP": "Supplier 10166",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10167,
+    "PARTNERS GROUP": "Supplier 10167",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 4
+  },
+  {
+    "id": 10168,
+    "PARTNERS GROUP": "Supplier 10168",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 2
+  },
+  {
+    "id": 10169,
+    "PARTNERS GROUP": "Supplier 10169",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 8
+  },
+  {
+    "id": 10170,
+    "PARTNERS GROUP": "Supplier 10170",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10171,
+    "PARTNERS GROUP": "Supplier 10171",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10172,
+    "PARTNERS GROUP": "Supplier 10172",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 1
+  },
+  {
+    "id": 10173,
+    "PARTNERS GROUP": "Supplier 10173",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10174,
+    "PARTNERS GROUP": "Supplier 10174",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 2
+  },
+  {
+    "id": 10175,
+    "PARTNERS GROUP": "Supplier 10175",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10176,
+    "PARTNERS GROUP": "Supplier 10176",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10177,
+    "PARTNERS GROUP": "Supplier 10177",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10178,
+    "PARTNERS GROUP": "Supplier 10178",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 1
+  },
+  {
+    "id": 10179,
+    "PARTNERS GROUP": "Supplier 10179",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 4
+  },
+  {
+    "id": 10180,
+    "PARTNERS GROUP": "Supplier 10180",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 7
+  },
+  {
+    "id": 10181,
+    "PARTNERS GROUP": "Supplier 10181",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 6
+  },
+  {
+    "id": 10182,
+    "PARTNERS GROUP": "Supplier 10182",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 9
+  },
+  {
+    "id": 10183,
+    "PARTNERS GROUP": "Supplier 10183",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10184,
+    "PARTNERS GROUP": "Supplier 10184",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 5
+  },
+  {
+    "id": 10185,
+    "PARTNERS GROUP": "Supplier 10185",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 9
+  },
+  {
+    "id": 10186,
+    "PARTNERS GROUP": "Supplier 10186",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 5
+  },
+  {
+    "id": 10187,
+    "PARTNERS GROUP": "Supplier 10187",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 9
+  },
+  {
+    "id": 10188,
+    "PARTNERS GROUP": "Supplier 10188",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10189,
+    "PARTNERS GROUP": "Supplier 10189",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10190,
+    "PARTNERS GROUP": "Supplier 10190",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10191,
+    "PARTNERS GROUP": "Supplier 10191",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 7
+  },
+  {
+    "id": 10192,
+    "PARTNERS GROUP": "Supplier 10192",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 8
+  },
+  {
+    "id": 10193,
+    "PARTNERS GROUP": "Supplier 10193",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10194,
+    "PARTNERS GROUP": "Supplier 10194",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10195,
+    "PARTNERS GROUP": "Supplier 10195",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10196,
+    "PARTNERS GROUP": "Supplier 10196",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10197,
+    "PARTNERS GROUP": "Supplier 10197",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10198,
+    "PARTNERS GROUP": "Supplier 10198",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10199,
+    "PARTNERS GROUP": "Supplier 10199",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 7
+  },
+  {
+    "id": 10200,
+    "PARTNERS GROUP": "Supplier 10200",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 8
+  },
+  {
+    "id": 10201,
+    "PARTNERS GROUP": "Supplier 10201",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 7
+  },
+  {
+    "id": 10202,
+    "PARTNERS GROUP": "Supplier 10202",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 9
+  },
+  {
+    "id": 10203,
+    "PARTNERS GROUP": "Supplier 10203",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 3
+  },
+  {
+    "id": 10204,
+    "PARTNERS GROUP": "Supplier 10204",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 10
+  },
+  {
+    "id": 10205,
+    "PARTNERS GROUP": "Supplier 10205",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10206,
+    "PARTNERS GROUP": "Supplier 10206",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10207,
+    "PARTNERS GROUP": "Supplier 10207",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 8
+  },
+  {
+    "id": 10208,
+    "PARTNERS GROUP": "Supplier 10208",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 6
+  },
+  {
+    "id": 10209,
+    "PARTNERS GROUP": "Supplier 10209",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 1
+  },
+  {
+    "id": 10210,
+    "PARTNERS GROUP": "Supplier 10210",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10211,
+    "PARTNERS GROUP": "Supplier 10211",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 1
+  },
+  {
+    "id": 10212,
+    "PARTNERS GROUP": "Supplier 10212",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10213,
+    "PARTNERS GROUP": "Supplier 10213",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 7
+  },
+  {
+    "id": 10214,
+    "PARTNERS GROUP": "Supplier 10214",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10215,
+    "PARTNERS GROUP": "Supplier 10215",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10216,
+    "PARTNERS GROUP": "Supplier 10216",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 4
+  },
+  {
+    "id": 10217,
+    "PARTNERS GROUP": "Supplier 10217",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 10
+  },
+  {
+    "id": 10218,
+    "PARTNERS GROUP": "Supplier 10218",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10219,
+    "PARTNERS GROUP": "Supplier 10219",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10220,
+    "PARTNERS GROUP": "Supplier 10220",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10221,
+    "PARTNERS GROUP": "Supplier 10221",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 7
+  },
+  {
+    "id": 10222,
+    "PARTNERS GROUP": "Supplier 10222",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 1
+  },
+  {
+    "id": 10223,
+    "PARTNERS GROUP": "Supplier 10223",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10224,
+    "PARTNERS GROUP": "Supplier 10224",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10225,
+    "PARTNERS GROUP": "Supplier 10225",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 3
+  },
+  {
+    "id": 10226,
+    "PARTNERS GROUP": "Supplier 10226",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10227,
+    "PARTNERS GROUP": "Supplier 10227",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 5
+  },
+  {
+    "id": 10228,
+    "PARTNERS GROUP": "Supplier 10228",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10229,
+    "PARTNERS GROUP": "Supplier 10229",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10230,
+    "PARTNERS GROUP": "Supplier 10230",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 2
+  },
+  {
+    "id": 10231,
+    "PARTNERS GROUP": "Supplier 10231",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10232,
+    "PARTNERS GROUP": "Supplier 10232",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10233,
+    "PARTNERS GROUP": "Supplier 10233",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 6
+  },
+  {
+    "id": 10234,
+    "PARTNERS GROUP": "Supplier 10234",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 8
+  },
+  {
+    "id": 10235,
+    "PARTNERS GROUP": "Supplier 10235",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10236,
+    "PARTNERS GROUP": "Supplier 10236",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10237,
+    "PARTNERS GROUP": "Supplier 10237",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 9
+  },
+  {
+    "id": 10238,
+    "PARTNERS GROUP": "Supplier 10238",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10239,
+    "PARTNERS GROUP": "Supplier 10239",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 8
+  },
+  {
+    "id": 10240,
+    "PARTNERS GROUP": "Supplier 10240",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10241,
+    "PARTNERS GROUP": "Supplier 10241",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10242,
+    "PARTNERS GROUP": "Supplier 10242",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10243,
+    "PARTNERS GROUP": "Supplier 10243",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10244,
+    "PARTNERS GROUP": "Supplier 10244",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10245,
+    "PARTNERS GROUP": "Supplier 10245",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 7
+  },
+  {
+    "id": 10246,
+    "PARTNERS GROUP": "Supplier 10246",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10247,
+    "PARTNERS GROUP": "Supplier 10247",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 8
+  },
+  {
+    "id": 10248,
+    "PARTNERS GROUP": "Supplier 10248",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10249,
+    "PARTNERS GROUP": "Supplier 10249",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10250,
+    "PARTNERS GROUP": "Supplier 10250",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10251,
+    "PARTNERS GROUP": "Supplier 10251",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10252,
+    "PARTNERS GROUP": "Supplier 10252",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 8
+  },
+  {
+    "id": 10253,
+    "PARTNERS GROUP": "Supplier 10253",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10254,
+    "PARTNERS GROUP": "Supplier 10254",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10255,
+    "PARTNERS GROUP": "Supplier 10255",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 10
+  },
+  {
+    "id": 10256,
+    "PARTNERS GROUP": "Supplier 10256",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10257,
+    "PARTNERS GROUP": "Supplier 10257",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 7
+  },
+  {
+    "id": 10258,
+    "PARTNERS GROUP": "Supplier 10258",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10259,
+    "PARTNERS GROUP": "Supplier 10259",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 8
+  },
+  {
+    "id": 10260,
+    "PARTNERS GROUP": "Supplier 10260",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10261,
+    "PARTNERS GROUP": "Supplier 10261",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 6
+  },
+  {
+    "id": 10262,
+    "PARTNERS GROUP": "Supplier 10262",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10263,
+    "PARTNERS GROUP": "Supplier 10263",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10264,
+    "PARTNERS GROUP": "Supplier 10264",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 8
+  },
+  {
+    "id": 10265,
+    "PARTNERS GROUP": "Supplier 10265",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 3
+  },
+  {
+    "id": 10266,
+    "PARTNERS GROUP": "Supplier 10266",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10267,
+    "PARTNERS GROUP": "Supplier 10267",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10268,
+    "PARTNERS GROUP": "Supplier 10268",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 5
+  },
+  {
+    "id": 10269,
+    "PARTNERS GROUP": "Supplier 10269",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 10
+  },
+  {
+    "id": 10270,
+    "PARTNERS GROUP": "Supplier 10270",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 8
+  },
+  {
+    "id": 10271,
+    "PARTNERS GROUP": "Supplier 10271",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 7
+  },
+  {
+    "id": 10272,
+    "PARTNERS GROUP": "Supplier 10272",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 10
+  },
+  {
+    "id": 10273,
+    "PARTNERS GROUP": "Supplier 10273",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 6
+  },
+  {
+    "id": 10274,
+    "PARTNERS GROUP": "Supplier 10274",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10275,
+    "PARTNERS GROUP": "Supplier 10275",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10276,
+    "PARTNERS GROUP": "Supplier 10276",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10277,
+    "PARTNERS GROUP": "Supplier 10277",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10278,
+    "PARTNERS GROUP": "Supplier 10278",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10279,
+    "PARTNERS GROUP": "Supplier 10279",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 10
+  },
+  {
+    "id": 10280,
+    "PARTNERS GROUP": "Supplier 10280",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10281,
+    "PARTNERS GROUP": "Supplier 10281",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 2
+  },
+  {
+    "id": 10282,
+    "PARTNERS GROUP": "Supplier 10282",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10283,
+    "PARTNERS GROUP": "Supplier 10283",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 8
+  },
+  {
+    "id": 10284,
+    "PARTNERS GROUP": "Supplier 10284",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 5
+  },
+  {
+    "id": 10285,
+    "PARTNERS GROUP": "Supplier 10285",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 10
+  },
+  {
+    "id": 10286,
+    "PARTNERS GROUP": "Supplier 10286",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 3
+  },
+  {
+    "id": 10287,
+    "PARTNERS GROUP": "Supplier 10287",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10288,
+    "PARTNERS GROUP": "Supplier 10288",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 1
+  },
+  {
+    "id": 10289,
+    "PARTNERS GROUP": "Supplier 10289",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10290,
+    "PARTNERS GROUP": "Supplier 10290",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 2
+  },
+  {
+    "id": 10291,
+    "PARTNERS GROUP": "Supplier 10291",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 7
+  },
+  {
+    "id": 10292,
+    "PARTNERS GROUP": "Supplier 10292",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10293,
+    "PARTNERS GROUP": "Supplier 10293",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 5
+  },
+  {
+    "id": 10294,
+    "PARTNERS GROUP": "Supplier 10294",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 5
+  },
+  {
+    "id": 10295,
+    "PARTNERS GROUP": "Supplier 10295",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10296,
+    "PARTNERS GROUP": "Supplier 10296",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 1
+  },
+  {
+    "id": 10297,
+    "PARTNERS GROUP": "Supplier 10297",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 7
+  },
+  {
+    "id": 10298,
+    "PARTNERS GROUP": "Supplier 10298",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 3
+  },
+  {
+    "id": 10299,
+    "PARTNERS GROUP": "Supplier 10299",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 7
+  },
+  {
+    "id": 10300,
+    "PARTNERS GROUP": "Supplier 10300",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10301,
+    "PARTNERS GROUP": "Supplier 10301",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10302,
+    "PARTNERS GROUP": "Supplier 10302",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10303,
+    "PARTNERS GROUP": "Supplier 10303",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10304,
+    "PARTNERS GROUP": "Supplier 10304",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10305,
+    "PARTNERS GROUP": "Supplier 10305",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10306,
+    "PARTNERS GROUP": "Supplier 10306",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10307,
+    "PARTNERS GROUP": "Supplier 10307",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 2
+  },
+  {
+    "id": 10308,
+    "PARTNERS GROUP": "Supplier 10308",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 1
+  },
+  {
+    "id": 10309,
+    "PARTNERS GROUP": "Supplier 10309",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 1
+  },
+  {
+    "id": 10310,
+    "PARTNERS GROUP": "Supplier 10310",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10311,
+    "PARTNERS GROUP": "Supplier 10311",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 8
+  },
+  {
+    "id": 10312,
+    "PARTNERS GROUP": "Supplier 10312",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 1
+  },
+  {
+    "id": 10313,
+    "PARTNERS GROUP": "Supplier 10313",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 5
+  },
+  {
+    "id": 10314,
+    "PARTNERS GROUP": "Supplier 10314",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 1
+  },
+  {
+    "id": 10315,
+    "PARTNERS GROUP": "Supplier 10315",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10316,
+    "PARTNERS GROUP": "Supplier 10316",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10317,
+    "PARTNERS GROUP": "Supplier 10317",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 2
+  },
+  {
+    "id": 10318,
+    "PARTNERS GROUP": "Supplier 10318",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10319,
+    "PARTNERS GROUP": "Supplier 10319",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 5
+  },
+  {
+    "id": 10320,
+    "PARTNERS GROUP": "Supplier 10320",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 8
+  },
+  {
+    "id": 10321,
+    "PARTNERS GROUP": "Supplier 10321",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 8
+  },
+  {
+    "id": 10322,
+    "PARTNERS GROUP": "Supplier 10322",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 10
+  },
+  {
+    "id": 10323,
+    "PARTNERS GROUP": "Supplier 10323",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 6
+  },
+  {
+    "id": 10324,
+    "PARTNERS GROUP": "Supplier 10324",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10325,
+    "PARTNERS GROUP": "Supplier 10325",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 6
+  },
+  {
+    "id": 10326,
+    "PARTNERS GROUP": "Supplier 10326",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 5
+  },
+  {
+    "id": 10327,
+    "PARTNERS GROUP": "Supplier 10327",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 7
+  },
+  {
+    "id": 10328,
+    "PARTNERS GROUP": "Supplier 10328",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10329,
+    "PARTNERS GROUP": "Supplier 10329",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 6
+  },
+  {
+    "id": 10330,
+    "PARTNERS GROUP": "Supplier 10330",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 6
+  },
+  {
+    "id": 10331,
+    "PARTNERS GROUP": "Supplier 10331",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 2
+  },
+  {
+    "id": 10332,
+    "PARTNERS GROUP": "Supplier 10332",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 4
+  },
+  {
+    "id": 10333,
+    "PARTNERS GROUP": "Supplier 10333",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 3
+  },
+  {
+    "id": 10334,
+    "PARTNERS GROUP": "Supplier 10334",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 1
+  },
+  {
+    "id": 10335,
+    "PARTNERS GROUP": "Supplier 10335",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10336,
+    "PARTNERS GROUP": "Supplier 10336",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 10
+  },
+  {
+    "id": 10337,
+    "PARTNERS GROUP": "Supplier 10337",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10338,
+    "PARTNERS GROUP": "Supplier 10338",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 5
+  },
+  {
+    "id": 10339,
+    "PARTNERS GROUP": "Supplier 10339",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 4
+  },
+  {
+    "id": 10340,
+    "PARTNERS GROUP": "Supplier 10340",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 4
+  },
+  {
+    "id": 10341,
+    "PARTNERS GROUP": "Supplier 10341",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10342,
+    "PARTNERS GROUP": "Supplier 10342",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 3
+  },
+  {
+    "id": 10343,
+    "PARTNERS GROUP": "Supplier 10343",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 10
+  },
+  {
+    "id": 10344,
+    "PARTNERS GROUP": "Supplier 10344",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 5
+  },
+  {
+    "id": 10345,
+    "PARTNERS GROUP": "Supplier 10345",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 3
+  },
+  {
+    "id": 10346,
+    "PARTNERS GROUP": "Supplier 10346",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 2
+  },
+  {
+    "id": 10347,
+    "PARTNERS GROUP": "Supplier 10347",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 9
+  },
+  {
+    "id": 10348,
+    "PARTNERS GROUP": "Supplier 10348",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 3
+  },
+  {
+    "id": 10349,
+    "PARTNERS GROUP": "Supplier 10349",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 2
+  },
+  {
+    "id": 10350,
+    "PARTNERS GROUP": "Supplier 10350",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10351,
+    "PARTNERS GROUP": "Supplier 10351",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10352,
+    "PARTNERS GROUP": "Supplier 10352",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10353,
+    "PARTNERS GROUP": "Supplier 10353",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10354,
+    "PARTNERS GROUP": "Supplier 10354",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10355,
+    "PARTNERS GROUP": "Supplier 10355",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 8
+  },
+  {
+    "id": 10356,
+    "PARTNERS GROUP": "Supplier 10356",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10357,
+    "PARTNERS GROUP": "Supplier 10357",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 2
+  },
+  {
+    "id": 10358,
+    "PARTNERS GROUP": "Supplier 10358",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 4
+  },
+  {
+    "id": 10359,
+    "PARTNERS GROUP": "Supplier 10359",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 8
+  },
+  {
+    "id": 10360,
+    "PARTNERS GROUP": "Supplier 10360",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10361,
+    "PARTNERS GROUP": "Supplier 10361",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10362,
+    "PARTNERS GROUP": "Supplier 10362",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10363,
+    "PARTNERS GROUP": "Supplier 10363",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10364,
+    "PARTNERS GROUP": "Supplier 10364",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10365,
+    "PARTNERS GROUP": "Supplier 10365",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10366,
+    "PARTNERS GROUP": "Supplier 10366",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 4
+  },
+  {
+    "id": 10367,
+    "PARTNERS GROUP": "Supplier 10367",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10368,
+    "PARTNERS GROUP": "Supplier 10368",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10369,
+    "PARTNERS GROUP": "Supplier 10369",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10370,
+    "PARTNERS GROUP": "Supplier 10370",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 9
+  },
+  {
+    "id": 10371,
+    "PARTNERS GROUP": "Supplier 10371",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 9
+  },
+  {
+    "id": 10372,
+    "PARTNERS GROUP": "Supplier 10372",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 2
+  },
+  {
+    "id": 10373,
+    "PARTNERS GROUP": "Supplier 10373",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 3
+  },
+  {
+    "id": 10374,
+    "PARTNERS GROUP": "Supplier 10374",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10375,
+    "PARTNERS GROUP": "Supplier 10375",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 6
+  },
+  {
+    "id": 10376,
+    "PARTNERS GROUP": "Supplier 10376",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 10
+  },
+  {
+    "id": 10377,
+    "PARTNERS GROUP": "Supplier 10377",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 1
+  },
+  {
+    "id": 10378,
+    "PARTNERS GROUP": "Supplier 10378",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10379,
+    "PARTNERS GROUP": "Supplier 10379",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 1
+  },
+  {
+    "id": 10380,
+    "PARTNERS GROUP": "Supplier 10380",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 8
+  },
+  {
+    "id": 10381,
+    "PARTNERS GROUP": "Supplier 10381",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10382,
+    "PARTNERS GROUP": "Supplier 10382",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10383,
+    "PARTNERS GROUP": "Supplier 10383",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 5
+  },
+  {
+    "id": 10384,
+    "PARTNERS GROUP": "Supplier 10384",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10385,
+    "PARTNERS GROUP": "Supplier 10385",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10386,
+    "PARTNERS GROUP": "Supplier 10386",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 2
+  },
+  {
+    "id": 10387,
+    "PARTNERS GROUP": "Supplier 10387",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10388,
+    "PARTNERS GROUP": "Supplier 10388",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10389,
+    "PARTNERS GROUP": "Supplier 10389",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10390,
+    "PARTNERS GROUP": "Supplier 10390",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 8
+  },
+  {
+    "id": 10391,
+    "PARTNERS GROUP": "Supplier 10391",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 7
+  },
+  {
+    "id": 10392,
+    "PARTNERS GROUP": "Supplier 10392",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 8
+  },
+  {
+    "id": 10393,
+    "PARTNERS GROUP": "Supplier 10393",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 4
+  },
+  {
+    "id": 10394,
+    "PARTNERS GROUP": "Supplier 10394",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 7
+  },
+  {
+    "id": 10395,
+    "PARTNERS GROUP": "Supplier 10395",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 1
+  },
+  {
+    "id": 10396,
+    "PARTNERS GROUP": "Supplier 10396",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 5
+  },
+  {
+    "id": 10397,
+    "PARTNERS GROUP": "Supplier 10397",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 9
+  },
+  {
+    "id": 10398,
+    "PARTNERS GROUP": "Supplier 10398",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10399,
+    "PARTNERS GROUP": "Supplier 10399",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 5
+  },
+  {
+    "id": 10400,
+    "PARTNERS GROUP": "Supplier 10400",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10401,
+    "PARTNERS GROUP": "Supplier 10401",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10402,
+    "PARTNERS GROUP": "Supplier 10402",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 3
+  },
+  {
+    "id": 10403,
+    "PARTNERS GROUP": "Supplier 10403",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10404,
+    "PARTNERS GROUP": "Supplier 10404",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10405,
+    "PARTNERS GROUP": "Supplier 10405",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 10
+  },
+  {
+    "id": 10406,
+    "PARTNERS GROUP": "Supplier 10406",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10407,
+    "PARTNERS GROUP": "Supplier 10407",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 5
+  },
+  {
+    "id": 10408,
+    "PARTNERS GROUP": "Supplier 10408",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 3
+  },
+  {
+    "id": 10409,
+    "PARTNERS GROUP": "Supplier 10409",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 1
+  },
+  {
+    "id": 10410,
+    "PARTNERS GROUP": "Supplier 10410",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 8
+  },
+  {
+    "id": 10411,
+    "PARTNERS GROUP": "Supplier 10411",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10412,
+    "PARTNERS GROUP": "Supplier 10412",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 6
+  },
+  {
+    "id": 10413,
+    "PARTNERS GROUP": "Supplier 10413",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 4
+  },
+  {
+    "id": 10414,
+    "PARTNERS GROUP": "Supplier 10414",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10415,
+    "PARTNERS GROUP": "Supplier 10415",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 4
+  },
+  {
+    "id": 10416,
+    "PARTNERS GROUP": "Supplier 10416",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 1
+  },
+  {
+    "id": 10417,
+    "PARTNERS GROUP": "Supplier 10417",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10418,
+    "PARTNERS GROUP": "Supplier 10418",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 4
+  },
+  {
+    "id": 10419,
+    "PARTNERS GROUP": "Supplier 10419",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 4
+  },
+  {
+    "id": 10420,
+    "PARTNERS GROUP": "Supplier 10420",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10421,
+    "PARTNERS GROUP": "Supplier 10421",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 6
+  },
+  {
+    "id": 10422,
+    "PARTNERS GROUP": "Supplier 10422",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 7
+  },
+  {
+    "id": 10423,
+    "PARTNERS GROUP": "Supplier 10423",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 10
+  },
+  {
+    "id": 10424,
+    "PARTNERS GROUP": "Supplier 10424",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10425,
+    "PARTNERS GROUP": "Supplier 10425",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 3
+  },
+  {
+    "id": 10426,
+    "PARTNERS GROUP": "Supplier 10426",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10427,
+    "PARTNERS GROUP": "Supplier 10427",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10428,
+    "PARTNERS GROUP": "Supplier 10428",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 1
+  },
+  {
+    "id": 10429,
+    "PARTNERS GROUP": "Supplier 10429",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10430,
+    "PARTNERS GROUP": "Supplier 10430",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "WESTERN EUROPE",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 8
+  },
+  {
+    "id": 10431,
+    "PARTNERS GROUP": "Supplier 10431",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10432,
+    "PARTNERS GROUP": "Supplier 10432",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10433,
+    "PARTNERS GROUP": "Supplier 10433",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10434,
+    "PARTNERS GROUP": "Supplier 10434",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 1
+  },
+  {
+    "id": 10435,
+    "PARTNERS GROUP": "Supplier 10435",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10436,
+    "PARTNERS GROUP": "Supplier 10436",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 9
+  },
+  {
+    "id": 10437,
+    "PARTNERS GROUP": "Supplier 10437",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 6
+  },
+  {
+    "id": 10438,
+    "PARTNERS GROUP": "Supplier 10438",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10439,
+    "PARTNERS GROUP": "Supplier 10439",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 1
+  },
+  {
+    "id": 10440,
+    "PARTNERS GROUP": "Supplier 10440",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 4
+  },
+  {
+    "id": 10441,
+    "PARTNERS GROUP": "Supplier 10441",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 4
+  },
+  {
+    "id": 10442,
+    "PARTNERS GROUP": "Supplier 10442",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 3
+  },
+  {
+    "id": 10443,
+    "PARTNERS GROUP": "Supplier 10443",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "JOHANNESBURG",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10444,
+    "PARTNERS GROUP": "Supplier 10444",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 9
+  },
+  {
+    "id": 10445,
+    "PARTNERS GROUP": "Supplier 10445",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 2
+  },
+  {
+    "id": 10446,
+    "PARTNERS GROUP": "Supplier 10446",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 2
+  },
+  {
+    "id": 10447,
+    "PARTNERS GROUP": "Supplier 10447",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 2
+  },
+  {
+    "id": 10448,
+    "PARTNERS GROUP": "Supplier 10448",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 6
+  },
+  {
+    "id": 10449,
+    "PARTNERS GROUP": "Supplier 10449",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 5
+  },
+  {
+    "id": 10450,
+    "PARTNERS GROUP": "Supplier 10450",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 10
+  },
+  {
+    "id": 10451,
+    "PARTNERS GROUP": "Supplier 10451",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 1
+  },
+  {
+    "id": 10452,
+    "PARTNERS GROUP": "Supplier 10452",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 10
+  },
+  {
+    "id": 10453,
+    "PARTNERS GROUP": "Supplier 10453",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 10
+  },
+  {
+    "id": 10454,
+    "PARTNERS GROUP": "Supplier 10454",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10455,
+    "PARTNERS GROUP": "Supplier 10455",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10456,
+    "PARTNERS GROUP": "Supplier 10456",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 5
+  },
+  {
+    "id": 10457,
+    "PARTNERS GROUP": "Supplier 10457",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 7
+  },
+  {
+    "id": 10458,
+    "PARTNERS GROUP": "Supplier 10458",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10459,
+    "PARTNERS GROUP": "Supplier 10459",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10460,
+    "PARTNERS GROUP": "Supplier 10460",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "MUMBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 8
+  },
+  {
+    "id": 10461,
+    "PARTNERS GROUP": "Supplier 10461",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 3
+  },
+  {
+    "id": 10462,
+    "PARTNERS GROUP": "Supplier 10462",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 5
+  },
+  {
+    "id": 10463,
+    "PARTNERS GROUP": "Supplier 10463",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SYDNEY",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 6
+  },
+  {
+    "id": 10464,
+    "PARTNERS GROUP": "Supplier 10464",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "ROME",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10465,
+    "PARTNERS GROUP": "Supplier 10465",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 6
+  },
+  {
+    "id": 10466,
+    "PARTNERS GROUP": "Supplier 10466",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 8
+  },
+  {
+    "id": 10467,
+    "PARTNERS GROUP": "Supplier 10467",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10468,
+    "PARTNERS GROUP": "Supplier 10468",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 7
+  },
+  {
+    "id": 10469,
+    "PARTNERS GROUP": "Supplier 10469",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 5
+  },
+  {
+    "id": 10470,
+    "PARTNERS GROUP": "Supplier 10470",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 6
+  },
+  {
+    "id": 10471,
+    "PARTNERS GROUP": "Supplier 10471",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "SOUTH ASIA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 7
+  },
+  {
+    "id": 10472,
+    "PARTNERS GROUP": "Supplier 10472",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 8
+  },
+  {
+    "id": 10473,
+    "PARTNERS GROUP": "Supplier 10473",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 9
+  },
+  {
+    "id": 10474,
+    "PARTNERS GROUP": "Supplier 10474",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 9
+  },
+  {
+    "id": 10475,
+    "PARTNERS GROUP": "Supplier 10475",
+    "ORGANIZATION ZONE": "MIDDLE EAST",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 7
+  },
+  {
+    "id": 10476,
+    "PARTNERS GROUP": "Supplier 10476",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "FRANCE",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10477,
+    "PARTNERS GROUP": "Supplier 10477",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 7
+  },
+  {
+    "id": 10478,
+    "PARTNERS GROUP": "Supplier 10478",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "SPAIN",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 6
+  },
+  {
+    "id": 10479,
+    "PARTNERS GROUP": "Supplier 10479",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "ARGENTINA",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Matériel informatique",
+    "score": 1
+  },
+  {
+    "id": 10480,
+    "PARTNERS GROUP": "Supplier 10480",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Transport de marchandise et services liés",
+    "score": 8
+  },
+  {
+    "id": 10481,
+    "PARTNERS GROUP": "Supplier 10481",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "GERMANY",
+    "Country of Supplier Contact": "SAO PAULO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 7
+  },
+  {
+    "id": 10482,
+    "PARTNERS GROUP": "Supplier 10482",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Sous-traitance production",
+    "score": 4
+  },
+  {
+    "id": 10483,
+    "PARTNERS GROUP": "Supplier 10483",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 9
+  },
+  {
+    "id": 10484,
+    "PARTNERS GROUP": "Supplier 10484",
+    "ORGANIZATION ZONE": "NORTH AMERICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "UNITED STATES",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Conseils (juridiques, stratégiques, etc.)",
+    "score": 9
+  },
+  {
+    "id": 10485,
+    "PARTNERS GROUP": "Supplier 10485",
+    "ORGANIZATION ZONE": "OCEANIA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 9
+  },
+  {
+    "id": 10486,
+    "PARTNERS GROUP": "Supplier 10486",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "EASTERN EUROPE",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 5
+  },
+  {
+    "id": 10487,
+    "PARTNERS GROUP": "Supplier 10487",
+    "ORGANIZATION ZONE": "EUROPE",
+    "ORGANIZATION 1": "BRAZIL",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "TORONTO",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 5
+  },
+  {
+    "id": 10488,
+    "PARTNERS GROUP": "Supplier 10488",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 2
+  },
+  {
+    "id": 10489,
+    "PARTNERS GROUP": "Supplier 10489",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "SOUTH AFRICA",
+    "ORGANIZATION COUNTRY": "INDIA",
+    "Country of Supplier Contact": "LONDON",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 1
+  },
+  {
+    "id": 10490,
+    "PARTNERS GROUP": "Supplier 10490",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED ARAB EMIRATES",
+    "Country of Supplier Contact": "SHANGHAI",
+    "Activity Area": "Four. / Presta. - Fourniture de matières premières",
+    "score": 5
+  },
+  {
+    "id": 10491,
+    "PARTNERS GROUP": "Supplier 10491",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "UAE",
+    "ORGANIZATION COUNTRY": "BRAZIL",
+    "Country of Supplier Contact": "PARIS",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 1
+  },
+  {
+    "id": 10492,
+    "PARTNERS GROUP": "Supplier 10492",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "CANADA",
+    "ORGANIZATION COUNTRY": "ITALY",
+    "Country of Supplier Contact": "DUBAI",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 1
+  },
+  {
+    "id": 10493,
+    "PARTNERS GROUP": "Supplier 10493",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "UNITED KINGDOM",
+    "Country of Supplier Contact": "NEW YORK",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  },
+  {
+    "id": 10494,
+    "PARTNERS GROUP": "Supplier 10494",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "JAPAN",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Communication et média",
+    "score": 7
+  },
+  {
+    "id": 10495,
+    "PARTNERS GROUP": "Supplier 10495",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "USA",
+    "ORGANIZATION COUNTRY": "SOUTH AFRICA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 7
+  },
+  {
+    "id": 10496,
+    "PARTNERS GROUP": "Supplier 10496",
+    "ORGANIZATION ZONE": "SOUTH AMERICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "MADRID",
+    "Activity Area": "Four. / Presta. - Logistique",
+    "score": 4
+  },
+  {
+    "id": 10497,
+    "PARTNERS GROUP": "Supplier 10497",
+    "ORGANIZATION ZONE": "ASIA",
+    "ORGANIZATION 1": "AUSTRALIA",
+    "ORGANIZATION COUNTRY": "CANADA",
+    "Country of Supplier Contact": "BUENOS AIRES",
+    "Activity Area": "Four. / Presta. - Immobilier",
+    "score": 1
+  },
+  {
+    "id": 10498,
+    "PARTNERS GROUP": "Supplier 10498",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "EAST ASIA",
+    "ORGANIZATION COUNTRY": "AUSTRALIA",
+    "Country of Supplier Contact": "TOKYO",
+    "Activity Area": "Four. / Presta. - Promotion de la marque",
+    "score": 4
+  },
+  {
+    "id": 10499,
+    "PARTNERS GROUP": "Supplier 10499",
+    "ORGANIZATION ZONE": "AFRICA",
+    "ORGANIZATION 1": "ARGENTINA",
+    "ORGANIZATION COUNTRY": "CHINA",
+    "Country of Supplier Contact": "BERLIN",
+    "Activity Area": "Four. / Presta. - Fourniture de packaging",
+    "score": 9
+  }
+]
