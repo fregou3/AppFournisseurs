@@ -39,52 +39,53 @@ print_info() {
 TOTAL_STEPS=5
 
 # Variables
-SERVER_IP="15.188.198.103"
-SERVER_USER="ubuntu"
 APP_DIR="/home/ubuntu/AppGetionFournisseurs_3.9_EN/AppFournisseurs"
 NGINX_CONF_DIR="/etc/nginx/sites-available"
+FRONTEND_DIR="${APP_DIR}/frontend"
+BACKEND_DIR="${APP_DIR}/backend"
+WWW_DIR="/var/www/fournisseurs"
 
 # Vérifier que le script est exécuté avec les privilèges sudo
 if [ "$EUID" -ne 0 ]; then
     print_error "Ce script doit être exécuté avec les privilèges sudo."
 fi
 
-# Étape 1: Connexion SSH au serveur et mise à jour du dépôt Git
-print_step 1 "Mise à jour du dépôt Git sur le serveur"
-ssh ${SERVER_USER}@${SERVER_IP} "cd ${APP_DIR} && sudo git fetch && sudo git pull" || print_error "Impossible de mettre à jour le dépôt Git"
+# Étape 1: Mise à jour du dépôt Git
+print_step 1 "Mise à jour du dépôt Git"
+cd ${APP_DIR} && git fetch && git pull || print_error "Impossible de mettre à jour le dépôt Git"
 print_success "Dépôt Git mis à jour avec succès"
 
-# Étape 2: Copier la nouvelle configuration Nginx
+# Étape 2: Mettre à jour la configuration Nginx
 print_step 2 "Mise à jour de la configuration Nginx"
-scp -r nginx/nginx.prod.fixed.conf ${SERVER_USER}@${SERVER_IP}:/tmp/nginx.prod.fixed.conf || print_error "Impossible de copier la configuration Nginx"
-ssh ${SERVER_USER}@${SERVER_IP} "sudo cp /tmp/nginx.prod.fixed.conf ${NGINX_CONF_DIR}/fournisseurs-fixed && sudo ln -sf ${NGINX_CONF_DIR}/fournisseurs-fixed /etc/nginx/sites-enabled/" || print_error "Impossible de configurer Nginx"
-ssh ${SERVER_USER}@${SERVER_IP} "sudo nginx -t && sudo systemctl restart nginx" || print_error "Impossible de redémarrer Nginx"
+cp ${APP_DIR}/nginx/nginx.prod.fixed.conf ${NGINX_CONF_DIR}/fournisseurs-fixed || print_error "Impossible de copier la configuration Nginx"
+ln -sf ${NGINX_CONF_DIR}/fournisseurs-fixed /etc/nginx/sites-enabled/ || print_error "Impossible de configurer Nginx"
+nginx -t && systemctl restart nginx || print_error "Impossible de redémarrer Nginx"
 print_success "Configuration Nginx mise à jour avec succès"
 
 # Étape 3: Mise à jour des dépendances NPM si nécessaire
 print_step 3 "Mise à jour des dépendances NPM"
-ssh ${SERVER_USER}@${SERVER_IP} "cd ${APP_DIR}/frontend && sudo npm install" || print_info "Mise à jour des dépendances frontend échouée, mais on continue"
-ssh ${SERVER_USER}@${SERVER_IP} "cd ${APP_DIR}/backend && sudo npm install" || print_info "Mise à jour des dépendances backend échouée, mais on continue"
+cd ${FRONTEND_DIR} && npm install || print_info "Mise à jour des dépendances frontend échouée, mais on continue"
+cd ${BACKEND_DIR} && npm install || print_info "Mise à jour des dépendances backend échouée, mais on continue"
 print_success "Dépendances NPM mises à jour avec succès"
 
 # Étape 4: Reconstruire le frontend
 print_step 4 "Reconstruction du frontend"
-ssh ${SERVER_USER}@${SERVER_IP} "cd ${APP_DIR}/frontend && sudo npm run build" || print_error "Impossible de reconstruire le frontend"
-ssh ${SERVER_USER}@${SERVER_IP} "sudo cp -r ${APP_DIR}/frontend/build/* /var/www/fournisseurs/" || print_error "Impossible de copier les fichiers du frontend"
+cd ${FRONTEND_DIR} && npm run build || print_error "Impossible de reconstruire le frontend"
+cp -r ${FRONTEND_DIR}/build/* ${WWW_DIR}/ || print_error "Impossible de copier les fichiers du frontend"
 print_success "Frontend reconstruit et déployé avec succès"
 
 # Étape 5: Redémarrer le backend
 print_step 5 "Redémarrage du backend"
-ssh ${SERVER_USER}@${SERVER_IP} "sudo pm2 restart fournisseurs-backend" || print_error "Impossible de redémarrer le backend"
+pm2 restart fournisseurs-backend || print_error "Impossible de redémarrer le backend"
 print_success "Backend redémarré avec succès"
 
 # Résumé
 echo -e "\n${GREEN}===============================================${NC}"
 echo -e "${GREEN}Mise à jour terminée avec succès !${NC}"
 echo -e "${GREEN}===============================================${NC}"
-echo -e "L'application est accessible à l'adresse : ${BLUE}http://${SERVER_IP}/fournisseurs${NC}"
-echo -e "L'API est accessible à l'adresse : ${BLUE}http://${SERVER_IP}/fournisseurs/api${NC}"
+echo -e "L'application est accessible à l'adresse : ${BLUE}http://15.188.198.103/fournisseurs${NC}"
+echo -e "L'API est accessible à l'adresse : ${BLUE}http://15.188.198.103/fournisseurs/api${NC}"
 echo -e "\n${YELLOW}Commandes utiles :${NC}"
-echo -e "- Vérifier l'état du backend : ${BLUE}ssh ${SERVER_USER}@${SERVER_IP} \"sudo pm2 status\"${NC}"
-echo -e "- Vérifier les logs du backend : ${BLUE}ssh ${SERVER_USER}@${SERVER_IP} \"sudo pm2 logs fournisseurs-backend\"${NC}"
-echo -e "- Vérifier les logs de Nginx : ${BLUE}ssh ${SERVER_USER}@${SERVER_IP} \"sudo tail -f /var/log/nginx/error.log\"${NC}"
+echo -e "- Vérifier l'état du backend : ${BLUE}pm2 status${NC}"
+echo -e "- Vérifier les logs du backend : ${BLUE}pm2 logs fournisseurs-backend${NC}"
+echo -e "- Vérifier les logs de Nginx : ${BLUE}tail -f /var/log/nginx/error.log${NC}"
