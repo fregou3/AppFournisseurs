@@ -177,10 +177,20 @@ const Compare = () => {
     // Obtenir toutes les colonnes uniques des deux tables
     const allColumns = new Set();
     if (table1Data.length > 0) {
-      Object.keys(table1Data[0]).forEach(col => allColumns.add(col));
+      Object.keys(table1Data[0]).forEach(col => {
+        // Exclure la colonne "ID" de la comparaison
+        if (col.toLowerCase() !== 'id') {
+          allColumns.add(col);
+        }
+      });
     }
     if (table2Data.length > 0) {
-      Object.keys(table2Data[0]).forEach(col => allColumns.add(col));
+      Object.keys(table2Data[0]).forEach(col => {
+        // Exclure la colonne "ID" de la comparaison
+        if (col.toLowerCase() !== 'id') {
+          allColumns.add(col);
+        }
+      });
     }
 
     // Créer un index pour les données de la table 2 basé sur supplier_id
