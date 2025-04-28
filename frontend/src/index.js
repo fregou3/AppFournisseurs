@@ -5,10 +5,15 @@ import './index.css';
 import App from './App';
 import './api-replacer'; // Enrichissement des visualisations avec des données fictives
 import reportWebVitals from './reportWebVitals';
+import config from './config';
+
+// Déterminer le basename pour le routeur en fonction de la configuration
+const basename = config.baseUrl;
+console.log('Initialisation du routeur avec basename:', basename);
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
