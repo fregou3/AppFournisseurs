@@ -57,8 +57,18 @@ print_success "Dépôt Git mis à jour avec succès"
 
 # Étape 2: Mettre à jour la configuration Nginx
 print_step 2 "Mise à jour de la configuration Nginx"
-cp ${APP_DIR}/nginx/nginx.prod.fixed.conf ${NGINX_CONF_DIR}/fournisseurs-fixed || print_error "Impossible de copier la configuration Nginx"
-ln -sf ${NGINX_CONF_DIR}/fournisseurs-fixed /etc/nginx/sites-enabled/ || print_error "Impossible de configurer Nginx"
+if [ -f ${APP_DIR}/nginx/nginx.prod.domain.conf ]; then
+    print_info "Utilisation de la configuration pour le domaine personnalisé"
+    cp ${APP_DIR}/nginx/nginx.prod.domain.conf ${NGINX_CONF_DIR}/fournisseurs-domain || print_error "Impossible de copier la configuration Nginx"
+    ln -sf ${NGINX_CONF_DIR}/fournisseurs-domain /etc/nginx/sites-enabled/ || print_error "Impossible de configurer Nginx"
+    # Supprimer les autres configurations pour éviter les conflits
+    rm -f /etc/nginx/sites-enabled/default
+    rm -f /etc/nginx/sites-enabled/fournisseurs-fixed
+else
+    print_info "Utilisation de la configuration standard"
+    cp ${APP_DIR}/nginx/nginx.prod.fixed.conf ${NGINX_CONF_DIR}/fournisseurs-fixed || print_error "Impossible de copier la configuration Nginx"
+    ln -sf ${NGINX_CONF_DIR}/fournisseurs-fixed /etc/nginx/sites-enabled/ || print_error "Impossible de configurer Nginx"
+fi
 nginx -t && systemctl restart nginx || print_error "Impossible de redémarrer Nginx"
 print_success "Configuration Nginx mise à jour avec succès"
 
@@ -70,6 +80,10 @@ print_success "Dépendances NPM mises à jour avec succès"
 
 # Étape 4: Reconstruire le frontend
 print_step 4 "Reconstruction du frontend"
+# Configurer le répertoire virtuel pour le frontend
+echo "PUBLIC_URL=/fournisseurs" > ${FRONTEND_DIR}/.env
+print_info "Configuration du frontend avec PUBLIC_URL=/fournisseurs"
+
 cd ${FRONTEND_DIR} && npm run build || print_error "Impossible de reconstruire le frontend"
 cp -r ${FRONTEND_DIR}/build/* ${WWW_DIR}/ || print_error "Impossible de copier les fichiers du frontend"
 print_success "Frontend reconstruit et déployé avec succès"
