@@ -61,16 +61,20 @@ async function calculateScores2023V1() {
         console.log(`- Région d'intervention: ${regionInterventionColumn}`);
         console.log(`- Pays d'intervention: ${paysInterventionColumn}`);
         
-        // Vérifier si la colonne score existe
-        const scoreExists = columns.includes('score');
+        // Vérifier si la colonne Score existe (avec S majuscule)
+        const scoreColumnName = columns.find(col => col.toLowerCase() === 'score') || 'Score';
+        console.log(`Colonne de score identifiée: ${scoreColumnName}`);
+        
+        // Vérifier si la colonne Score existe
+        const scoreExists = columns.includes(scoreColumnName);
         
         if (!scoreExists) {
-            console.log('La colonne score n\'existe pas. Création de la colonne...');
+            console.log(`La colonne ${scoreColumnName} n'existe pas. Création de la colonne...`);
             await client.query(`
                 ALTER TABLE fournisseurs_2023_v1 
-                ADD COLUMN score INTEGER;
+                ADD COLUMN "${scoreColumnName}" INTEGER;
             `);
-            console.log('Colonne score créée avec succès.');
+            console.log(`Colonne ${scoreColumnName} créée avec succès.`);
         }
         
         // Récupérer tous les fournisseurs
@@ -82,7 +86,7 @@ async function calculateScores2023V1() {
                 "${localisationColumn}" as localisation, 
                 "${regionInterventionColumn}" as region_intervention, 
                 "${paysInterventionColumn}" as pays_intervention, 
-                score
+                "${scoreColumnName}" as score
             FROM fournisseurs_2023_v1
             ORDER BY id
         `;
@@ -118,7 +122,7 @@ async function calculateScores2023V1() {
                 const currentScore = score === null ? null : Math.round(score);
                 if (newScore !== currentScore) {
                     await client.query(
-                        'UPDATE fournisseurs_2023_v1 SET score = $1 WHERE id = $2',
+                        `UPDATE fournisseurs_2023_v1 SET "${scoreColumnName}" = $1 WHERE id = $2`,
                         [newScore, id]
                     );
                     console.log(`✓ ID ${id}: Score mis à jour ${currentScore} → ${newScore}`);

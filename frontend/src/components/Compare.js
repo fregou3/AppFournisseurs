@@ -67,6 +67,39 @@ const Compare = () => {
     fetchTables();
   }, []);
 
+  // Fonction pour récupérer toutes les données d'une table avec pagination
+  const fetchAllTableData = async (tableName) => {
+    let allData = [];
+    let currentPage = 1;
+    const pageSize = 1000; // Récupérer un grand nombre de lignes à la fois
+    let hasMoreData = true;
+
+    while (hasMoreData) {
+      const response = await axios.get(`${config.apiUrl}/fournisseurs/table/${tableName}`, {
+        params: {
+          page: currentPage,
+          pageSize: pageSize
+        }
+      });
+
+      const { data, totalCount } = response.data;
+      
+      if (data && data.length > 0) {
+        allData = [...allData, ...data];
+        // Vérifier si nous avons récupéré toutes les données
+        if (allData.length >= totalCount) {
+          hasMoreData = false;
+        } else {
+          currentPage++;
+        }
+      } else {
+        hasMoreData = false;
+      }
+    }
+
+    return allData;
+  };
+
   // Fonction pour comparer les tables
   const compareTables = async () => {
     if (!selectedTable1 || !selectedTable2) {
@@ -92,15 +125,25 @@ const Compare = () => {
       setError(null);
       setCompareResult(null);
 
-      // Récupérer les données des deux tables
-      const [table1Response, table2Response] = await Promise.all([
-        axios.get(`${config.apiUrl}/fournisseurs/table/${selectedTable1}`),
-        axios.get(`${config.apiUrl}/fournisseurs/table/${selectedTable2}`)
+      // Afficher un message pour indiquer que la récupération des données est en cours
+      setSnackbar({
+        open: true,
+        message: 'Récupération de toutes les données des tables...',
+        severity: 'info'
+      });
+
+      // Récupérer toutes les données des deux tables avec pagination
+      const [table1Data, table2Data] = await Promise.all([
+        fetchAllTableData(selectedTable1),
+        fetchAllTableData(selectedTable2)
       ]);
 
-      // Extraire les données des réponses
-      const table1Data = table1Response.data.data || [];
-      const table2Data = table2Response.data.data || [];
+      // Informer l'utilisateur du nombre de lignes récupérées
+      setSnackbar({
+        open: true,
+        message: `Comparaison de ${table1Data.length} lignes de ${selectedTable1} avec ${table2Data.length} lignes de ${selectedTable2}`,
+        severity: 'info'
+      });
 
       // Comparer les données
       const result = compareTableData(table1Data, table2Data);
@@ -117,6 +160,16 @@ const Compare = () => {
     } finally {
       setTableLoading(false);
     }
+  };
+
+  // Fonction pour normaliser les valeurs pour la comparaison insensible à la casse
+  const normalizeValue = (value) => {
+    // Si la valeur est une chaîne, la convertir en minuscules pour la comparaison
+    if (typeof value === 'string') {
+      return value.toLowerCase();
+    }
+    // Sinon, retourner la valeur telle quelle
+    return value;
   };
 
   // Fonction pour comparer les données des tables
@@ -155,8 +208,13 @@ const Compare = () => {
         allColumns.forEach(column => {
           const value1 = row1[column] !== undefined ? row1[column] : null;
           const value2 = row2[column] !== undefined ? row2[column] : null;
+          
+          // Normaliser les valeurs pour une comparaison insensible à la casse
+          const normalizedValue1 = normalizeValue(value1);
+          const normalizedValue2 = normalizeValue(value2);
 
-          if (value1 !== value2) {
+          // Comparer les valeurs normalisées
+          if (normalizedValue1 !== normalizedValue2) {
             differences[column] = {
               table1: value1,
               table2: value2

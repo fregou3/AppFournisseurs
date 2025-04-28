@@ -1,4 +1,4 @@
-#!/bin/bash
+404 Not Found#!/bin/bash
 
 ##############################################################
 # Script de déploiement complet pour l'application de gestion des fournisseurs
@@ -212,6 +212,9 @@ server {
     listen 80;
     server_name $DOMAIN_NAME;
     
+    # Augmenter la taille maximale des requêtes
+    client_max_body_size 100M;
+    
     # Compression pour améliorer les performances
     gzip on;
     gzip_disable "msie6";
@@ -236,7 +239,6 @@ server {
     
     # API pour l'application
     location /$VIRTUAL_DIR/api/ {
-        rewrite ^/$VIRTUAL_DIR/api/(.*) /\$1 break;
         proxy_pass http://localhost:$BACKEND_PORT/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
@@ -246,10 +248,20 @@ server {
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto \$scheme;
+        
+        # Augmenter les timeouts pour les uploads volumineux
+        proxy_read_timeout 600;
+        proxy_connect_timeout 600;
+        proxy_send_timeout 600;
     }
     
     # Redirection de la racine vers l'application par défaut
     location = / {
+        return 301 /$VIRTUAL_DIR/;
+    }
+    
+    # Redirection sans le slash final
+    location = /$VIRTUAL_DIR {
         return 301 /$VIRTUAL_DIR/;
     }
     
