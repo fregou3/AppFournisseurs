@@ -59,3 +59,13 @@ ssh ubuntu@15.188.198.103 "sudo pm2 logs fournisseurs-backend"
 
 # Vérifier les logs de Nginx
 ssh ubuntu@15.188.198.103 "sudo tail -f /var/log/nginx/error.log"
+
+calculer les scores calculate_scores_2023_v1_fixed.js
+node backend/calculate_scores.js fournisseurs_2023_v1
+
+git add backend/calculate_scores.js
+git commit -m "nouvelle config Nginx"
+git push
+
+git pull
+
