@@ -126,11 +126,41 @@ apt install -y curl git nginx software-properties-common net-tools || print_erro
 print_success "Dépendances système installées."
 
 # 2. Installer Node.js
-print_step 2 "Installation de Node.js..."
-if ! command -v node &> /dev/null; then
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - || print_error "Impossible de configurer le dépôt Node.js."
+print_step 2 "Installation de Node.js 18.20..."
+if ! command -v node &> /dev/null || [[ "$(node -v)" != "v18.20."* ]]; then
+    print_info "Installation ou mise à jour de Node.js vers la version 18.20..."
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - || print_error "Impossible de configurer le dépôt Node.js."
     apt install -y nodejs || print_error "Impossible d'installer Node.js."
-    print_success "Node.js $(node -v) installé."
+    
+    # Vérifier si la version installée est 18.x
+    NODE_VERSION=$(node -v)
+    if [[ "$NODE_VERSION" != "v18."* ]]; then
+        print_warning "Version de Node.js installée ($NODE_VERSION) différente de la version 18.x requise."
+        print_info "Tentative d'installation de la version spécifique 18.20 via NVM..."
+        
+        # Installer NVM si nécessaire
+        if ! command -v nvm &> /dev/null; then
+            print_info "Installation de NVM..."
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Charger NVM
+        fi
+        
+        # Installer Node.js 18.20 via NVM
+        nvm install 18.20
+        nvm use 18.20
+        nvm alias default 18.20
+        
+        # Vérifier à nouveau la version
+        NODE_VERSION=$(node -v)
+        if [[ "$NODE_VERSION" != "v18.20."* ]]; then
+            print_warning "Impossible d'installer Node.js 18.20 via NVM. Version actuelle: $NODE_VERSION"
+        else
+            print_success "Node.js $NODE_VERSION installé via NVM."
+        fi
+    else
+        print_success "Node.js $NODE_VERSION installé."
+    fi
 else
     print_success "Node.js $(node -v) est déjà installé."
 fi
@@ -171,25 +201,54 @@ print_success "Fichier .env créé pour le backend."
 # 5. Installer les dépendances du backend
 print_step 5 "Installation des dépendances du backend..."
 cd "$BASE_DIR/backend"
-npm install || print_error "Impossible d'installer les dépendances du backend."
+
+# S'assurer que l'utilisateur ubuntu est propriétaire des répertoires
+print_info "Attribution des droits de propriété à l'utilisateur ubuntu..."
+USER_NAME="ubuntu"
+chown -R $USER_NAME:$USER_NAME "$BASE_DIR/backend"
+
+# Créer node_modules s'il n'existe pas et attribuer les droits
+mkdir -p "$BASE_DIR/backend/node_modules"
+chown -R $USER_NAME:$USER_NAME "$BASE_DIR/backend/node_modules"
+
+# Exécuter npm install en tant qu'utilisateur ubuntu
+su - $USER_NAME -c "cd $BASE_DIR/backend && npm install" || print_error "Impossible d'installer les dépendances du backend."
 print_success "Dépendances du backend installées."
 
 # 6. Installer les dépendances du frontend
 print_step 6 "Installation des dépendances du frontend..."
 cd "$BASE_DIR/frontend"
-npm install || print_error "Impossible d'installer les dépendances du frontend."
+
+# S'assurer que l'utilisateur ubuntu est propriétaire des répertoires
+print_info "Attribution des droits de propriété à l'utilisateur ubuntu..."
+USER_NAME="ubuntu"
+chown -R $USER_NAME:$USER_NAME "$BASE_DIR/frontend"
+
+# Créer node_modules s'il n'existe pas et attribuer les droits
+mkdir -p "$BASE_DIR/frontend/node_modules"
+chown -R $USER_NAME:$USER_NAME "$BASE_DIR/frontend/node_modules"
+
+# Exécuter npm install en tant qu'utilisateur ubuntu
+su - $USER_NAME -c "cd $BASE_DIR/frontend && npm install" || print_error "Impossible d'installer les dépendances du frontend."
 print_success "Dépendances du frontend installées."
 
 # 7. Construire le frontend pour la production
 print_step 7 "Construction du frontend pour la production..."
 cd "$BASE_DIR/frontend"
+
 # Créer un fichier .env pour le frontend
 cat > .env << EOL
 REACT_APP_API_URL=/$VIRTUAL_DIR/api
 REACT_APP_BASE_URL=/$VIRTUAL_DIR
 PUBLIC_URL=/$VIRTUAL_DIR
 EOL
-npm run build || print_error "Impossible de construire le frontend."
+
+# S'assurer que l'utilisateur ubuntu est propriétaire du fichier .env
+USER_NAME="ubuntu"
+chown $USER_NAME:$USER_NAME "$BASE_DIR/frontend/.env"
+
+# Exécuter npm run build en tant qu'utilisateur ubuntu
+su - $USER_NAME -c "cd $BASE_DIR/frontend && npm run build" || print_error "Impossible de construire le frontend."
 print_success "Frontend construit avec succès."
 
 # 8. Créer le répertoire de destination
