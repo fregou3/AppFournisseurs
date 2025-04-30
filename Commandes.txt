@@ -51,9 +51,6 @@ sudo ./deploy-ubuntu-15.188.198.103.sh
 
 git checkout -- backend/calculate_scores_2023_v1_fixed.js deploy-ubuntu-15.188.198.103-fixed.sh
 
-Mettre a jour la prod :
-sudo bash scripts/update-prod.sh
-
 # Vérifier les logs du backend
 ssh ubuntu@15.188.198.103 "sudo pm2 logs fournisseurs-backend"
 
@@ -67,5 +64,9 @@ git add backend/calculate_scores.js
 git commit -m "nouvelle config Nginx"
 git push
 
+git checkout
 git pull
+
+Mettre a jour la prod :
+sudo bash scripts/update-prod.sh
 
