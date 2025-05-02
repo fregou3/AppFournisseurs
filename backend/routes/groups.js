@@ -6,11 +6,15 @@ const { Parser } = require('json2csv');
 
 // Créer un nouveau groupe
 router.post('/', async (req, res) => {
-  const { name, filters, visibleColumns } = req.body;
-  console.log('Création de groupe avec:', { name, filters, visibleColumns });
+  const { name, filters, visibleColumns, tableName } = req.body;
+  console.log('Création de groupe avec:', { name, filters, visibleColumns, tableName });
 
   if (!name) {
     return res.status(400).json({ error: 'Le nom du groupe est requis' });
+  }
+  
+  if (!tableName) {
+    return res.status(400).json({ error: 'Le nom de la table est requis' });
   }
 
   const client = await pool.connect();
@@ -58,32 +62,36 @@ router.post('/', async (req, res) => {
       )
     `);
 
-    // Vérifier d'abord si la table 'fournisseurs' existe
+    // Vérifier d'abord si la table spécifiée existe
     const tableExistsQuery = `
       SELECT EXISTS (
         SELECT 1 FROM information_schema.tables 
         WHERE table_schema = 'public' 
-        AND table_name = 'fournisseurs'
+        AND table_name = $1
       )
     `;
     
-    const tableExistsResult = await client.query(tableExistsQuery);
+    const tableExistsResult = await client.query(tableExistsQuery, [tableName]);
     const tableExists = tableExistsResult.rows[0].exists;
     
-    // Si la table fournisseurs n'existe pas, on ne vérifie pas les colonnes
-    // mais on continue quand même la création du groupe
-    let existingColumns = [];
+    // Si la table spécifiée n'existe pas, on ne peut pas continuer
+    if (!tableExists) {
+      await client.query('ROLLBACK');
+      return res.status(400).json({ 
+        error: `La table '${tableName}' n'existe pas` 
+      });
+    }
     
-    if (tableExists) {
-      // Récupérer les colonnes de la table fournisseurs
-      const columnsQuery = `
-        SELECT column_name 
-        FROM information_schema.columns 
-        WHERE table_name = 'fournisseurs'
-      `;
+    // Récupérer les colonnes de la table spécifiée
+    let existingColumns = [];
+    const columnsQuery = `
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = $1
+    `;
       
-      const columnsResult = await client.query(columnsQuery);
-      existingColumns = columnsResult.rows.map(row => row.column_name);
+    const columnsResult = await client.query(columnsQuery, [tableName]);
+    existingColumns = columnsResult.rows.map(row => row.column_name);
       
       // Vérifier si les colonnes visibles existent
       if (visibleColumns && visibleColumns.length > 0) {
@@ -110,10 +118,7 @@ router.post('/', async (req, res) => {
           filters = validFilters;
         }
       }
-    } else {
-      console.warn("La table 'fournisseurs' n'existe pas, mais la création du groupe continue.");
-      // Si la table n'existe pas, on accepte toutes les colonnes sans validation
-    }
+
 
     // Construire la requête de création du groupe
     let sql = `CREATE TABLE "${groupName}" AS SELECT `;
@@ -127,7 +132,7 @@ router.post('/', async (req, res) => {
       sql += '*';
     }
 
-    sql += ' FROM fournisseurs';
+    sql += ` FROM "${tableName}"`;
 
     // Ajouter les filtres si présents
     if (filters && Object.keys(filters).length > 0) {
