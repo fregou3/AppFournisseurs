@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { correctColumnNames, correctFilters } from '../utils/column-mapper';
+import { correctColumnNames, correctFilters, getDisplayNames, displayNameMapping } from '../utils/column-mapper';
 import {
   Table,
   TableBody,

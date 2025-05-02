@@ -5,29 +5,53 @@ import config from '../config';
 
 // Mapping par défaut des colonnes (utilisé si l'API n'est pas disponible)
 let columnMapping = {
-  // Colonnes avec des noms différents
-  "evaluated___not_evaluated": "evaluated_not_evaluated",
-  "annual_spend_k__a_2023": "annual_spend_k_euros_a_2023",
-  "sant__financi_re": "score",
-  "adresse_fournisseur": "adresse",
-  "nature_du_tiers": "nature_tiers",
-  "r_gion_d_intervention": "region_intervention",
-  "pays_d_intervention": "pays_intervention",
-  "Score": "score",
-  
-  // Colonnes qui n'existent pas dans la base de données
-  "organization_3": null,
-  "organization_zone": null,
-  "notation_esg": null,
-  "risques_compliance": null,
-  "calcul_m_thode_ademe": null,
-  "scope_1": null,
-  "scope_2": null,
-  "scope_3": null,
-  "vision_gloable": null,
-  "comments": null,
-  "analyse_des_risques_loi_sapin_ii": null
+  // Mapping des colonnes du fichier Excel vers les colonnes de la base de données
+  "Supplier_ID": "supplier_id",
+  "PROCUREMENT ORGA": "procurement_orga",
+  "PARTNERS": "partners",
+  "Evaluated / Not Evaluated": "evaluated_not_evaluated",
+  "Ecovadis name": "ecovadis_name",
+  "Ecovadis score": "ecovadis_score",
+  "Date": "date",
+  "Ecovadis ID": "ecovadis_id",
+  "Notation ESG": "notation_esg",
+  "Santé financière": "sant__financi_re",
+  "Risques compliance": "risques_compliance",
+  "Calcul méthode ADEME": "calcul_m_thode_ademe",
+  "Scope 1": "scope_1",
+  "Scope 2": "scope_2",
+  "Scope 3": "scope_3",
+  "Vision gloable": "vision_gloable",
+  "ORGANIZATION 1": "organization_1",
+  "ORGANIZATION 2": "organization_2",
+  "ORGANIZATION 3": "organization_3",
+  "ORGANIZATION ZONE": "organization_zone",
+  "ORGANIZATION COUNTRY": "organization_country",
+  "SUBSIDIARY": "subsidiary",
+  "ORIGINAL NAME PARTNER": "original_name_partner",
+  "Country of Supplier Contact": "country_of_supplier_contact",
+  "VAT number": "vat_number",
+  "Activity Area": "activity_area",
+  "Annual spend k€ A-2023": "annual_spend_k__a_2023",
+  "Supplier Contact First Name": "supplier_contact_first_name",
+  "Supplier Contact Last Name": "supplier_contact_last_name",
+  "Supplier Contact Email": "supplier_contact_email",
+  "Supplier Contact Phone": "supplier_contact_phone",
+  "Comments": "comments",
+  "Adresse fournisseur": "adresse_fournisseur",
+  "Analyse des risques Loi Sapin II": "analyse_des_risques_loi_sapin_ii",
+  "Région d'intervention": "r_gion_d_intervention",
+  "Pays d'intervention": "pays_d_intervention",
+  "Localisation": "localisation",
+  "Nature du tiers": "nature_du_tiers",
+  "Score": "score"
 };
+
+// Mapping inverse pour afficher les noms originaux dans le frontend
+let displayNameMapping = {};
+Object.entries(columnMapping).forEach(([displayName, dbName]) => {
+  displayNameMapping[dbName] = displayName;
+});
 
 // Liste des colonnes manquantes (utilisée si l'API n'est pas disponible)
 let missingColumns = [
@@ -70,23 +94,13 @@ async function loadColumnMapping() {
 // Charger le mapping au démarrage
 loadColumnMapping();
 
-// Fonction pour corriger les noms de colonnes dans les requêtes
+// Fonction pour corriger les noms de colonnes dans les requêtes (frontend -> backend)
 function correctColumnNames(columns) {
   if (!columns || !Array.isArray(columns)) return columns;
   
-  // Étape 1: Filtrer les colonnes inexistantes
-  const filteredColumns = columns.filter(col => {
-    // Si la colonne est dans le mapping et a une valeur null, elle n'existe pas
-    if (columnMapping[col] === null) {
-      console.warn(`La colonne ${col} n'existe pas dans la base de données et sera ignorée`);
-      return false;
-    }
-    return true;
-  });
-  
-  // Étape 2: Corriger les noms de colonnes
-  const correctedColumns = filteredColumns.map(col => {
-    // Si la colonne est dans le mapping, utiliser le nom correct
+  // Étape 1: Corriger les noms de colonnes
+  const correctedColumns = columns.map(col => {
+    // Si la colonne est dans le mapping, utiliser le nom correct pour la base de données
     if (columnMapping[col]) {
       console.log(`Correction du nom de colonne: ${col} -> ${columnMapping[col]}`);
       return columnMapping[col];
@@ -94,8 +108,21 @@ function correctColumnNames(columns) {
     return col;
   });
   
-  // Étape 3: Déduplicater les colonnes
+  // Étape 2: Déduplicater les colonnes
   return deduplicateColumns(correctedColumns);
+}
+
+// Fonction pour convertir les noms de colonnes de la base de données vers les noms d'affichage
+function getDisplayNames(columns) {
+  if (!columns || !Array.isArray(columns)) return columns;
+  
+  return columns.map(col => {
+    // Si la colonne a un nom d'affichage, l'utiliser
+    if (displayNameMapping[col]) {
+      return displayNameMapping[col];
+    }
+    return col;
+  });
 }
 
 // Fonction pour corriger les filtres
@@ -139,4 +166,4 @@ function deduplicateColumns(columns) {
 }
 
 // Exporter les fonctions
-export { correctColumnNames, correctFilters, deduplicateColumns };
+export { correctColumnNames, correctFilters, deduplicateColumns, getDisplayNames, displayNameMapping };
