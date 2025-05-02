@@ -70,3 +70,78 @@ git pull
 Mettre a jour la prod :
 sudo bash scripts/update-prod.sh
 
+Installer sur traceability-ec2-dev-01 :
+nvm :
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+nvm install 18
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
+
+deployer app
+sudo ./deploy-ubuntu-13.36.205.246.sh
+
+deployer le docker :
+scripts/deploy-postgres-docker.sh
+
+
+install supplier prd 35.181.84.154 (supplier-prd.communify.solutions) :
+mkdir AppGetionFournisseurs_3.9_EN
+cd AppGetionFournisseurs_3.9_EN
+git clone https://github.com/fregou3/AppFournisseurs.git
+cd AppFournisseurs
+git clone
+chmod +x deploy-ubuntu-35.181.84.154.sh
+sudo ./deploy-ubuntu-35.181.84.154.sh
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
+
+chmod +x scripts/deploy-postgres-docker.sh
+sudo scripts/deploy-postgres-docker.sh
+
+****************************************
+
+# Commandes pour push Git
+# 1. Ajouter les fichiers modifiés
+git add .
+
+# 2. Ajouter un fichier spécifique
+git add chemin/vers/fichier
+
+# 3. Créer un commit avec un message
+git commit -m "Description des modifications"
+
+# 4. Pousser les modifications vers le dépôt distant
+git push
+
+# 5. En cas de problème d'authentification
+# Configurer les identifiants Git
+git config --global user.name "Votre Nom"
+git config --global user.email "votre.email@exemple.com"
+
+# 6. Si vous avez des problèmes de merge
+# Récupérer les dernières modifications sans fusionner
+git fetch
+# Voir les différences
+git diff origin/master
+# Fusionner les modifications
+git merge origin/master
+
+# 7. En cas de conflit, après résolution
+git add .
+git commit -m "Résolution des conflits"
+git push
+
+****************************************
+
