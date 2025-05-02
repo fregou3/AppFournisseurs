@@ -164,13 +164,21 @@ router.post('/', async (req, res) => {
           // Construire la requête d'insertion
           let insertSql = `INSERT INTO "${groupName}" (`;
           
-          // Colonnes cibles
-          insertSql += existingVisibleColumns.map(col => `"${col}"`).join(', ');
+          // Colonnes cibles - Exclure la colonne 'id' car elle a été remplacée par 'group_id'
+          const columnsWithoutId = existingVisibleColumns.filter(col => col.toLowerCase() !== 'id');
+          
+          if (columnsWithoutId.length === 0) {
+            console.log('Aucune colonne valide à insérer après exclusion de "id"');
+            // Ne pas exécuter la requête d'insertion s'il n'y a pas de colonnes valides
+            return;
+          }
+          
+          insertSql += columnsWithoutId.map(col => `"${col}"`).join(', ');
           
           insertSql += `) SELECT `;
           
-          // Colonnes sources
-          insertSql += existingVisibleColumns.map(col => `"${col}"`).join(', ');
+          // Colonnes sources - Exclure la colonne 'id'
+          insertSql += columnsWithoutId.map(col => `"${col}"`).join(', ');
           
           insertSql += ` FROM "${tableName}"`;
           
