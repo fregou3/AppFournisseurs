@@ -99,8 +99,8 @@ router.post('/', async (req, res) => {
       const invalidColumns = visibleColumns.filter(col => !existingColumns.includes(col));
       if (invalidColumns.length > 0) {
         console.warn(`Attention: Les colonnes suivantes n'existent pas: ${invalidColumns.join(', ')}`);
-        // On ne bloque pas la création, on filtre simplement les colonnes invalides
-        visibleColumns = visibleColumns.filter(col => existingColumns.includes(col));
+        // Ne pas filtrer les colonnes invalides pour conserver toutes les colonnes sélectionnées
+        // visibleColumns = visibleColumns.filter(col => existingColumns.includes(col));
       }
     }
 
@@ -122,18 +122,82 @@ router.post('/', async (req, res) => {
 
 
     // Construire la requête de création du groupe
-    let sql = `CREATE TABLE "${groupName}" AS SELECT `;
-
+    let sql;
+    
     // Sélectionner toutes les colonnes ou seulement celles spécifiées
     if (visibleColumns && visibleColumns.length > 0) {
       // Déduplicater les colonnes pour éviter l'erreur "column specified more than once"
       const uniqueColumns = [...new Set(visibleColumns)];
-      sql += uniqueColumns.map(col => `"${col}"`).join(', ');
-    } else {
-      sql += '*';
-    }
+      
+      // Vérifier si toutes les colonnes existent dans la table source
+      const invalidColumns = uniqueColumns.filter(col => !existingColumns.includes(col));
+      
+      if (invalidColumns.length === 0) {
+        // Toutes les colonnes existent, on peut utiliser une simple requête SELECT
+        sql = `CREATE TABLE "${groupName}" AS SELECT `;
+        sql += uniqueColumns.map(col => `"${col}"`).join(', ');
+        sql += ` FROM "${tableName}"`;
+      } else {
+        // Certaines colonnes n'existent pas, on doit créer une table avec toutes les colonnes demandées
+        console.log(`Création d'une table avec des colonnes personnalisées, dont ${invalidColumns.length} n'existent pas dans la source`);
+        
+        // 1. Créer la table avec toutes les colonnes demandées
+        sql = `CREATE TABLE "${groupName}" (id SERIAL PRIMARY KEY`;
+        
+        // Ajouter toutes les colonnes demandées
+        uniqueColumns.forEach(col => {
+          sql += `, "${col}" TEXT`;
+        });
+        
+        sql += `)`;
+        
+        console.log('Création de la table avec la structure:', sql);
+        await client.query(sql);
+        
+        // 2. Insérer les données pour les colonnes qui existent
+        const existingVisibleColumns = uniqueColumns.filter(col => existingColumns.includes(col));
+        
+        if (existingVisibleColumns.length > 0) {
+          // Construire la requête d'insertion
+          let insertSql = `INSERT INTO "${groupName}" (`;
+          
+          // Colonnes cibles
+          insertSql += existingVisibleColumns.map(col => `"${col}"`).join(', ');
+          
+          insertSql += `) SELECT `;
+          
+          // Colonnes sources
+          insertSql += existingVisibleColumns.map(col => `"${col}"`).join(', ');
+          
+          insertSql += ` FROM "${tableName}"`;
+          
+          // Ajouter les filtres si présents
+          if (filters && Object.keys(filters).length > 0) {
+            const conditions = [];
+            
+            Object.entries(filters).forEach(([column, values]) => {
+              if (values && values.length > 0 && existingColumns.includes(column)) {
+                const valueList = values.map(v => `'${v.replace(/'/g, "''")}'`).join(',');
+                conditions.push(`"${column}" IN (${valueList})`);
+              }
+            });
 
-    sql += ` FROM "${tableName}"`;
+            if (conditions.length > 0) {
+              insertSql += ' WHERE ' + conditions.join(' AND ');
+            }
+          }
+          
+          console.log('Insertion des données avec la requête:', insertSql);
+          await client.query(insertSql);
+        }
+        
+        // Ne pas exécuter la requête CREATE TABLE AS SELECT ci-dessous
+        sql = null;
+      }
+    } else {
+      // Aucune colonne spécifiée, sélectionner toutes les colonnes
+      sql = `CREATE TABLE "${groupName}" AS SELECT * FROM "${tableName}"`;
+    }
 
     // Ajouter les filtres si présents
     if (filters && Object.keys(filters).length > 0) {
@@ -153,8 +217,10 @@ router.post('/', async (req, res) => {
 
     console.log('Création du groupe avec la requête:', sql);
 
-    // Créer la table du groupe
-    await client.query(sql);
+    // Créer la table du groupe si ce n'est pas déjà fait
+    if (sql) {
+      await client.query(sql);
+    }
 
     // Sauvegarder les métadonnées
     // S'assurer que les données sont valides pour JSON
