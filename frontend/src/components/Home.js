@@ -10,7 +10,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tables, setTables] = useState([]);
-  const [selectedTable, setSelectedTable] = useState('fournisseurs');
+  const [selectedTable, setSelectedTable] = useState('');
   const [loadingTables, setLoadingTables] = useState(false);
   
   // Gestion des filtres et des colonnes visibles
@@ -26,12 +26,15 @@ const Home = () => {
       const tablesList = response.data.tables || [];
       setTables(tablesList);
       
-      // Si la table sélectionnée n'est pas dans la liste et qu'il y a des tables disponibles, sélectionner la première
-      if (tablesList.length > 0 && !tablesList.includes(selectedTable)) {
+      // Toujours sélectionner la première table disponible
+      if (tablesList.length > 0) {
         setSelectedTable(tablesList[0]);
+      } else {
+        setError("Aucune table disponible. Veuillez vérifier la configuration de la base de données.");
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des tables:', error);
+      setError("Erreur lors de la récupération des tables disponibles. Veuillez réessayer ultérieurement.");
     } finally {
       setLoadingTables(false);
     }
@@ -125,6 +128,18 @@ const Home = () => {
       }
     }
   }, [selectedTable, savedFilterSettings]);
+  
+  // Afficher un message de chargement pendant la récupération des tables
+  if (loadingTables) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+        <Typography variant="body1" sx={{ ml: 2 }}>
+          Chargement des tables disponibles...
+        </Typography>
+      </Box>
+    );
+  }
 
   if (loading) {
     return (
