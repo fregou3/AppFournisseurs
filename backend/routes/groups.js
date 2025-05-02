@@ -4,6 +4,12 @@ const pool = require('../db');
 const ExcelJS = require('exceljs');
 const { Parser } = require('json2csv');
 
+// Fonction utilitaire pour échapper les noms de colonnes SQL
+function escapeColumnName(columnName) {
+  // Retourne le nom de colonne entouré de guillemets doubles
+  return `"${columnName.replace(/"/g, '""')}"`;
+}
+
 // Créer un nouveau groupe
 router.post('/', async (req, res) => {
   const { name, tableName } = req.body;
@@ -48,6 +54,14 @@ router.post('/', async (req, res) => {
       )`,
       [groupName]
     );
+    
+    // Stocker les noms de colonnes originaux pour les préserver
+    const originalColumnNames = {};
+    if (visibleColumns && visibleColumns.length > 0) {
+      visibleColumns.forEach(col => {
+        originalColumnNames[col] = col;
+      });
+    }
 
     if (exists.rows[0].exists) {
       return res.status(400).json({ error: 'Un groupe avec ce nom existe déjà' });
@@ -59,7 +73,9 @@ router.post('/', async (req, res) => {
         group_name TEXT PRIMARY KEY,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         filters JSONB,
-        visible_columns JSONB
+        visible_columns JSONB,
+        table_name TEXT,
+        original_column_names JSONB
       )
     `);
 
@@ -148,7 +164,8 @@ router.post('/', async (req, res) => {
         uniqueColumns.forEach(col => {
           // Éviter de dupliquer la colonne id si elle existe déjà dans les colonnes demandées
           if (col.toLowerCase() !== 'id') {
-            sql += `, "${col}" TEXT`;
+            // Utiliser le nom de colonne original avec échappement correct
+            sql += `, ${escapeColumnName(col)} TEXT`;
           }
         });
         
@@ -173,12 +190,13 @@ router.post('/', async (req, res) => {
             return;
           }
           
-          insertSql += columnsWithoutId.map(col => `"${col}"`).join(', ');
+          // Utiliser les noms de colonnes originaux avec échappement correct
+          insertSql += columnsWithoutId.map(col => escapeColumnName(col)).join(', ');
           
           insertSql += `) SELECT `;
           
-          // Colonnes sources - Exclure la colonne 'id'
-          insertSql += columnsWithoutId.map(col => `"${col}"`).join(', ');
+          // Colonnes sources - Utiliser les mêmes noms avec échappement correct
+          insertSql += columnsWithoutId.map(col => escapeColumnName(col)).join(', ');
           
           insertSql += ` FROM "${tableName}"`;
           
@@ -189,7 +207,7 @@ router.post('/', async (req, res) => {
             Object.entries(filters).forEach(([column, values]) => {
               if (values && values.length > 0 && existingColumns.includes(column)) {
                 const valueList = values.map(v => `'${v.replace(/'/g, "''")}'`).join(',');
-                conditions.push(`"${column}" IN (${valueList})`);
+                conditions.push(`${escapeColumnName(column)} IN (${valueList})`);
               }
             });
 
@@ -217,7 +235,8 @@ router.post('/', async (req, res) => {
       Object.entries(filters).forEach(([column, values]) => {
         if (values && values.length > 0) {
           const valueList = values.map(v => `'${v.replace(/'/g, "''")}'`).join(',');
-          conditions.push(`"${column}" IN (${valueList})`);
+          // Utiliser escapeColumnName pour préserver les accents et espaces
+          conditions.push(`${escapeColumnName(column)} IN (${valueList})`);
         }
       });
 
@@ -250,11 +269,11 @@ router.post('/', async (req, res) => {
       });
     }
     
-    const metadataResult = await client.query(
-      `INSERT INTO system_group_metadata (group_name, filters, visible_columns)
-       VALUES ($1, $2, $3)
-       RETURNING created_at`,
-      [groupName, filtersJson, visibleColumnsJson]
+    // Enregistrer les métadonnées du groupe
+    await client.query(
+      `INSERT INTO system_group_metadata (group_name, filters, visible_columns, table_name, original_column_names) 
+       VALUES ($1, $2, $3, $4, $5)`,
+      [groupName, filtersJson, visibleColumnsJson, tableName, JSON.stringify(originalColumnNames || {})]
     );
 
     // Compter le nombre de lignes
