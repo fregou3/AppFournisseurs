@@ -95,12 +95,12 @@ router.post('/', async (req, res) => {
     existingColumns = columnsResult.rows.map(row => row.column_name);
       
     // Vérifier si les colonnes visibles existent
+    let invalidVisibleColumns = [];
     if (visibleColumns && visibleColumns.length > 0) {
-      const invalidColumns = visibleColumns.filter(col => !existingColumns.includes(col));
-      if (invalidColumns.length > 0) {
-        console.warn(`Attention: Les colonnes suivantes n'existent pas: ${invalidColumns.join(', ')}`);
+      invalidVisibleColumns = visibleColumns.filter(col => !existingColumns.includes(col));
+      if (invalidVisibleColumns.length > 0) {
+        console.warn(`Attention: Les colonnes suivantes n'existent pas: ${invalidVisibleColumns.join(', ')}`);
         // Ne pas filtrer les colonnes invalides pour conserver toutes les colonnes sélectionnées
-        // visibleColumns = visibleColumns.filter(col => existingColumns.includes(col));
       }
     }
 
@@ -142,11 +142,14 @@ router.post('/', async (req, res) => {
         console.log(`Création d'une table avec des colonnes personnalisées, dont ${invalidColumns.length} n'existent pas dans la source`);
         
         // 1. Créer la table avec toutes les colonnes demandées
-        sql = `CREATE TABLE "${groupName}" (id SERIAL PRIMARY KEY`;
+        sql = `CREATE TABLE "${groupName}" (group_id SERIAL PRIMARY KEY`;
         
         // Ajouter toutes les colonnes demandées
         uniqueColumns.forEach(col => {
-          sql += `, "${col}" TEXT`;
+          // Éviter de dupliquer la colonne id si elle existe déjà dans les colonnes demandées
+          if (col.toLowerCase() !== 'id') {
+            sql += `, "${col}" TEXT`;
+          }
         });
         
         sql += `)`;
