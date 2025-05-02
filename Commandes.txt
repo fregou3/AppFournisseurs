@@ -68,6 +68,7 @@ git checkout
 git pull
 
 Mettre a jour la prod :
+git checkout
 sudo bash scripts/update-prod.sh
 
 Installer sur traceability-ec2-dev-01 :
@@ -144,4 +145,52 @@ git commit -m "Résolution des conflits"
 git push
 
 ****************************************
+
+echo "# Commandes pour démarrer l'application en développement
+
+## Démarrer le backend
+# Se positionner dans le répertoire backend
+cd backend
+
+# Installer les dépendances (si ce n'est pas déjà fait)
+npm install
+
+# Démarrer le serveur backend en mode développement
+npm run dev
+# ou
+node server.js
+
+## Démarrer le frontend
+# Dans un nouveau terminal, se positionner dans le répertoire frontend
+cd frontend
+
+# Installer les dépendances (si ce n'est pas déjà fait)
+npm install
+
+# Démarrer le serveur de développement frontend
+npm start
+
+## Accéder à l'application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5005
+
+# Commandes pour démarrer l'application en production
+
+## Vérifier l'état des services
+sudo systemctl status nginx
+pm2 list
+
+## Redémarrer le backend si nécessaire
+pm2 restart fournisseurs-backend
+
+## Redémarrer Nginx si nécessaire
+sudo systemctl restart nginx
+
+## Consulter les logs
+# Logs du backend
+pm2 logs fournisseurs-backend
+
+# Logs de Nginx
+sudo tail -f /var/log/nginx/error.log
+sudo tail -f /var/log/nginx/access.log
 

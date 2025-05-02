@@ -58,8 +58,24 @@ router.post('/', async (req, res) => {
       )
     `);
 
-    // Vérifier si les colonnes visibles existent
-    if (visibleColumns && visibleColumns.length > 0) {
+    // Vérifier d'abord si la table 'fournisseurs' existe
+    const tableExistsQuery = `
+      SELECT EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'fournisseurs'
+      )
+    `;
+    
+    const tableExistsResult = await client.query(tableExistsQuery);
+    const tableExists = tableExistsResult.rows[0].exists;
+    
+    // Si la table fournisseurs n'existe pas, on ne vérifie pas les colonnes
+    // mais on continue quand même la création du groupe
+    let existingColumns = [];
+    
+    if (tableExists) {
+      // Récupérer les colonnes de la table fournisseurs
       const columnsQuery = `
         SELECT column_name 
         FROM information_schema.columns 
@@ -67,35 +83,36 @@ router.post('/', async (req, res) => {
       `;
       
       const columnsResult = await client.query(columnsQuery);
-      const existingColumns = columnsResult.rows.map(row => row.column_name);
+      existingColumns = columnsResult.rows.map(row => row.column_name);
       
-      const invalidColumns = visibleColumns.filter(col => !existingColumns.includes(col));
-      if (invalidColumns.length > 0) {
-        await client.query('ROLLBACK');
-        return res.status(400).json({ 
-          error: `Les colonnes suivantes n'existent pas: ${invalidColumns.join(', ')}` 
-        });
+      // Vérifier si les colonnes visibles existent
+      if (visibleColumns && visibleColumns.length > 0) {
+        const invalidColumns = visibleColumns.filter(col => !existingColumns.includes(col));
+        if (invalidColumns.length > 0) {
+          console.warn(`Attention: Les colonnes suivantes n'existent pas: ${invalidColumns.join(', ')}`);
+          // On ne bloque pas la création, on filtre simplement les colonnes invalides
+          visibleColumns = visibleColumns.filter(col => existingColumns.includes(col));
+        }
       }
-    }
 
-    // Vérifier si les colonnes de filtrage existent
-    if (filters && Object.keys(filters).length > 0) {
-      const columnsQuery = `
-        SELECT column_name 
-        FROM information_schema.columns 
-        WHERE table_name = 'fournisseurs'
-      `;
-      
-      const columnsResult = await client.query(columnsQuery);
-      const existingColumns = columnsResult.rows.map(row => row.column_name);
-      
-      const invalidFilterColumns = Object.keys(filters).filter(col => !existingColumns.includes(col));
-      if (invalidFilterColumns.length > 0) {
-        await client.query('ROLLBACK');
-        return res.status(400).json({ 
-          error: `Les colonnes de filtrage suivantes n'existent pas: ${invalidFilterColumns.join(', ')}` 
-        });
+      // Vérifier si les colonnes de filtrage existent
+      if (filters && Object.keys(filters).length > 0) {
+        const invalidFilterColumns = Object.keys(filters).filter(col => !existingColumns.includes(col));
+        if (invalidFilterColumns.length > 0) {
+          console.warn(`Attention: Les colonnes de filtrage suivantes n'existent pas: ${invalidFilterColumns.join(', ')}`);
+          // On ne bloque pas la création, on filtre simplement les colonnes de filtrage invalides
+          const validFilters = {};
+          Object.keys(filters).forEach(key => {
+            if (existingColumns.includes(key)) {
+              validFilters[key] = filters[key];
+            }
+          });
+          filters = validFilters;
+        }
       }
+    } else {
+      console.warn("La table 'fournisseurs' n'existe pas, mais la création du groupe continue.");
+      // Si la table n'existe pas, on accepte toutes les colonnes sans validation
     }
 
     // Construire la requête de création du groupe
