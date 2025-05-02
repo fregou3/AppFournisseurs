@@ -165,5 +165,23 @@ function deduplicateColumns(columns) {
   });
 }
 
-// Exporter les fonctions
-export { correctColumnNames, correctFilters, deduplicateColumns, getDisplayNames, displayNameMapping };
+// Fonction pour obtenir les noms de colonnes originaux pour la création de groupes
+function getOriginalColumnNames(columns) {
+  if (!columns || !Array.isArray(columns)) return columns;
+  
+  return columns.map(col => {
+    // Si la colonne a un nom d'affichage dans le mapping inverse, l'utiliser
+    return displayNameMapping[col] || col;
+  });
+}
+
+// Exporter les fonctions et variables
+export {
+  correctColumnNames,
+  correctFilters,
+  columnMapping,
+  displayNameMapping,
+  getDisplayNames,
+  getOriginalColumnNames,
+  deduplicateColumns
+};
