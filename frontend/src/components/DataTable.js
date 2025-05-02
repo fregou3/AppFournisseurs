@@ -693,7 +693,8 @@ const DataTable = ({
       const groupData = {
         name: groupName,
         filters: correctedFilters,
-        visibleColumns: correctedVisibleColumns
+        visibleColumns: correctedVisibleColumns,
+        tableName: propTableName // Ajouter le nom de la table
       };
       
       console.log('Envoi des données corrigées pour la création du groupe:', groupData);
