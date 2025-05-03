@@ -14,11 +14,6 @@ if (!tableName) {
 }
 
 console.log(`Calcul des scores pour la table: ${tableName}`);
-console.log('Configuration de la base de données :');
-console.log('- DB_USER:', process.env.DB_USER);
-console.log('- DB_HOST:', process.env.DB_HOST);
-console.log('- DB_NAME:', process.env.DB_NAME);
-console.log('- DB_PORT:', process.env.DB_PORT);
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -58,7 +53,8 @@ async function calculateScores(tableName) {
         `, [tableName]);
         
         const columns = columnsResult.rows.map(row => row.column_name);
-        console.log('Colonnes disponibles:', columns);
+        // Nombre de colonnes disponibles
+        console.log(`Nombre de colonnes disponibles: ${columns.length}`);
         
         // Déterminer les noms de colonnes corrects avec les nouveaux noms exacts
         const natureTiersColumn = columns.find(col => col === 'Nature du tiers') || 
@@ -114,7 +110,7 @@ async function calculateScores(tableName) {
             ORDER BY id
         `;
         
-        console.log('Requête SQL:', query);
+        // Ne pas afficher la requête SQL complète pour éviter de surcharger les logs
         const result = await client.query(query);
 
         console.log(`Calcul des scores pour ${result.rows.length} fournisseurs :`);
@@ -129,17 +125,16 @@ async function calculateScores(tableName) {
             const { id, nature_tiers, localisation, region_intervention, pays_intervention, score } = row;
             
             try {
-                console.log(`\nTraitement du fournisseur ID ${id}:`);
-                console.log(`- Nature du tiers: ${nature_tiers || 'Non spécifié'}`);
-                console.log(`- Localisation: ${localisation || 'Non spécifié'}`);
-                console.log(`- Région d'intervention: ${region_intervention || 'Non spécifié'}`);
-                console.log(`- Pays d'intervention: ${pays_intervention || 'Non spécifié'}`);
-                console.log(`- Score actuel: ${score === null ? 'null' : Math.round(score)}`);
+                // Traitement silencieux pour éviter de surcharger les logs
+                // Afficher un point de progression tous les 100 fournisseurs
+                if (result.rows.indexOf(row) % 100 === 0) {
+                    process.stdout.write('.');
+                }
                 
                 // Calculer le nouveau score
                 const newScoreFloat = calculEvaluationPremierNiveau(nature_tiers, localisation, region_intervention, pays_intervention);
                 const newScore = newScoreFloat === null ? null : Math.round(newScoreFloat);
-                console.log(`- Nouveau score calculé: ${newScore}`);
+                // Ne pas afficher le nouveau score pour chaque fournisseur
                 
                 // Si le score est différent, mettre à jour
                 const currentScore = score === null ? null : Math.round(score);
@@ -148,20 +143,19 @@ async function calculateScores(tableName) {
                         `UPDATE ${tableName} SET "${scoreColumnName}" = $1 WHERE id = $2`,
                         [newScore, id]
                     );
-                    console.log(`✓ ID ${id}: Score mis à jour ${currentScore} → ${newScore}`);
+                    // Ne pas afficher chaque mise à jour
                     updatedCount++;
                 } else {
-                    console.log(`- ID ${id}: Score inchangé (${currentScore})`);
                     unchangedCount++;
                 }
             } catch (err) {
-                console.error(`❌ Erreur pour l'ID ${id}:`, err);
+                // Compter l'erreur sans afficher les détails pour chaque ID
                 errorCount++;
             }
         }
 
         // Afficher le résumé
-        console.log('\nRésumé des mises à jour :');
+        console.log('\n\nRésumé des mises à jour :');
         console.log(`- Scores mis à jour : ${updatedCount}`);
         console.log(`- Scores inchangés : ${unchangedCount}`);
         console.log(`- Erreurs : ${errorCount}`);

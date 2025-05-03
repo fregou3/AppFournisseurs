@@ -5,6 +5,7 @@ const path = require('path');
 const pool = require('../db');
 const multer = require('multer');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 // Configuration du stockage pour multer
 const storage = multer.diskStorage({
@@ -713,6 +714,134 @@ router.get('/export/:tableName', async (req, res) => {
     console.error('Erreur lors de l\'exportation de la table:', error);
     res.status(500).json({ error: 'Erreur lors de l\'exportation de la table' });
   }
+});
+
+// Stockage des tâches en cours
+const runningTasks = {};
+
+// Route pour vérifier l'état d'une tâche de calcul
+router.get('/calculate-scores/status/:taskId', (req, res) => {
+  const { taskId } = req.params;
+  
+  if (!taskId || !runningTasks[taskId]) {
+    return res.status(404).json({ error: 'Tâche non trouvée' });
+  }
+  
+  const task = runningTasks[taskId];
+  res.json({
+    taskId,
+    tableName: task.tableName,
+    status: task.status,
+    progress: task.progress,
+    stats: task.stats,
+    error: task.error,
+    startTime: task.startTime,
+    endTime: task.endTime
+  });
+});
+
+// Route pour calculer les scores d'une table (version asynchrone)
+router.post('/calculate-scores/:tableName', (req, res) => {
+  const { tableName } = req.params;
+  
+  if (!tableName) {
+    return res.status(400).json({ error: 'Nom de table requis' });
+  }
+  
+  console.log(`Demande de calcul des scores pour la table: ${tableName}`);
+  
+  // Générer un ID unique pour cette tâche
+  const taskId = Date.now().toString() + Math.random().toString(36).substring(2, 15);
+  
+  // Initialiser la tâche
+  runningTasks[taskId] = {
+    tableName,
+    status: 'starting',
+    progress: 0,
+    stats: {
+      updated: 0,
+      unchanged: 0,
+      errors: 0,
+      total: 0
+    },
+    error: null,
+    startTime: new Date(),
+    endTime: null
+  };
+  
+  // Répondre immédiatement avec l'ID de la tâche
+  res.json({
+    success: true,
+    message: `Calcul des scores démarré pour la table ${tableName}`,
+    taskId
+  });
+  
+  // Chemin vers le script de calcul des scores
+  const scriptPath = path.join(__dirname, '..', 'calculate_scores.js');
+  
+  // Mettre à jour le statut
+  runningTasks[taskId].status = 'running';
+  
+  // Exécuter le script avec le nom de la table en paramètre avec un tampon plus grand
+  const process = exec(`node "${scriptPath}" ${tableName}`, { maxBuffer: 20 * 1024 * 1024 }, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Erreur lors de l'exécution du script: ${error.message}`);
+      runningTasks[taskId].status = 'error';
+      runningTasks[taskId].error = {
+        message: error.message,
+        stderr: stderr
+      };
+      runningTasks[taskId].endTime = new Date();
+      return;
+    }
+    
+    if (stderr) {
+      console.warn(`Avertissements lors de l'exécution du script: ${stderr}`);
+    }
+    
+    console.log(`Résultat du calcul des scores: ${stdout.substring(0, 200)}...`);
+    
+    // Extraire les statistiques du résultat
+    try {
+      const updatedMatch = stdout.match(/Scores mis à jour : (\d+)/);
+      const unchangedMatch = stdout.match(/Scores inchangés : (\d+)/);
+      const errorMatch = stdout.match(/Erreurs : (\d+)/);
+      const totalMatch = stdout.match(/Total traité : (\d+)/);
+      
+      if (updatedMatch) runningTasks[taskId].stats.updated = parseInt(updatedMatch[1]);
+      if (unchangedMatch) runningTasks[taskId].stats.unchanged = parseInt(unchangedMatch[1]);
+      if (errorMatch) runningTasks[taskId].stats.errors = parseInt(errorMatch[1]);
+      if (totalMatch) runningTasks[taskId].stats.total = parseInt(totalMatch[1]);
+      
+      runningTasks[taskId].status = 'completed';
+      runningTasks[taskId].progress = 100;
+    } catch (parseError) {
+      console.error('Erreur lors de l\'analyse des statistiques:', parseError);
+      runningTasks[taskId].status = 'completed_with_errors';
+      runningTasks[taskId].error = {
+        message: 'Erreur lors de l\'analyse des statistiques',
+        details: parseError.message
+      };
+    }
+    
+    runningTasks[taskId].endTime = new Date();
+    
+    // Nettoyer les tâches terminées après 1 heure
+    setTimeout(() => {
+      delete runningTasks[taskId];
+    }, 3600000); // 1 heure
+  });
+  
+  // Gérer les erreurs de démarrage du processus
+  process.on('error', (error) => {
+    console.error(`Erreur lors du démarrage du processus: ${error.message}`);
+    runningTasks[taskId].status = 'error';
+    runningTasks[taskId].error = {
+      message: 'Erreur lors du démarrage du calcul des scores',
+      details: error.message
+    };
+    runningTasks[taskId].endTime = new Date();
+  });
 });
 
 module.exports = router;

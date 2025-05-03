@@ -3,6 +3,7 @@ import { Box, Alert, CircularProgress, FormControl, InputLabel, Select, MenuItem
 import axios from 'axios';
 import DataTable from './DataTable';
 import config from '../config';
+import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveIcon from '@mui/icons-material/Save';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -17,6 +18,9 @@ const Home = () => {
   const [defaultTable, setDefaultTable] = useState('');
   const [settingDefaultTable, setSettingDefaultTable] = useState(false);
   const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
+  const [calculatingScores, setCalculatingScores] = useState(false);
+  const [calculTask, setCalculTask] = useState(null);
+  const [calculProgress, setCalculProgress] = useState(0);
   
   // Gestion des filtres et des colonnes visibles
   const [filters, setFilters] = useState({});
@@ -147,6 +151,102 @@ const Home = () => {
     setSelectedTable(newTable);
   };
   
+  // Fonction pour vérifier l'état d'une tâche de calcul des scores
+  const checkTaskStatus = async (taskId) => {
+    try {
+      const response = await axios.get(`${config.apiUrl}/fournisseurs/calculate-scores/status/${taskId}`);
+      const task = response.data;
+      
+      setCalculTask(task);
+      
+      // Mettre à jour la notification en fonction du statut
+      if (task.status === 'completed') {
+        const { stats } = task;
+        setNotification({
+          open: true,
+          message: `Calcul des scores terminé : ${stats.updated} scores mis à jour, ${stats.unchanged} inchangés, ${stats.errors} erreurs sur ${stats.total} fournisseurs`,
+          severity: 'success'
+        });
+        
+        // Recharger les données pour afficher les nouveaux scores
+        fetchData(selectedTable);
+        setCalculatingScores(false);
+        
+        // Arrêter la vérification
+        return true;
+      } else if (task.status === 'error' || task.status === 'completed_with_errors') {
+        setNotification({
+          open: true,
+          message: `Erreur lors du calcul des scores: ${task.error?.message || 'Erreur inconnue'}`,
+          severity: 'error'
+        });
+        setCalculatingScores(false);
+        
+        // Arrêter la vérification
+        return true;
+      } else {
+        // Continuer la vérification
+        return false;
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification du statut:', error);
+      setCalculatingScores(false);
+      return true; // Arrêter la vérification en cas d'erreur
+    }
+  };
+  
+  // Fonction pour calculer les scores de la table sélectionnée
+  const calculateScores = useCallback(async () => {
+    if (!selectedTable) {
+      setNotification({
+        open: true,
+        message: 'Veuillez sélectionner une table',
+        severity: 'warning'
+      });
+      return;
+    }
+    
+    try {
+      // Afficher une notification de début de calcul
+      setNotification({
+        open: true,
+        message: 'Démarrage du calcul des scores...',
+        severity: 'info'
+      });
+      
+      // Utiliser la route fournisseurs existante (version asynchrone)
+      const response = await axios.post(`${config.apiUrl}/fournisseurs/calculate-scores/${selectedTable}`);
+      
+      // Récupérer l'ID de la tâche
+      const { taskId } = response.data;
+      
+      // Mettre à jour l'interface pour indiquer que le calcul est en cours
+      setNotification({
+        open: true,
+        message: 'Calcul des scores en cours... Cela peut prendre plusieurs minutes.',
+        severity: 'info'
+      });
+      
+      // Vérifier périodiquement l'état de la tâche
+      const checkInterval = setInterval(async () => {
+        const isCompleted = await checkTaskStatus(taskId);
+        if (isCompleted) {
+          clearInterval(checkInterval);
+        }
+      }, 3000); // Vérifier toutes les 3 secondes
+      
+    } catch (error) {
+      console.error('Erreur lors du calcul des scores:', error);
+      setNotification({
+        open: true,
+        message: `Erreur lors du démarrage du calcul des scores: ${error.message}`,
+        severity: 'error'
+      });
+    } finally {
+      setCalculatingScores(false);
+    }
+  }, [selectedTable, fetchData]);
+  
   // Fonction pour sauvegarder les paramètres de filtres et colonnes visibles
   const saveFilterSettings = useCallback(() => {
     setSavedFilterSettings(prev => ({
@@ -273,9 +373,19 @@ const Home = () => {
           </Box>
         </Box>
       </Paper>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2, gap: 2 }}>
         <Button
           variant="contained"
+          color="secondary"
+          startIcon={<CalculateIcon />}
+          onClick={calculateScores}
+          disabled={calculatingScores || !selectedTable}
+        >
+          {calculatingScores ? <CircularProgress size={24} color="inherit" /> : 'Calculer les scores'}
+        </Button>
+        
+        <Button
+          variant="outlined"
           color="primary"
           startIcon={<SaveIcon />}
           onClick={saveFilterSettings}
