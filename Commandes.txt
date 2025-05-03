@@ -59,6 +59,8 @@ ssh ubuntu@15.188.198.103 "sudo tail -f /var/log/nginx/error.log"
 
 calculer les scores calculate_scores_2023_v1_fixed.js
 node backend/calculate_scores.js fournisseurs_2023_v1
+node backend/calculate_scores.js fournisseurs_2025_05_03_new_01
+
 
 git add backend/calculate_scores.js
 git commit -m "nouvelle config Nginx"
@@ -194,3 +196,14 @@ pm2 logs fournisseurs-backend
 sudo tail -f /var/log/nginx/error.log
 sudo tail -f /var/log/nginx/access.log
 
+***************
+dev
+ssh -i "C:\Users\frede\.ssh\clarins-trc-1.pem" ubuntu@13.36.205.246
+prod
+ssh -i "C:\Users\frede\.ssh\clarins-trc-1.pem" ubuntu@35.181.84.154
+
+git pull
+sudo bash scripts/update-prod.sh
+
+C:\Users\frede\Documents\tab1.xlsx
+fournisseurs_tab_03052025

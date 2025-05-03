@@ -290,15 +290,16 @@ router.post('/upload', async (req, res) => {
     
     console.log(`En-têtes réellement trouvés dans le fichier Excel (${realHeaders.length}): ${realHeaders.join(', ')}`);
     
-    // Vérifier si la colonne Score existe
+    // Ne plus ajouter automatiquement la colonne Score
     const scoreExists = realHeaders.some(header => 
       header.toLowerCase() === 'score'
     );
     
-    if (!scoreExists) {
-      console.log('Colonne Score non trouvée dans le fichier Excel. Ajout de la colonne Score.');
-      realHeaders.push('Score');
-    }
+    // Commentaire pour référence : Nous ne créons plus automatiquement la colonne Score
+    // if (!scoreExists) {
+    //   console.log('Colonne Score non trouvée dans le fichier Excel. Ajout de la colonne Score.');
+    //   realHeaders.push('Score');
+    // }
     
     // Lire les données ligne par ligne (en sautant la première ligne qui contient les en-têtes)
     const data = [];
@@ -337,10 +338,10 @@ router.post('/upload', async (req, res) => {
         }
       }
       
-      // Ajouter la colonne Score si elle n'existe pas dans le fichier mais est nécessaire
-      if (!scoreExists) {
-        row['Score'] = null;
-      }
+      // Ne plus ajouter automatiquement la colonne Score
+      // if (!scoreExists) {
+      //   row['Score'] = null;
+      // }
       
       // Vérifier si cette ligne est probablement un en-tête dupliqué
       let isHeaderRow = false;
