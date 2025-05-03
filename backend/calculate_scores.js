@@ -60,11 +60,23 @@ async function calculateScores(tableName) {
         const columns = columnsResult.rows.map(row => row.column_name);
         console.log('Colonnes disponibles:', columns);
         
-        // Déterminer les noms de colonnes corrects
-        const natureTiersColumn = columns.find(col => col.toLowerCase().includes('nature')) || 'nature_du_tiers';
-        const localisationColumn = columns.find(col => col.toLowerCase().includes('localisation')) || 'localisation';
-        const regionInterventionColumn = columns.find(col => col.toLowerCase().includes('region') || col.toLowerCase().includes('région')) || 'r_gion_d_intervention';
-        const paysInterventionColumn = columns.find(col => col.toLowerCase().includes('pays')) || 'pays_d_intervention';
+        // Déterminer les noms de colonnes corrects avec les nouveaux noms exacts
+        const natureTiersColumn = columns.find(col => col === 'Nature du tiers') || 
+                                columns.find(col => col.toLowerCase().includes('nature')) || 
+                                'nature_du_tiers';
+                                
+        const localisationColumn = columns.find(col => col === 'Localisation') || 
+                                columns.find(col => col.toLowerCase().includes('localisation')) || 
+                                'localisation';
+                                
+        const regionInterventionColumn = columns.find(col => col === 'Région d\'intervention') || 
+                                      columns.find(col => col.toLowerCase().includes('region') || 
+                                      col.toLowerCase().includes('région')) || 
+                                      'r_gion_d_intervention';
+                                      
+        const paysInterventionColumn = columns.find(col => col === 'Pays d\'intervention') || 
+                                    columns.find(col => col.toLowerCase().includes('pays')) || 
+                                    'pays_d_intervention';
         
         console.log('Noms de colonnes utilisés:');
         console.log(`- Nature du tiers: ${natureTiersColumn}`);
