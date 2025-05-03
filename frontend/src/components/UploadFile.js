@@ -138,8 +138,15 @@ const UploadFile = () => {
       return;
     }
     
-    // Mettre à jour le fichier sélectionné et générer un nom de table
-    handleFileSelect(event);
+    // Ne pas appeler handleFileSelect ici pour éviter la double importation
+    // Mettre à jour directement le fichier sélectionné
+    setSelectedFile(file);
+    
+    // Générer un nom de table à partir du nom du fichier si nécessaire
+    if (createNewTable && !newTableName) {
+      const generatedTableName = generateTableNameFromFile(file.name);
+      setNewTableName(generatedTableName);
+    }
 
     // Vérifier que la table est sélectionnée ou qu'une nouvelle table est spécifiée
     if (!createNewTable && !selectedTable) {
