@@ -197,6 +197,49 @@ router.get('/table/:tableName', async (req, res) => {
   }
 });
 
+// Route pour récupérer la structure des colonnes d'une table
+router.get('/table-structure/columns/:tableName', async (req, res) => {
+  const { tableName } = req.params;
+  const client = await pool.connect();
+  
+  try {
+    console.log(`Récupération de la structure des colonnes pour la table ${tableName}`);
+    
+    // Vérifier si la table existe
+    const tableExists = await client.query(
+      `SELECT EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'public' AND table_name = $1
+      )`,
+      [tableName]
+    );
+    
+    if (!tableExists.rows[0].exists) {
+      return res.status(404).json({ error: `La table ${tableName} n'existe pas` });
+    }
+    
+    // Récupérer les colonnes et leur position
+    const columnsQuery = await client.query(
+      `SELECT column_name as name, ordinal_position as position, data_type as type
+       FROM information_schema.columns
+       WHERE table_schema = 'public' AND table_name = $1
+       ORDER BY ordinal_position`,
+      [tableName]
+    );
+    
+    console.log(`Structure des colonnes récupérée pour la table ${tableName}`);
+    res.status(200).json({ columns: columnsQuery.rows });
+  } catch (error) {
+    console.error(`Erreur lors de la récupération de la structure de la table ${tableName}:`, error);
+    res.status(500).json({ 
+      error: `Erreur lors de la récupération de la structure de la table ${tableName}`, 
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
+});
+
 // Route pour récupérer la liste des tables de fournisseurs
 router.get('/tables', async (req, res) => {
   console.log('Route /fournisseurs/tables appelée');
@@ -241,12 +284,42 @@ router.get('/tables', async (req, res) => {
   }
 });
 
+// Cache pour suivre les requêtes d'importation récentes
+const recentUploads = new Map();
+
+// Nettoyer les entrées anciennes du cache toutes les 10 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, timestamp] of recentUploads.entries()) {
+    // Supprimer les entrées de plus de 5 minutes
+    if (now - timestamp > 5 * 60 * 1000) {
+      recentUploads.delete(key);
+    }
+  }
+}, 10 * 60 * 1000);
+
 // Route pour importer un fichier Excel
 router.post('/upload', async (req, res) => {
   try {
     console.log('Upload request received');
     console.log('Request body:', req.body);
     console.log('Request files:', req.files ? Object.keys(req.files) : 'No files');
+    
+    // Vérifier si un identifiant de requête est fourni
+    const requestId = req.body.requestId || req.headers['x-request-id'] || `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+    console.log(`Request ID: ${requestId}`);
+    
+    // Vérifier si cette requête a déjà été traitée récemment
+    if (recentUploads.has(requestId)) {
+      console.log(`Duplicate upload request detected with ID: ${requestId}`);
+      return res.status(200).json({
+        message: 'Fichier déjà importé avec succès (requête dupliquée ignorée)',
+        duplicate: true
+      });
+    }
+    
+    // Enregistrer cette requête dans le cache
+    recentUploads.set(requestId, Date.now());
     
     if (!req.files || !req.files.file) {
       return res.status(400).json({ error: 'Aucun fichier n\'a été uploadé' });
@@ -421,6 +494,9 @@ router.post('/upload', async (req, res) => {
       // Utiliser une transaction pour l'insertion
       await client.query('BEGIN');
       
+      // Enregistrer l'heure de début pour le suivi des performances
+      const startTime = Date.now();
+      
       for (const [index, row] of data.entries()) {
         try {
           // Préparer les colonnes et les valeurs pour l'insertion
@@ -462,33 +538,32 @@ router.post('/upload', async (req, res) => {
       // Valider la transaction
       await client.query('COMMIT');
       
-      // Vérifier le nombre final de lignes
+            // Vérifier le nombre final de lignes
       let finalCount = 0;
       try {
-        const countResult = await client.query(`SELECT COUNT(*) FROM "${tableName}"`);
+        const countResult = await client.query(`SELECT COUNT(*) FROM "${tableName}"`); 
         finalCount = parseInt(countResult.rows[0].count);
-      
       } catch (countError) {
         console.error('Erreur lors du comptage des lignes finales:', countError);
         finalCount = insertedCount;
       }
-
-      console.log(`Importation terminée:
-      - Lignes dans le fichier Excel: ${data.length}
-      - Lignes insérées avec succès: ${insertedCount}
-      - Lignes avec erreurs: ${errorCount}
-      - Nombre final de lignes dans la table: ${finalCount}
-      `);
+      
+      // Calculer le temps d'exécution
+      const endTime = Date.now();
+      const executionTimeSeconds = ((endTime - startTime) / 1000).toFixed(2);
+      
+      console.log(`Importation terminée (${executionTimeSeconds}s):\n      - Lignes dans le fichier Excel: ${data.length}\n      - Lignes insérées avec succès: ${insertedCount}\n      - Lignes avec erreurs: ${errorCount}\n      - Nombre final de lignes dans la table: ${finalCount}`);
       
       // Retourner une réponse de succès
       return res.status(200).json({
-        message: `Importation réussie dans la table ${tableName}`,
+        message: `Importation réussie dans la table ${tableName} en ${executionTimeSeconds} secondes`,
         table: tableName,
         stats: {
           totalRows: data.length,
           insertedRows: insertedCount,
           errorCount: errorCount,
           finalTableRows: finalCount,
+          executionTime: executionTimeSeconds,
           matchesExcelRowCount: finalCount === data.length
         }
       });
@@ -509,6 +584,43 @@ router.post('/upload', async (req, res) => {
       error: 'Une erreur est survenue lors du traitement du fichier',
       details: error.message
     });
+  }
+});
+
+// Route pour vider une table (truncate)
+router.post('/truncate/:tableName', async (req, res) => {
+  const { tableName } = req.params;
+  const client = await pool.connect();
+  
+  try {
+    console.log(`Demande de vidage de la table ${tableName}`);
+    
+    // Vérifier si la table existe
+    const tableExists = await client.query(
+      `SELECT EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'public' AND table_name = $1
+      )`,
+      [tableName]
+    );
+    
+    if (!tableExists.rows[0].exists) {
+      return res.status(404).json({ error: `La table ${tableName} n'existe pas` });
+    }
+    
+    // Vider la table sans la supprimer
+    await client.query(`TRUNCATE TABLE "${tableName}" RESTART IDENTITY CASCADE`);
+    
+    console.log(`Table ${tableName} vidée avec succès`);
+    res.status(200).json({ message: `Table ${tableName} vidée avec succès` });
+  } catch (error) {
+    console.error(`Erreur lors du vidage de la table ${tableName}:`, error);
+    res.status(500).json({ 
+      error: `Erreur lors du vidage de la table ${tableName}`, 
+      details: error.message 
+    });
+  } finally {
+    client.release();
   }
 });
 

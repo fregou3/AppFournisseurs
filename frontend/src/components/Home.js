@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Alert, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, Paper, Button } from '@mui/material';
+import { Box, Alert, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, Paper, Button, Tooltip, Snackbar } from '@mui/material';
 import axios from 'axios';
 import DataTable from './DataTable';
 import config from '../config';
 import SaveIcon from '@mui/icons-material/Save';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -12,11 +14,54 @@ const Home = () => {
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState('');
   const [loadingTables, setLoadingTables] = useState(false);
+  const [defaultTable, setDefaultTable] = useState('');
+  const [settingDefaultTable, setSettingDefaultTable] = useState(false);
+  const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
   
   // Gestion des filtres et des colonnes visibles
   const [filters, setFilters] = useState({});
   const [visibleColumns, setVisibleColumns] = useState(new Set());
   const [savedFilterSettings, setSavedFilterSettings] = useState({});
+
+  // Fonction pour récupérer la table par défaut
+  const fetchDefaultTable = async () => {
+    try {
+      const response = await axios.get(`${config.apiUrl}/settings/default-table`);
+      if (response.data.defaultTable) {
+        setDefaultTable(response.data.defaultTable);
+        return response.data.defaultTable;
+      }
+      return null;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la table par défaut:', error);
+      return null;
+    }
+  };
+
+  // Fonction pour définir la table par défaut
+  const setAsDefaultTable = async () => {
+    if (!selectedTable) return;
+    
+    try {
+      setSettingDefaultTable(true);
+      const response = await axios.post(`${config.apiUrl}/settings/default-table`, { tableName: selectedTable });
+      setDefaultTable(selectedTable);
+      setNotification({
+        open: true,
+        message: `Table ${selectedTable} définie comme table par défaut`,
+        severity: 'success'
+      });
+    } catch (error) {
+      console.error('Erreur lors de la définition de la table par défaut:', error);
+      setNotification({
+        open: true,
+        message: `Erreur lors de la définition de la table par défaut: ${error.response?.data?.error || error.message}`,
+        severity: 'error'
+      });
+    } finally {
+      setSettingDefaultTable(false);
+    }
+  };
 
   // Fonction pour récupérer la liste des tables
   const fetchTables = async () => {
@@ -26,8 +71,14 @@ const Home = () => {
       const tablesList = response.data.tables || [];
       setTables(tablesList);
       
-      // Toujours sélectionner la première table disponible
-      if (tablesList.length > 0) {
+      // Récupérer la table par défaut
+      const defaultTableName = await fetchDefaultTable();
+      
+      // Sélectionner la table par défaut si elle existe et est dans la liste
+      if (defaultTableName && tablesList.includes(defaultTableName)) {
+        setSelectedTable(defaultTableName);
+      } else if (tablesList.length > 0) {
+        // Sinon, sélectionner la première table disponible
         setSelectedTable(tablesList[0]);
       } else {
         setError("Aucune table disponible. Veuillez vérifier la configuration de la base de données.");
@@ -159,28 +210,67 @@ const Home = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
+      {/* Notification pour les actions de table par défaut */}
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={6000}
+        onClose={() => setNotification({ ...notification, open: false })}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setNotification({ ...notification, open: false })} 
+          severity={notification.severity}
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
       <Paper elevation={3} sx={{ p: 2, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Typography variant="h6" component="div">
             Sélectionner la table à afficher :
           </Typography>
-          <FormControl sx={{ minWidth: 250 }}>
-            <InputLabel id="table-select-label">Table</InputLabel>
-            <Select
-              labelId="table-select-label"
-              id="table-select"
-              value={selectedTable}
-              label="Table"
-              onChange={handleTableChange}
-              disabled={loadingTables || loading}
-            >
-              {tables.map((table) => (
-                <MenuItem key={table} value={table}>
-                  {table}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <FormControl sx={{ minWidth: 250 }}>
+              <InputLabel id="table-select-label">Table</InputLabel>
+              <Select
+                labelId="table-select-label"
+                id="table-select"
+                value={selectedTable}
+                label="Table"
+                onChange={handleTableChange}
+                disabled={loadingTables || loading}
+              >
+                {tables.map((table) => (
+                  <MenuItem key={table} value={table}>
+                    {table === defaultTable ? (
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <StarIcon sx={{ color: 'gold', mr: 1 }} fontSize="small" />
+                        {table}
+                      </Box>
+                    ) : (
+                      table
+                    )}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            
+            <Tooltip title={selectedTable === defaultTable ? "Déjà définie comme table par défaut" : "Définir comme table par défaut"}>
+              <span> {/* Wrapper pour que le Tooltip fonctionne même si le bouton est désactivé */}
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={setAsDefaultTable}
+                  disabled={loadingTables || loading || settingDefaultTable || selectedTable === defaultTable || !selectedTable}
+                  sx={{ height: 40 }}
+                  startIcon={selectedTable === defaultTable ? <StarIcon sx={{ color: 'gold' }} /> : <StarBorderIcon />}
+                >
+                  {settingDefaultTable ? <CircularProgress size={24} /> : "Table par défaut"}
+                </Button>
+              </span>
+            </Tooltip>
+          </Box>
         </Box>
       </Paper>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>

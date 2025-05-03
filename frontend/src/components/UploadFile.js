@@ -28,6 +28,7 @@ const UploadFile = () => {
   const [message, setMessage] = useState('');
   const [severity, setSeverity] = useState('info');
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState('');
   const [loadingTables, setLoadingTables] = useState(false);
@@ -130,15 +131,29 @@ const UploadFile = () => {
     }
   };
 
+  // Variable pour suivre si un upload est déjà en cours
+  const uploadInProgressRef = React.useRef(false);
+  
   const handleFileUpload = async (event) => {
+    // Vérifier si un upload est déjà en cours pour éviter les doublons
+    if (uploadInProgressRef.current) {
+      console.log('Upload already in progress, ignoring duplicate request');
+      return;
+    }
+    
+    // Marquer qu'un upload est en cours
+    uploadInProgressRef.current = true;
+    
     const file = event.target.files[0];
     if (!file) {
       setMessage('No file selected');
       setSeverity('error');
+      uploadInProgressRef.current = false; // Réinitialiser le flag
       return;
     }
     
-    // Ne pas appeler handleFileSelect ici pour éviter la double importation
+    console.log(`Starting upload for file: ${file.name} (${file.size} bytes)`);
+    
     // Mettre à jour directement le fichier sélectionné
     setSelectedFile(file);
     
@@ -187,19 +202,23 @@ const UploadFile = () => {
       formData.append('tableName', tableName);
       // Toujours désactiver la déduplication pour garantir le même nombre de lignes
       formData.append('preventDuplicates', 'false');
+      // Ajouter un identifiant unique pour cette requête
+      const requestId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+      formData.append('requestId', requestId);
 
-      console.log('Uploading file:', {
+      console.log(`Uploading file (requestId: ${requestId}):`, {
         name: file.name,
         size: file.size,
         type: file.type,
-        table: selectedTable,
+        table: tableName,
         url: `${config.apiUrl}/fournisseurs/upload`
       });
 
       // Utiliser axios pour envoyer le fichier et le nom de la table
       const response = await axios.post(`${config.apiUrl}/fournisseurs/upload`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'X-Request-ID': requestId
         },
         maxContentLength: Infinity,
         maxBodyLength: Infinity
@@ -222,6 +241,9 @@ const UploadFile = () => {
       setSeverity('error');
     } finally {
       setLoading(false);
+      // Réinitialiser le flag d'upload en cours
+      uploadInProgressRef.current = false;
+      console.log('Upload process completed, ready for next file');
     }
   };
 
@@ -252,6 +274,40 @@ const UploadFile = () => {
     } finally {
       setLoading(false);
       setOpenDialog(false);
+    }
+  };
+  
+  const handleDeleteTable = async () => {
+    if (!selectedTable) {
+      setMessage('Aucune table sélectionnée');
+      setSeverity('error');
+      setOpenDeleteDialog(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage(`Suppression de la table ${selectedTable}...`);
+      setSeverity('info');
+
+      const response = await axios.delete(`${config.apiUrl}/fournisseurs/table/${selectedTable}`);
+      setMessage(response.data.message || `Table ${selectedTable} supprimée avec succès`);
+      setSeverity('success');
+      
+      // Rafraîchir la liste des tables après suppression
+      fetchTables();
+      setSelectedTable('');
+    } catch (error) {
+      console.error('Delete table error:', error.response || error);
+      const errorMessage = error.response?.data?.error || 
+                         error.response?.data?.details || 
+                         error.message || 
+                         'Erreur lors de la suppression de la table';
+      setMessage(errorMessage);
+      setSeverity('error');
+    } finally {
+      setLoading(false);
+      setOpenDeleteDialog(false);
     }
   };
 
@@ -315,14 +371,26 @@ const UploadFile = () => {
               component="label"
               startIcon={loading ? <CircularProgress size={24} color="inherit" /> : <CloudUploadIcon />}
               disabled={loading}
+              onClick={() => {
+                // Créer un nouvel élément input file programmatiquement
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = '.xlsx,.xls';
+                fileInput.style.display = 'none';
+                
+                // Ajouter un gestionnaire d'événement unique
+                fileInput.addEventListener('change', (e) => {
+                  handleFileUpload(e);
+                  // Supprimer l'élément après utilisation pour éviter les doublons
+                  document.body.removeChild(fileInput);
+                }, { once: true });
+                
+                // Ajouter l'élément au DOM et déclencher le clic
+                document.body.appendChild(fileInput);
+                fileInput.click();
+              }}
             >
               {loading ? 'Uploading...' : 'Choose File'}
-              <input
-                type="file"
-                hidden
-                accept=".xlsx,.xls"
-                onChange={handleFileUpload}
-              />
             </Button>
             
             {selectedFile && !selectedTable && !createNewTable && (
@@ -337,8 +405,19 @@ const UploadFile = () => {
               startIcon={<DeleteIcon />}
               onClick={() => setOpenDialog(true)}
               disabled={loading}
+              sx={{ mr: 1 }}
             >
               Clear Table
+            </Button>
+            
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={() => setOpenDeleteDialog(true)}
+              disabled={loading}
+            >
+              Delete Table
             </Button>
           </Box>
         </Box>
@@ -357,48 +436,24 @@ const UploadFile = () => {
         <DialogTitle>Confirm Clear Table</DialogTitle>
         <DialogContent>
           <Box sx={{ minWidth: 300, mt: 2 }}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={createNewTable}
-                  onChange={handleCreateNewTableChange}
-                  name="createNewTable"
-                  color="primary"
-                />
-              }
-              label="Créer une nouvelle table"
-              sx={{ mb: 2 }}
-            />
-
-            {createNewTable ? (
-              <TextField
-                fullWidth
-                label="Nom de la nouvelle table"
-                variant="outlined"
-                value={newTableName}
-                onChange={handleNewTableNameChange}
-                helperText="Le nom doit commencer par 'fournisseurs' et ne contenir que des lettres, chiffres et underscores"
-                sx={{ mb: 2 }}
-              />
-            ) : (
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel id="table-select-label">Table</InputLabel>
-                <Select
-                  labelId="table-select-label"
-                  id="table-select"
-                  value={selectedTable}
-                  label="Table"
-                  onChange={handleTableChange}
-                  disabled={loadingTables}
-                >
-                  {tables.map((table) => (
-                    <MenuItem key={table} value={table}>
-                      {table}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+            {/* Dans la modale de confirmation, on affiche toujours la liste des tables existantes */}
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel id="table-select-label">Table</InputLabel>
+              <Select
+                labelId="table-select-label"
+                id="table-select"
+                value={selectedTable}
+                label="Table"
+                onChange={handleTableChange}
+                disabled={loadingTables}
+              >
+                {tables.map((table) => (
+                  <MenuItem key={table} value={table}>
+                    {table}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <Typography variant="body2" color="error" sx={{ mt: 2 }}>
               Attention : Cette action supprimera toutes les données de la table sélectionnée et ne peut pas être annulée.
             </Typography>
@@ -410,6 +465,46 @@ const UploadFile = () => {
           </Button>
           <Button onClick={handleClearTable} color="error" disabled={loading || !selectedTable}>
             {loading ? <CircularProgress size={24} /> : 'Clear'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modale de confirmation pour la suppression de table */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+      >
+        <DialogTitle>Confirm Delete Table</DialogTitle>
+        <DialogContent>
+          <Box sx={{ minWidth: 300, mt: 2 }}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel id="delete-table-select-label">Table</InputLabel>
+              <Select
+                labelId="delete-table-select-label"
+                id="delete-table-select"
+                value={selectedTable}
+                label="Table"
+                onChange={handleTableChange}
+                disabled={loadingTables}
+              >
+                {tables.map((table) => (
+                  <MenuItem key={table} value={table}>
+                    {table}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography variant="body2" color="error" sx={{ mt: 2, fontWeight: 'bold' }}>
+              ATTENTION : Cette action supprimera définitivement la table sélectionnée et toutes ses données. Cette opération est IRRÉVERSIBLE.
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDeleteDialog(false)} disabled={loading}>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteTable} color="error" variant="contained" disabled={loading || !selectedTable}>
+            {loading ? <CircularProgress size={24} /> : 'Delete'}
           </Button>
         </DialogActions>
       </Dialog>
