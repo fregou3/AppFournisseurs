@@ -48,8 +48,11 @@ function normalizeColumnName(columnName) {
     }
   }
   
-  // Pour les autres colonnes, normaliser en minuscules avec underscores
-  return columnName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+  // NOUVELLE APPROCHE : Préserver le nom original de la colonne
+  // Remplacer uniquement les caractères non valides pour PostgreSQL
+  // PostgreSQL permet les lettres, chiffres, espaces et accents dans les noms de colonnes
+  // quand ils sont entourés de guillemets doubles
+  return columnName;
 }
 
 // Route racine pour récupérer les données de la table fournisseurs standard
