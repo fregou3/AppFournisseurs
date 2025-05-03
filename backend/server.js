@@ -8,6 +8,10 @@ require('dotenv').config();
 const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 5005;
 
+// Détecter si nous sommes sur Windows (environnement local) ou Linux (serveur)
+const isWindows = process.platform === 'win32';
+const host = isWindows ? 'localhost' : '0.0.0.0'; // localhost pour Windows, 0.0.0.0 pour Linux
+
 const app = express();
 
 // Configuration CORS en fonction de l'environnement
@@ -99,7 +103,7 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Démarrage du serveur
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Serveur démarré sur http://0.0.0.0:${port}`);
+// Démarrer le serveur
+app.listen(port, host, () => {
+  console.log(`Serveur démarré sur http://${host}:${port}`);
 });

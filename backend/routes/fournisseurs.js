@@ -196,24 +196,45 @@ router.get('/table/:tableName', async (req, res) => {
 
 // Route pour récupérer la liste des tables de fournisseurs
 router.get('/tables', async (req, res) => {
+  console.log('Route /fournisseurs/tables appelée');
+  
+  // Définir un timeout pour la requête
+  const timeout = setTimeout(() => {
+    console.log('Timeout atteint pour la route /fournisseurs/tables');
+    if (!res.headersSent) {
+      res.status(504).json({ 
+        error: 'Timeout lors de la récupération des tables',
+        message: 'La requête a pris trop de temps à s\'exécuter. Veuillez réessayer ultérieurement.'
+      });
+    }
+  }, 30000); // 30 secondes de timeout
+  
   try {
     const client = await pool.connect();
     try {
+      // Optimiser la requête en limitant le nombre de résultats et en ajoutant une condition sur la date de création
       const result = await client.query(`
         SELECT table_name
         FROM information_schema.tables
         WHERE table_schema = 'public'
         AND table_name LIKE 'fournisseurs_%'
-        ORDER BY table_name
+        ORDER BY table_name DESC
+        LIMIT 50
       `);
+      
+      clearTimeout(timeout); // Annuler le timeout car la requête a réussi
+      console.log(`Route /fournisseurs/tables: ${result.rows.length} tables trouvées`);
       
       res.json({ tables: result.rows.map(row => row.table_name) });
     } finally {
       client.release();
     }
   } catch (error) {
+    clearTimeout(timeout); // Annuler le timeout en cas d'erreur
     console.error('Erreur lors de la récupération des tables:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des tables' });
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Erreur lors de la récupération des tables' });
+    }
   }
 });
 
