@@ -6,7 +6,7 @@ const { Parser } = require('json2csv');
 
 // Fonction utilitaire pour échapper les noms de colonnes SQL
 function escapeColumnName(columnName) {
-  // Retourne le nom de colonne entouré de guillemets doubles
+  // Retourne le nom de colonne entouré de guillemets doubles pour préserver les accents et espaces
   return `"${columnName.replace(/"/g, '""')}"`;
 }
 
@@ -44,9 +44,11 @@ router.post('/', async (req, res) => {
     
     await client.query('BEGIN');
 
-    // Vérifier si le groupe existe déjà
+    // Vérifier si le groupe existe déjà (table ou métadonnées)
     const groupName = `group_${name.toLowerCase().replace(/[^a-z0-9_]/g, '_')}`;
-    const exists = await client.query(
+    
+    // Vérifier si la table existe
+    const tableExists = await client.query(
       `SELECT EXISTS (
         SELECT 1 FROM pg_tables 
         WHERE schemaname = 'public' 
@@ -55,16 +57,33 @@ router.post('/', async (req, res) => {
       [groupName]
     );
     
-    // Stocker les noms de colonnes originaux pour les préserver
-    const originalColumnNames = {};
-    if (visibleColumns && visibleColumns.length > 0) {
-      visibleColumns.forEach(col => {
-        originalColumnNames[col] = col;
-      });
-    }
+    // Vérifier si les métadonnées existent
+    const metadataExists = await client.query(
+      `SELECT EXISTS (
+        SELECT 1 FROM system_group_metadata
+        WHERE group_name = $1
+      )`,
+      [groupName]
+    );
+    
+    // Pas besoin de stocker des noms de colonnes originaux car on utilise directement les noms réels
 
-    if (exists.rows[0].exists) {
-      return res.status(400).json({ error: 'Un groupe avec ce nom existe déjà' });
+    if (tableExists.rows[0].exists || metadataExists.rows[0].exists) {
+      // Si la table ou les métadonnées existent, nettoyer les deux avant de continuer
+      try {
+        if (tableExists.rows[0].exists) {
+          await client.query(`DROP TABLE IF EXISTS "${groupName}"`); 
+          console.log(`Table ${groupName} supprimée.`);
+        }
+        
+        if (metadataExists.rows[0].exists) {
+          await client.query(`DELETE FROM system_group_metadata WHERE group_name = $1`, [groupName]);
+          console.log(`Métadonnées pour ${groupName} supprimées.`);
+        }
+      } catch (cleanupError) {
+        console.error('Erreur lors du nettoyage du groupe existant:', cleanupError);
+        return res.status(400).json({ error: 'Un groupe avec ce nom existe déjà et ne peut pas être remplacé' });
+      }
     }
 
     // Créer la table de métadonnées si elle n'existe pas
@@ -78,9 +97,34 @@ router.post('/', async (req, res) => {
         original_column_names JSONB
       )
     `);
+    
+    // Vérifier si les colonnes table_name et original_column_names existent dans la table system_group_metadata
+    const columnsExistQuery = `
+      SELECT 
+        EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'system_group_metadata' AND column_name = 'table_name') as table_name_exists,
+        EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'system_group_metadata' AND column_name = 'original_column_names') as original_column_names_exists
+    `;
+    
+    const columnsExistResult = await client.query(columnsExistQuery);
+    const tableNameColumnExists = columnsExistResult.rows[0].table_name_exists;
+    const originalColumnNamesExists = columnsExistResult.rows[0].original_column_names_exists;
+    
+    // Si la colonne table_name n'existe pas, l'ajouter
+    if (!tableNameColumnExists) {
+      console.log('La colonne table_name n\'existe pas dans system_group_metadata, ajout de la colonne...');
+      await client.query(`ALTER TABLE system_group_metadata ADD COLUMN table_name TEXT`);
+      console.log('Colonne table_name ajoutée avec succès');
+    }
+    
+    // Si la colonne original_column_names n'existe pas, l'ajouter
+    if (!originalColumnNamesExists) {
+      console.log('La colonne original_column_names n\'existe pas dans system_group_metadata, ajout de la colonne...');
+      await client.query(`ALTER TABLE system_group_metadata ADD COLUMN original_column_names JSONB`);
+      console.log('Colonne original_column_names ajoutée avec succès');
+    }
 
-    // Vérifier d'abord si la table spécifiée existe
-    const tableExistsQuery = `
+    // Vérifier d'abord si la table source spécifiée existe
+    const sourceTableExistsQuery = `
       SELECT EXISTS (
         SELECT 1 FROM information_schema.tables 
         WHERE table_schema = 'public' 
@@ -88,11 +132,11 @@ router.post('/', async (req, res) => {
       )
     `;
     
-    const tableExistsResult = await client.query(tableExistsQuery, [tableName]);
-    const tableExists = tableExistsResult.rows[0].exists;
+    const sourceTableResult = await client.query(sourceTableExistsQuery, [tableName]);
+    const sourceTableExists = sourceTableResult.rows[0].exists;
     
-    // Si la table spécifiée n'existe pas, on ne peut pas continuer
-    if (!tableExists) {
+    // Si la table source spécifiée n'existe pas, on ne peut pas continuer
+    if (!sourceTableExists) {
       await client.query('ROLLBACK');
       return res.status(400).json({ 
         error: `La table '${tableName}' n'existe pas` 
@@ -269,12 +313,15 @@ router.post('/', async (req, res) => {
       });
     }
     
-    // Enregistrer les métadonnées du groupe
-    await client.query(
-      `INSERT INTO system_group_metadata (group_name, filters, visible_columns, table_name, original_column_names) 
-       VALUES ($1, $2, $3, $4, $5)`,
-      [groupName, filtersJson, visibleColumnsJson, tableName, JSON.stringify(originalColumnNames || {})]
+    // Enregistrer les métadonnées du groupe et récupérer la date de création
+    const metadataResult = await client.query(
+      `INSERT INTO system_group_metadata (group_name, filters, visible_columns, table_name) 
+       VALUES ($1, $2, $3, $4)
+       RETURNING created_at`,
+      [groupName, filtersJson, visibleColumnsJson, tableName]
     );
+    
+    console.log('Métadonnées du groupe enregistrées avec les noms réels des colonnes');
 
     // Compter le nombre de lignes
     const countResult = await client.query(`SELECT COUNT(*) FROM "${groupName}"`);
@@ -427,21 +474,30 @@ router.get('/:name', async (req, res) => {
     const dataQuery = await client.query(`SELECT * FROM "${groupName}"`);
     console.log('Nombre de lignes trouvées:', dataQuery.rows.length);
 
-    // Récupérer les métadonnées pour les filtres et colonnes visibles
+    // Récupérer les métadonnées pour les filtres, colonnes visibles et table source
     const metadataQuery = await client.query(`
-      SELECT filters, visible_columns FROM system_group_metadata 
+      SELECT filters, visible_columns, table_name FROM system_group_metadata 
       WHERE group_name = $1
     `, [groupName]);
 
+    // Récupérer la table source
+    const tableName = metadataQuery.rows[0]?.table_name;
+    
+    console.log('Table source:', tableName);
+    
     const response = {
       name: name,
-      columns: columnsQuery.rows.map(col => ({
-        name: col.column_name,
-        type: col.data_type
-      })),
+      columns: columnsQuery.rows.map(col => {
+        // Utiliser directement le nom de la colonne tel qu'il est dans la base de données
+        return {
+          name: col.column_name,
+          type: col.data_type
+        };
+      }),
       data: dataQuery.rows,
       record_count: dataQuery.rows.length,
-      created_at: metadataQuery.rows[0]?.created_at
+      created_at: metadataQuery.rows[0]?.created_at,
+      table_name: tableName
     };
 
     // Ajouter les filtres et colonnes visibles si présents

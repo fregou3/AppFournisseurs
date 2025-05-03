@@ -21,7 +21,11 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  TextField
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -38,6 +42,9 @@ const Groupings = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [filters, setFilters] = useState({});
   const [visibleColumns, setVisibleColumns] = useState(new Set());
+  const [sourceTableName, setSourceTableName] = useState('');
+  const [availableTables, setAvailableTables] = useState([]);
+  const [loadingTables, setLoadingTables] = useState(false);
 
   // États pour l'export
   const [exportDialogOpen, setExportDialogOpen] = useState(false);
@@ -45,6 +52,31 @@ const Groupings = () => {
   const [fileName, setFileName] = useState('');
   const [exportError, setExportError] = useState('');
   const [isExporting, setIsExporting] = useState(false);
+
+  // Charger la liste des tables disponibles
+  const fetchTables = async () => {
+    try {
+      setLoadingTables(true);
+      const response = await axios.get(`${config.apiUrl}/fournisseurs/tables`);
+      const tablesList = response.data.tables || [];
+      console.log('Tables disponibles:', tablesList);
+      setAvailableTables(tablesList);
+      
+      // Sélectionner la première table disponible comme table source par défaut
+      if (tablesList.length > 0 && !sourceTableName) {
+        setSourceTableName(tablesList[0]);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des tables:', error);
+      setSnackbar({
+        open: true,
+        message: 'Erreur lors de la récupération des tables disponibles',
+        severity: 'error'
+      });
+    } finally {
+      setLoadingTables(false);
+    }
+  };
 
   // Charger la liste des regroupements
   const fetchGroupings = async () => {
@@ -63,6 +95,7 @@ const Groupings = () => {
   };
 
   useEffect(() => {
+    fetchTables();
     fetchGroupings();
   }, []);
 
@@ -125,11 +158,18 @@ const Groupings = () => {
       // Appliquer les filtres et colonnes visibles
       const savedColumns = response.data.visibleColumns;
       const savedFilters = response.data.filters;
+      const tableName = response.data.table_name;
       
       console.log('Données du groupe:', {
         savedColumns,
-        savedFilters
+        savedFilters,
+        tableName
       });
+      
+      // Mettre à jour le nom de la table source si disponible
+      if (tableName) {
+        setSourceTableName(tableName);
+      }
       
       // Convertir les noms de colonnes dans les colonnes visibles
       if (savedColumns) {
@@ -260,24 +300,45 @@ const Groupings = () => {
   if (selectedGroup) {
     return (
       <Box sx={{ width: '100%', p: 2 }}>
-        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
           <Button
-            variant="contained"
+            variant="outlined"
             startIcon={<ArrowBackIcon />}
             onClick={handleBackToList}
           >
-            Retour à la liste des regroupements
+            Retour à la liste
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<FileDownloadIcon />}
-            onClick={() => setExportDialogOpen(true)}
-          >
-            Exporter le regroupement
-          </Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            {/* Sélecteur de table source */}
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel id="source-table-select-label">Table source</InputLabel>
+              <Select
+                labelId="source-table-select-label"
+                id="source-table-select"
+                value={sourceTableName}
+                label="Table source"
+                onChange={(e) => setSourceTableName(e.target.value)}
+                disabled={loadingTables}
+              >
+                {availableTables.map((table) => (
+                  <MenuItem key={table} value={table}>
+                    {table}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            
+            <Button
+              variant="contained"
+              startIcon={<FileDownloadIcon />}
+              onClick={() => setExportDialogOpen(true)}
+            >
+              Exporter
+            </Button>
+          </Box>
         </Box>
-        <Typography variant="h6" sx={{ mt: 1, mb: 2 }}>
+        
+        <Typography variant="h6" gutterBottom>
           Regroupement : {selectedGroup}
         </Typography>
         
@@ -285,7 +346,8 @@ const Groupings = () => {
         {console.log('Données passées au DataTable:', {
           groupData,
           filters,
-          visibleColumns: Array.from(visibleColumns)
+          visibleColumns: Array.from(visibleColumns),
+          sourceTableName
         })}
         
         <DataTable 
@@ -295,6 +357,7 @@ const Groupings = () => {
           setExternalFilters={setFilters}
           externalVisibleColumns={visibleColumns}
           setExternalVisibleColumns={setVisibleColumns}
+          tableName={sourceTableName} // Ajouter la propriété tableName
         />
 
         {/* Dialog pour l'export */}

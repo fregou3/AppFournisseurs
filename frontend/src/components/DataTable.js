@@ -686,20 +686,42 @@ const DataTable = ({
     setError(null);
 
     try {
-      // Corriger les noms de colonnes avant d'envoyer la requête
-      const correctedVisibleColumns = correctColumnNames(Array.from(visibleColumns));
-      const correctedFilters = correctFilters(filters);
+      // Utiliser directement les noms des colonnes réels (avec accents et espaces)
+      const realColumnNames = Array.from(visibleColumns);
       
+      // Vérifier si le nom de la table est défini
+      if (!propTableName) {
+        console.error('ERREUR: Le nom de la table (propTableName) est manquant ou non défini:', propTableName);
+        setError('Le nom de la table source est requis pour créer un groupe');
+        setSnackbar({
+          open: true,
+          message: 'Erreur: Le nom de la table source est manquant',
+          severity: 'error'
+        });
+        setLoading(false);
+        return;
+      }
+      
+      // Utiliser directement les filtres sans correction
       const groupData = {
         name: groupName,
-        filters: correctedFilters,
-        visibleColumns: correctedVisibleColumns,
+        filters: filters,
+        visibleColumns: realColumnNames,
         tableName: propTableName // Ajouter le nom de la table
       };
       
-      console.log('Envoi des données corrigées pour la création du groupe:', groupData);
-      await axios.post(`${config.apiUrl}/groups`, groupData);
+      console.log('Détails de la création du groupe:');
+      console.log('- URL:', `${config.apiUrl}/groups`);
+      console.log('- Nom du groupe:', groupName);
+      console.log('- Nom de la table source:', propTableName);
+      console.log('- Colonnes visibles (noms réels):', realColumnNames);
+      console.log('- Filtres:', filters);
+      console.log('- Données complètes:', groupData);
+      
+      const response = await axios.post(`${config.apiUrl}/groups`, groupData);
 
+      console.log('Réponse du serveur:', response);
+      
       setSnackbar({
         open: true,
         message: 'Groupe sauvegardé avec succès',
@@ -710,10 +732,17 @@ const DataTable = ({
       setGroupError('');
     } catch (err) {
       console.error('Erreur lors de la sauvegarde du groupe:', err);
-      setError(err.response?.data?.error || 'Erreur lors de la sauvegarde du groupe');
+      console.error('Détails de l\'erreur:');
+      console.error('- Code de statut:', err.response?.status);
+      console.error('- Message d\'erreur:', err.response?.data?.error);
+      console.error('- Détails complètes:', err.response?.data);
+      
+      // Afficher un message d'erreur plus précis
+      const errorMessage = err.response?.data?.error || err.response?.data?.details || err.message || 'Erreur lors de la sauvegarde du groupe';
+      setError(errorMessage);
       setSnackbar({
         open: true,
-        message: 'Erreur lors de la sauvegarde du groupe',
+        message: `Erreur: ${errorMessage}`,
         severity: 'error'
       });
     } finally {
