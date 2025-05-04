@@ -40,4 +40,14 @@ yarn-error.log*
 
 # Temporary files
 *.tmp
+
+# Backup files
 *.bak
+*.bak.*
+*.backup
+
+# Ne pas ignorer les fichiers .env.distant qui sont des exemples de configuration
+!/backend/env.distant
+
+# Ne pas ignorer les scripts de diagnostic
+!/backend/diagnostic_scores.js
