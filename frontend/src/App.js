@@ -11,6 +11,7 @@ import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Compare from './components/Compare';
 import SimpleDataView from './components/SimpleDataView';
+import ConfigDebug from './components/ConfigDebug';
 
 const theme = createTheme({
   palette: {
@@ -48,6 +49,15 @@ function App() {
           <PrivateLayout>
             <Container maxWidth={false} sx={{ padding: 2 }}>
               <SimpleDataView />
+            </Container>
+          </PrivateLayout>
+        } />
+        
+        {/* Route pour le diagnostic de configuration */}
+        <Route path="/debug" element={
+          <PrivateLayout>
+            <Container maxWidth={false} sx={{ padding: 2 }}>
+              <ConfigDebug />
             </Container>
           </PrivateLayout>
         } />
