@@ -60,6 +60,7 @@ ssh ubuntu@15.188.198.103 "sudo tail -f /var/log/nginx/error.log"
 calculer les scores calculate_scores_2023_v1_fixed.js
 node backend/calculate_scores.js fournisseurs_2023_v1
 node backend/calculate_scores.js fournisseurs_2025_05_03_new_01
+node backend/calculate_scores.js fournisseurs_2023_superieur_5000
 
 
 git add backend/calculate_scores.js
@@ -207,3 +208,28 @@ sudo bash scripts/update-prod.sh
 
 C:\Users\frede\Documents\tab1.xlsx
 fournisseurs_tab_03052025
+
+
+*********calcul de score sur serveur distant*********
+configurer le .env du backend
+
+# Configuration de l'environnement
+NODE_ENV=production
+
+# Port du serveur backend
+PORT=5005
+
+# Configuration de la base de données
+DB_HOST=localhost
+DB_USER=admin
+DB_PASSWORD=admin123
+DB_NAME=gestion_fournisseurs
+DB_PORT=5435
+
+# Domaine de production (pour CORS)
+PRODUCTION_DOMAIN=http://app2.communify.solutions
+
+# Chemin de base pour l'API en production
+BASE_PATH=/fournisseurs/api
+
+************
