@@ -27,7 +27,8 @@ import {
   Snackbar,
   Chip,
   Input,
-  CircularProgress
+  CircularProgress,
+  Divider
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
@@ -297,6 +298,24 @@ const DataTable = ({
   };
 
   // Style des colonnes
+  // Définition du mapping de couleurs spécifiques pour certaines colonnes
+  const colorMapping = {
+    // Colonnes d'identification
+    'ID': '#FF9800',
+    'Supplier_ID': '#FF9800',
+    'Fournisseur_ID': '#FF9800',
+    // Colonnes de score
+    'Score': '#4CAF50',
+    'EcoVadis_Score': '#4CAF50',
+    // Colonnes de contact
+    'Contact': '#C62828',
+    'Email': '#C62828',
+    'Phone': '#C62828',
+    // Autres colonnes importantes
+    'Country': '#582900',
+    'Pays': '#582900'
+  };
+
   const getHeaderStyle = (columnName) => {
     const baseStyle = {
       fontWeight: 'bold',
@@ -351,73 +370,6 @@ const DataTable = ({
       
       // Couleur par défaut pour les autres colonnes
       return '#1976d2';
-    };
-
-    // Mapping spécifique pour certaines colonnes
-    const colorMapping = {
-      // Colonnes en #FF9800 (orange)
-      'id': '#FF9800',
-      'supplier_id': '#FF9800',
-      'Supplier_ID': '#FF9800',
-      'PROCUREMENT ORGA': '#FF9800',
-      'procurement_orga': '#FF9800',
-      'PARTNERS': '#FF9800',
-      'partners': '#FF9800',
-      'Evaluated / Not Evaluated': '#FF9800',
-      'evaluated_not_evaluated': '#FF9800',
-      'ORGANIZATION 1': '#FF9800',
-      'organization_1': '#FF9800',
-      'ORGANIZATION 2': '#FF9800',
-      'organization_2': '#FF9800',
-      'ORGANIZATION COUNTRY': '#FF9800',
-      'organization_country': '#FF9800',
-
-      // Colonnes en #4CAF50 (vert)
-      'Ecovadis name': '#4CAF50',
-      'ecovadis_name': '#4CAF50',
-      'Score Ecovadis': '#4CAF50',
-      'score_ecovadis': '#4CAF50',
-      'Date': '#4CAF50',
-      'date': '#4CAF50',
-      'Ecovadis ID': '#4CAF50',
-      'ecovadis_id': '#4CAF50',
-
-      // Colonnes en #C62828 (rouge)
-      'SUBSIDIARY': '#C62828',
-      'subsidiary': '#C62828',
-      'ORIGINAL NAME PARTNER': '#C62828',
-      'original_name_partner': '#C62828',
-      'Country of Supplier Contact': '#C62828',
-      'country_of_supplier_contact': '#C62828',
-      'VAT number': '#C62828',
-      'vat_number': '#C62828',
-      'Activity Area': '#C62828',
-      'activity_area': '#C62828',
-      'Annual spend k€ A-2023': '#C62828',
-      'annual_spend_k_a_2023': '#C62828',
-      'Supplier Contact First Name': '#C62828',
-      'supplier_contact_first_name': '#C62828',
-      'Supplier Contact Last Name': '#C62828',
-      'supplier_contact_last_name': '#C62828',
-      'Supplier Contact Email': '#C62828',
-      'supplier_contact_email': '#C62828',
-      'Supplier Contact Phone': '#C62828',
-      'supplier_contact_phone': '#C62828',
-      'Adresse fournisseur': '#C62828',
-      'adresse_fournisseur': '#C62828',
-      'Adresse': '#C62828',
-      'adresse': '#C62828',
-
-      // Colonnes en #582900 (marron)
-      'NATURE DU TIERS': '#582900',
-      'nature_du_tiers': '#582900',
-      'Nature du tiers': '#582900',
-      'localisation': '#582900',
-      "Pays d'intervention": '#582900',
-      "pays_d_intervention": '#582900',
-      "Région d'intervention": '#582900',
-      "region_d_intervention": '#582900',
-      'score': '#582900'
     };
 
     // Si la colonne a un filtre actif, utiliser une couleur de fond plus claire
@@ -957,14 +909,102 @@ const DataTable = ({
             anchorEl={filterAnchorEl[column]}
             open={Boolean(filterAnchorEl[column])}
             onClose={() => handleFilterClose(column)}
+            PaperProps={{
+              style: {
+                maxHeight: 400,
+                width: 250,
+              },
+            }}
           >
+            {/* Option "Tout sélectionner" */}
+            <MenuItem 
+              onClick={() => {
+                const allValues = columnValues[column] || [];
+                const currentFilters = filters[column] || [];
+                
+                // Si tous les éléments sont déjà sélectionnés, désélectionner tout
+                if (currentFilters.length === allValues.length) {
+                  const updatedFilters = { ...filters };
+                  delete updatedFilters[column];
+                  
+                  if (setExternalFilters) {
+                    setExternalFilters(updatedFilters);
+                  } else {
+                    setLocalFilters(updatedFilters);
+                  }
+                } 
+                // Sinon, sélectionner tous les éléments
+                else {
+                  const updatedFilters = {
+                    ...filters,
+                    [column]: [...allValues]
+                  };
+                  
+                  if (setExternalFilters) {
+                    setExternalFilters(updatedFilters);
+                  } else {
+                    setLocalFilters(updatedFilters);
+                  }
+                }
+              }}
+            >
+              <Checkbox 
+                checked={filters[column]?.length === columnValues[column]?.length && columnValues[column]?.length > 0}
+                indeterminate={filters[column]?.length > 0 && filters[column]?.length < columnValues[column]?.length}
+                size="small"
+              />
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Tout sélectionner
+              </Typography>
+            </MenuItem>
+            
+            {/* Option "Vide" */}
+            <MenuItem 
+              onClick={() => {
+                // Vérifier si la valeur vide est déjà dans les filtres
+                const currentFilters = filters[column] || [];
+                const emptyValue = '';
+                const isEmptySelected = currentFilters.includes(emptyValue);
+                
+                // Mettre à jour les filtres
+                const updatedFilters = { ...filters };
+                if (isEmptySelected) {
+                  updatedFilters[column] = currentFilters.filter(v => v !== emptyValue);
+                } else {
+                  updatedFilters[column] = [...currentFilters, emptyValue];
+                }
+                
+                // Si le filtre est vide, le supprimer
+                if (updatedFilters[column].length === 0) {
+                  delete updatedFilters[column];
+                }
+                
+                if (setExternalFilters) {
+                  setExternalFilters(updatedFilters);
+                } else {
+                  setLocalFilters(updatedFilters);
+                }
+              }}
+            >
+              <Checkbox 
+                checked={filters[column]?.includes('') || false}
+                size="small"
+              />
+              <Typography variant="body2" sx={{ fontStyle: 'italic' }}>
+                Valeurs vides
+              </Typography>
+            </MenuItem>
+            
+            <Divider />
+            
+            {/* Valeurs existantes */}
             {columnValues[column]?.map(value => (
               <MenuItem key={value} onClick={() => handleFilterChange(column, value)}>
                 <Checkbox 
                   checked={filters[column]?.includes(value) || false}
                   size="small"
                 />
-                <Typography variant="body2">{value}</Typography>
+                <Typography variant="body2">{value || <span style={{ fontStyle: 'italic', color: '#999' }}>(vide)</span>}</Typography>
               </MenuItem>
             ))}
           </Menu>

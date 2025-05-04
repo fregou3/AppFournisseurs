@@ -20,9 +20,18 @@ import {
   Alert,
   Snackbar,
   Divider,
-  Chip
+  Chip,
+  TablePagination,
+  Container,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import config from '../config';
 
@@ -37,6 +46,11 @@ const Compare = () => {
   const [compareResult, setCompareResult] = useState(null);
   const [showOnlyDifferences, setShowOnlyDifferences] = useState(true);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  // État pour la pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Charger la liste des tables disponibles
   useEffect(() => {
@@ -69,35 +83,61 @@ const Compare = () => {
 
   // Fonction pour récupérer toutes les données d'une table avec pagination
   const fetchAllTableData = async (tableName) => {
-    let allData = [];
-    let currentPage = 1;
-    const pageSize = 1000; // Récupérer un grand nombre de lignes à la fois
-    let hasMoreData = true;
+    try {
+      console.log(`Début de la récupération des données pour ${tableName}`);
+      let allData = [];
+      let currentPage = 1;
+      const pageSize = 1000; // Taille de page optimisée pour la performance
+      let hasMoreData = true;
+      let totalRows = 0;
 
-    while (hasMoreData) {
-      const response = await axios.get(`${config.apiUrl}/fournisseurs/table/${tableName}`, {
+      // Première requête pour obtenir le nombre total de lignes
+      const initialResponse = await axios.get(`${config.apiUrl}/fournisseurs/table/${tableName}`, {
         params: {
-          page: currentPage,
-          pageSize: pageSize
+          page: 1,
+          pageSize: 1
         }
       });
-
-      const { data, totalCount } = response.data;
       
-      if (data && data.length > 0) {
-        allData = [...allData, ...data];
-        // Vérifier si nous avons récupéré toutes les données
-        if (allData.length >= totalCount) {
-          hasMoreData = false;
-        } else {
-          currentPage++;
-        }
-      } else {
-        hasMoreData = false;
+      if (initialResponse.data && initialResponse.data.totalCount) {
+        totalRows = initialResponse.data.totalCount;
+        console.log(`Table ${tableName} contient ${totalRows} lignes au total`);
       }
-    }
 
-    return allData;
+      // Récupérer toutes les données par pages
+      while (hasMoreData) {
+        console.log(`Récupération de la page ${currentPage} pour ${tableName}`);
+        const response = await axios.get(`${config.apiUrl}/fournisseurs/table/${tableName}`, {
+          params: {
+            page: currentPage,
+            pageSize: pageSize
+          }
+        });
+
+        const { data, totalCount } = response.data;
+        console.log(`Reçu ${data?.length || 0} lignes sur ${totalCount} pour ${tableName}`);
+        
+        if (data && data.length > 0) {
+          allData = [...allData, ...data];
+          // Vérifier si nous avons récupéré toutes les données
+          if (allData.length >= totalCount) {
+            console.log(`Toutes les données récupérées pour ${tableName} (${allData.length} lignes)`);
+            hasMoreData = false;
+          } else {
+            currentPage++;
+          }
+        } else {
+          console.log(`Aucune donnée reçue pour la page ${currentPage} de ${tableName}`);
+          hasMoreData = false;
+        }
+      }
+
+      console.log(`Récupération terminée pour ${tableName}, ${allData.length} lignes sur ${totalRows} au total`);
+      return allData;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des données pour ${tableName}:`, error);
+      throw error;
+    }
   };
 
   // Fonction pour comparer les tables
@@ -162,153 +202,275 @@ const Compare = () => {
     }
   };
 
-  // Fonction pour normaliser les valeurs pour la comparaison insensible à la casse
+  // Fonction améliorée pour normaliser les valeurs pour la comparaison
   const normalizeValue = (value) => {
-    // Si la valeur est une chaîne, la convertir en minuscules pour la comparaison
-    if (typeof value === 'string') {
-      return value.toLowerCase();
+    // Traiter les cas null et undefined
+    if (value === null || value === undefined) {
+      return '';
     }
-    // Sinon, retourner la valeur telle quelle
-    return value;
+    
+    // Si la valeur est une chaîne
+    if (typeof value === 'string') {
+      // Convertir en minuscules et supprimer les espaces en début et fin
+      return value.toLowerCase().trim();
+    }
+    
+    // Si la valeur est un nombre, la convertir en chaîne
+    if (typeof value === 'number') {
+      return value.toString();
+    }
+    
+    // Pour les autres types (booléens, dates, etc.)
+    return String(value).toLowerCase();
   };
 
   // Fonction pour comparer les données des tables
   const compareTableData = (table1Data, table2Data) => {
-    // Obtenir toutes les colonnes uniques des deux tables
-    const allColumns = new Set();
-    if (table1Data.length > 0) {
-      Object.keys(table1Data[0]).forEach(col => {
-        // Exclure la colonne "ID" de la comparaison
-        if (col.toLowerCase() !== 'id') {
+    try {
+      console.log(`Début de la comparaison: ${table1Data.length} lignes dans table1, ${table2Data.length} lignes dans table2`);
+      
+      // Obtenir toutes les colonnes uniques des deux tables
+      const allColumns = new Set();
+      if (table1Data.length > 0) {
+        Object.keys(table1Data[0]).forEach(col => {
           allColumns.add(col);
-        }
-      });
-    }
-    if (table2Data.length > 0) {
-      Object.keys(table2Data[0]).forEach(col => {
-        // Exclure la colonne "ID" de la comparaison
-        if (col.toLowerCase() !== 'id') {
-          allColumns.add(col);
-        }
-      });
-    }
-
-    // Créer un index pour les données de la table 2 basé sur supplier_id
-    const table2Index = {};
-    table2Data.forEach(row => {
-      if (row.supplier_id) {
-        table2Index[row.supplier_id] = row;
+        });
       }
-    });
+      if (table2Data.length > 0) {
+        Object.keys(table2Data[0]).forEach(col => {
+          allColumns.add(col);
+        });
+      }
+      console.log(`Colonnes identifiées: ${Array.from(allColumns).join(', ')}`);
+      
+      // Exclure la colonne ID de la comparaison
+      allColumns.delete('id');
+      allColumns.delete('ID');
+      allColumns.delete('Id');
+      console.log(`Colonnes après exclusion de l'ID: ${Array.from(allColumns).join(', ')}`);
 
-    // Comparer les lignes
-    const comparisonResults = [];
-    
-    // Lignes présentes dans la table 1
-    table1Data.forEach(row1 => {
-      const supplierId = row1.supplier_id;
-      if (!supplierId) return;
-
-      const row2 = table2Index[supplierId];
-      const differences = {};
-      let hasDifferences = false;
-
-      if (row2) {
-        // Le fournisseur existe dans les deux tables, comparer les colonnes
-        allColumns.forEach(column => {
-          const value1 = row1[column] !== undefined ? row1[column] : null;
-          const value2 = row2[column] !== undefined ? row2[column] : null;
+      // Créer un index composé pour les données de la table 2 basé sur Supplier_ID et Partners
+      console.log('Création des index pour la table 2...');
+      const table2Index = {};
+      
+      table2Data.forEach((row, index) => {
+        try {
+          // Extraire Supplier_ID et Partners (différentes variantes possibles)
+          const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
+          const partners = row.partners || row.Partners || row.PARTNERS || '';
           
-          // Normaliser les valeurs pour une comparaison insensible à la casse
-          const normalizedValue1 = normalizeValue(value1);
-          const normalizedValue2 = normalizeValue(value2);
+          // Créer une clé composée
+          const normalizedSupplierId = String(supplierId).toLowerCase().trim();
+          const normalizedPartners = String(partners).toLowerCase().trim();
+          
+          // Utiliser les deux champs comme clé d'index
+          const compositeKey = `${normalizedSupplierId}|${normalizedPartners}`;
+          
+          // Stocker la référence à la ligne
+          table2Index[compositeKey] = row;
+          
+          // Créer également un index secondaire basé uniquement sur Supplier_ID pour les cas où Partners ne correspond pas
+          if (normalizedSupplierId && !table2Index[normalizedSupplierId]) {
+            table2Index[normalizedSupplierId] = row;
+          }
+        } catch (err) {
+          console.error(`Erreur lors de l'indexation de la ligne ${index} de la table 2:`, err);
+        }
+      });
+      console.log(`Index créé avec ${Object.keys(table2Index).length} entrées`);
 
-          // Comparer les valeurs normalisées
-          if (normalizedValue1 !== normalizedValue2) {
-            differences[column] = {
-              table1: value1,
-              table2: value2
-            };
-            hasDifferences = true;
+      // Comparer les lignes
+      console.log('Début de la comparaison des lignes...');
+      const comparisonResults = [];
+      const processedTable2Keys = new Set(); // Pour suivre les lignes de la table 2 déjà traitées
+      
+      // 1. Traiter les lignes de la table 1
+      console.log('Analyse des lignes de la table 1...');
+      table1Data.forEach((row1, index) => {
+        try {
+          // Extraire les identifiants
+          const supplierId1 = row1.supplier_id || row1.Supplier_ID || row1.SUPPLIER_ID || 'N/A';
+          const partners1 = row1.partners || row1.Partners || row1.PARTNERS || 'N/A';
+          const id1 = row1.id || row1.ID || row1.Id || 'N/A';
+          
+          // Normaliser les identifiants pour la recherche
+          const normalizedSupplierId1 = String(supplierId1).toLowerCase().trim();
+          const normalizedPartners1 = String(partners1).toLowerCase().trim();
+          
+          // Créer une clé composée
+          const compositeKey = `${normalizedSupplierId1}|${normalizedPartners1}`;
+          
+          // Chercher la ligne correspondante dans la table 2 (d'abord avec la clé composée)
+          let row2 = table2Index[compositeKey];
+          let matchType = 'supplier_id_and_partners';
+          
+          // Si pas de correspondance exacte, essayer avec seulement Supplier_ID
+          if (!row2 && normalizedSupplierId1) {
+            row2 = table2Index[normalizedSupplierId1];
+            matchType = 'supplier_id';
+          }
+          
+          if (row2) {
+            // Marquer comme traité
+            processedTable2Keys.add(compositeKey);
+            
+            // Si match par Supplier_ID uniquement, marquer également cette clé
+            if (matchType === 'supplier_id') {
+              processedTable2Keys.add(normalizedSupplierId1);
+            }
+            
+            // Comparer les colonnes (sauf ID)
+            const differences = {};
+            let hasDifferences = false;
+            
+            allColumns.forEach(column => {
+              try {
+                // Ignorer la colonne ID dans la comparaison
+                if (column.toLowerCase() === 'id') return;
+                
+                const value1 = row1[column] !== undefined ? row1[column] : null;
+                const value2 = row2[column] !== undefined ? row2[column] : null;
+                
+                // Normaliser les valeurs
+                const normalizedValue1 = normalizeValue(value1);
+                const normalizedValue2 = normalizeValue(value2);
+                
+                // Comparer
+                if (normalizedValue1 !== normalizedValue2) {
+                  differences[column] = {
+                    table1: value1,
+                    table2: value2
+                  };
+                  hasDifferences = true;
+                }
+              } catch (err) {
+                console.error(`Erreur lors de la comparaison de la colonne ${column}:`, err);
+              }
+            });
+            
+            // Ajouter aux résultats
+            comparisonResults.push({
+              id: id1, // Conserver l'ID pour l'affichage uniquement
+              supplierId: supplierId1,
+              partners: partners1,
+              matchType,
+              existsInTable1: true,
+              existsInTable2: true,
+              differences,
+              hasDifferences
+            });
+          } else {
+            // La ligne n'existe que dans la table 1
+            comparisonResults.push({
+              id: id1,
+              supplierId: supplierId1,
+              partners: partners1,
+              matchType: 'none',
+              existsInTable1: true,
+              existsInTable2: false,
+              differences: {},
+              hasDifferences: true
+            });
+          }
+        } catch (err) {
+          console.error(`Erreur lors du traitement de la ligne ${index} de la table 1:`, err);
+        }
+      });
+      
+      // 2. Trouver les lignes qui n'existent que dans la table 2
+      console.log('Analyse des lignes uniques de la table 2...');
+      table2Data.forEach((row2, index) => {
+        try {
+          // Extraire les identifiants
+          const supplierId2 = row2.supplier_id || row2.Supplier_ID || row2.SUPPLIER_ID || 'N/A';
+          const partners2 = row2.partners || row2.Partners || row2.PARTNERS || 'N/A';
+          const id2 = row2.id || row2.ID || row2.Id || 'N/A';
+          
+          // Normaliser les identifiants
+          const normalizedSupplierId2 = String(supplierId2).toLowerCase().trim();
+          const normalizedPartners2 = String(partners2).toLowerCase().trim();
+          
+          // Créer une clé composée
+          const compositeKey = `${normalizedSupplierId2}|${normalizedPartners2}`;
+          
+          // Vérifier si cette ligne a déjà été traitée
+          if (processedTable2Keys.has(compositeKey) || processedTable2Keys.has(normalizedSupplierId2)) {
+            return; // Déjà traitée
+          }
+          
+          // Cette ligne n'existe que dans la table 2
+          comparisonResults.push({
+            id: id2,
+            supplierId: supplierId2,
+            partners: partners2,
+            matchType: 'none',
+            existsInTable1: false,
+            existsInTable2: true,
+            differences: {},
+            hasDifferences: true
+          });
+        } catch (err) {
+          console.error(`Erreur lors du traitement de la ligne ${index} de la table 2:`, err);
+        }
+      });
+
+      // 3. Calculer les statistiques
+      console.log('Calcul des statistiques...');
+      const stats = {
+        totalRows: comparisonResults.length,
+        rowsWithDifferences: comparisonResults.filter(r => r.hasDifferences).length,
+        onlyInTable1: comparisonResults.filter(r => r.existsInTable1 && !r.existsInTable2).length,
+        onlyInTable2: comparisonResults.filter(r => !r.existsInTable1 && r.existsInTable2).length,
+        columnsWithMostDifferences: []
+      };
+      
+      // 4. Calculer les colonnes avec le plus de différences
+      if (stats.rowsWithDifferences > 0) {
+        const columnDifferences = {};
+        
+        // Compter les différences par colonne
+        comparisonResults.forEach(result => {
+          if (result.hasDifferences && result.existsInTable1 && result.existsInTable2) {
+            Object.keys(result.differences).forEach(column => {
+              if (!columnDifferences[column]) {
+                columnDifferences[column] = 0;
+              }
+              columnDifferences[column]++;
+            });
           }
         });
-
-        comparisonResults.push({
-          supplierId,
-          existsInTable1: true,
-          existsInTable2: true,
-          differences,
-          hasDifferences
-        });
-      } else {
-        // Le fournisseur n'existe que dans la table 1
-        comparisonResults.push({
-          supplierId,
-          existsInTable1: true,
-          existsInTable2: false,
-          differences: {},
-          hasDifferences: true
-        });
+        
+        // Convertir en tableau et trier
+        stats.columnsWithMostDifferences = Object.entries(columnDifferences)
+          .map(([column, count]) => ({ column, count }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 5); // Top 5
       }
-    });
-
-    // Lignes présentes uniquement dans la table 2
-    table2Data.forEach(row2 => {
-      const supplierId = row2.supplier_id;
-      if (!supplierId) return;
-
-      // Vérifier si ce fournisseur a déjà été traité (existe dans la table 1)
-      const alreadyProcessed = comparisonResults.some(result => result.supplierId === supplierId);
       
-      if (!alreadyProcessed) {
-        comparisonResults.push({
-          supplierId,
-          existsInTable1: false,
-          existsInTable2: true,
-          differences: {},
-          hasDifferences: true
-        });
-      }
-    });
-
-    // Statistiques
-    const stats = {
-      totalRows: comparisonResults.length,
-      rowsWithDifferences: comparisonResults.filter(r => r.hasDifferences).length,
-      onlyInTable1: comparisonResults.filter(r => r.existsInTable1 && !r.existsInTable2).length,
-      onlyInTable2: comparisonResults.filter(r => !r.existsInTable1 && r.existsInTable2).length,
-      columnsWithMostDifferences: calculateColumnDifferenceStats(comparisonResults)
-    };
-
-    return {
-      table1Name: selectedTable1,
-      table2Name: selectedTable2,
-      columns: Array.from(allColumns),
-      results: comparisonResults,
-      stats
-    };
+      console.log(`Comparaison terminée: ${stats.totalRows} lignes au total, ${stats.rowsWithDifferences} avec différences`);
+      
+      return {
+        table1Name: selectedTable1,
+        table2Name: selectedTable2,
+        columns: Array.from(allColumns),
+        results: comparisonResults,
+        stats: stats
+      };
+    } catch (error) {
+      console.error('Erreur lors de la comparaison des tables:', error);
+      throw new Error(`Erreur lors de la comparaison des tables: ${error.message}`);
+    }
   };
 
-  // Calculer les statistiques de différences par colonne
-  const calculateColumnDifferenceStats = (results) => {
-    const columnDiffs = {};
-    
-    results.forEach(result => {
-      if (result.existsInTable1 && result.existsInTable2) {
-        Object.keys(result.differences).forEach(column => {
-          if (!columnDiffs[column]) {
-            columnDiffs[column] = 0;
-          }
-          columnDiffs[column]++;
-        });
-      }
-    });
+  // Gestion du changement de page
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-    // Trier les colonnes par nombre de différences
-    return Object.entries(columnDiffs)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([column, count]) => ({ column, count }));
+  // Gestion du changement de nombre de lignes par page
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   // Filtrer les résultats pour n'afficher que les différences si demandé
@@ -442,118 +604,129 @@ const Compare = () => {
             )}
           </Paper>
           
-          <TableContainer component={Paper}>
-            <Table size="small">
+          <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+            <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>ID</TableCell>
                   <TableCell>Supplier ID</TableCell>
-                  <TableCell>Status</TableCell>
-                  {compareResult.columns.map(column => (
-                    column !== 'supplier_id' && (
-                      <TableCell key={column}>{column}</TableCell>
-                    )
-                  ))}
+                  <TableCell>Partners</TableCell>
+                  <TableCell>Match Type</TableCell>
+                  <TableCell>Existe dans {compareResult.table1Name}</TableCell>
+                  <TableCell>Existe dans {compareResult.table2Name}</TableCell>
+                  <TableCell>Différences</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {getFilteredResults().map((result) => (
-                  <TableRow 
-                    key={result.supplierId}
-                    sx={{
-                      backgroundColor: !result.existsInTable1 || !result.existsInTable2 
-                        ? '#fff8e1' // jaune clair pour les lignes qui n'existent que dans une table
-                        : 'inherit'
-                    }}
-                  >
-                    <TableCell>{result.supplierId}</TableCell>
-                    <TableCell>
-                      {!result.existsInTable1 && (
-                        <Chip 
-                          label={`Uniquement dans ${compareResult.table2Name}`} 
-                          color="error" 
-                          size="small"
-                        />
-                      )}
-                      {!result.existsInTable2 && (
-                        <Chip 
-                          label={`Uniquement dans ${compareResult.table1Name}`} 
-                          color="error" 
-                          size="small"
-                        />
-                      )}
-                      {result.existsInTable1 && result.existsInTable2 && (
-                        result.hasDifferences ? (
-                          <Chip 
-                            label="Différences" 
-                            color="warning" 
+                {getFilteredResults()
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => (
+                    <TableRow key={index} 
+                      style={{
+                        backgroundColor: !row.existsInTable1 ? '#ffebee' : // Rouge clair pour lignes seulement dans table 2
+                                          !row.existsInTable2 ? '#e8f5e9' : // Vert clair pour lignes seulement dans table 1
+                                          row.hasDifferences ? '#fff8e1' : // Jaune clair pour lignes avec différences
+                                          'inherit' // Couleur par défaut pour lignes identiques
+                      }}
+                    >
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.supplierId}</TableCell>
+                      <TableCell>{row.partners}</TableCell>
+                      <TableCell>{row.matchType}</TableCell>
+                      <TableCell>
+                        {row.existsInTable1 ? <CheckIcon color="success" /> : <CloseIcon color="error" />}
+                      </TableCell>
+                      <TableCell>
+                        {row.existsInTable2 ? <CheckIcon color="success" /> : <CloseIcon color="error" />}
+                      </TableCell>
+                      <TableCell>
+                        {row.hasDifferences && row.existsInTable1 && row.existsInTable2 ? (
+                          <Button
+                            variant="outlined"
+                            color="primary"
                             size="small"
-                          />
+                            onClick={() => setSelectedRow(row)}
+                          >
+                            Voir les différences ({Object.keys(row.differences).length})
+                          </Button>
                         ) : (
-                          <Chip 
-                            label="Identique" 
-                            color="success" 
-                            size="small"
-                          />
-                        )
-                      )}
-                    </TableCell>
-                    {compareResult.columns.map(column => {
-                      if (column === 'supplier_id') return null;
-                      
-                      const hasDiff = result.differences && result.differences[column];
-                      
-                      return (
-                        <TableCell 
-                          key={column}
-                          sx={{
-                            backgroundColor: hasDiff ? '#ffebee' : 'inherit', // rouge très clair pour les cellules avec différences
-                            position: 'relative'
-                          }}
-                        >
-                          {!result.existsInTable1 ? (
-                            <Typography variant="body2" color="text.secondary">
-                              {result.existsInTable2 && compareResult.results.find(r => 
-                                r.supplierId === result.supplierId && r.existsInTable2
-                              )?.[column]}
-                            </Typography>
-                          ) : !result.existsInTable2 ? (
-                            <Typography variant="body2" color="text.secondary">
-                              {result.existsInTable1 && compareResult.results.find(r => 
-                                r.supplierId === result.supplierId && r.existsInTable1
-                              )?.[column]}
-                            </Typography>
-                          ) : hasDiff ? (
-                            <Box>
-                              <Typography variant="body2" color="error">
-                                {compareResult.table1Name}: {result.differences[column].table1 !== null ? result.differences[column].table1 : '(vide)'}
-                              </Typography>
-                              <Divider sx={{ my: 0.5 }} />
-                              <Typography variant="body2" color="primary">
-                                {compareResult.table2Name}: {result.differences[column].table2 !== null ? result.differences[column].table2 : '(vide)'}
-                              </Typography>
-                            </Box>
+                          row.existsInTable1 && row.existsInTable2 ? (
+                            <Chip 
+                              label="Identique" 
+                              color="success" 
+                              size="small"
+                            />
                           ) : (
-                            result.existsInTable1 && result.existsInTable2 && (
-                              <Typography variant="body2">
-                                {result.differences[column]?.table1 !== undefined 
-                                  ? result.differences[column].table1 
-                                  : result.existsInTable1 && compareResult.results.find(r => 
-                                    r.supplierId === result.supplierId && r.existsInTable1
-                                  )?.[column]}
-                              </Typography>
-                            )
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))}
+                            "N/A"
+                          )
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              component="div"
+              count={getFilteredResults().length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Lignes par page:"
+              labelDisplayedRows={({ from, to, count }) => `${from}-${to} sur ${count}`}
+            />
           </TableContainer>
         </>
       )}
       
+      {/* Dialogue pour afficher les détails des différences */}
+      <Dialog
+        open={Boolean(selectedRow)}
+        onClose={() => setSelectedRow(null)}
+        maxWidth="md"
+        fullWidth
+      >
+        {selectedRow && (
+          <>
+            <DialogTitle>
+              Détails des différences - Fournisseur {selectedRow.supplierId}
+            </DialogTitle>
+            <DialogContent>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Colonne</TableCell>
+                      <TableCell>{compareResult.table1Name}</TableCell>
+                      <TableCell>{compareResult.table2Name}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Object.entries(selectedRow.differences).map(([column, values]) => (
+                      <TableRow key={column}>
+                        <TableCell><strong>{column}</strong></TableCell>
+                        <TableCell style={{ backgroundColor: '#e8f5e9' }}>
+                          {values.table1 !== null && values.table1 !== undefined ? values.table1.toString() : '(vide)'}
+                        </TableCell>
+                        <TableCell style={{ backgroundColor: '#ffebee' }}>
+                          {values.table2 !== null && values.table2 !== undefined ? values.table2.toString() : '(vide)'}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setSelectedRow(null)} color="primary">
+                Fermer
+              </Button>
+            </DialogActions>
+          </>
+        )}
+      </Dialog>
+
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}

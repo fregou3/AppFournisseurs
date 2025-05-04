@@ -43,6 +43,21 @@ const Analyse = () => {
 
   const COLORS = ['#4caf50', '#ff9800', '#f44336', '#2196f3'];
 
+  // Fonction pour récupérer la table par défaut
+  const fetchDefaultTable = async () => {
+    try {
+      const response = await axios.get(`${config.apiUrl}/settings/default-table`);
+      if (response.data.defaultTable) {
+        console.log(`Table par défaut récupérée: ${response.data.defaultTable}`);
+        return response.data.defaultTable;
+      }
+      return null;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la table par défaut:', error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     // Charger la liste des tables au chargement du composant
     fetchTables();
@@ -64,19 +79,28 @@ const Analyse = () => {
   const fetchTables = async () => {
     try {
       setLoadingTables(true);
+      
+      // Récupérer la liste des tables
       const response = await axios.get(`${config.apiUrl}/fournisseurs/tables`);
       const tablesList = response.data.tables || [];
       setTables(tablesList);
       
-      // Toujours sélectionner une table par défaut
-      if (tablesList.length > 0) {
-        // Essayer de trouver une table avec "fournisseurs" dans le nom
-        const defaultTable = tablesList.find(table => 
+      // Récupérer la table par défaut depuis les paramètres
+      const defaultTableName = await fetchDefaultTable();
+      
+      // Sélectionner la table par défaut si elle existe et est dans la liste
+      if (defaultTableName && tablesList.includes(defaultTableName)) {
+        console.log(`Utilisation de la table par défaut: ${defaultTableName}`);
+        setSelectedTable(defaultTableName);
+      } 
+      // Sinon, utiliser une table avec "fournisseurs" dans le nom ou la première table disponible
+      else if (tablesList.length > 0) {
+        const fallbackTable = tablesList.find(table => 
           table.toLowerCase().includes('fournisseurs')
         ) || tablesList[0];
         
-        console.log(`Sélection de la table par défaut: ${defaultTable}`);
-        setSelectedTable(defaultTable);
+        console.log(`Aucune table par défaut définie, utilisation de: ${fallbackTable}`);
+        setSelectedTable(fallbackTable);
       }
       
       setLoadingTables(false);
@@ -290,33 +314,21 @@ const Analyse = () => {
     // Vérifier que data est bien un tableau
     const dataArray = Array.isArray(data) ? data : [];
     
-    // Filtrer les fournisseurs qui n'ont pas de note de risque (score)
-    const fournisseursSansNote = dataArray.filter(f => {
-      // Vérifier si le score est absent ou égal à zéro
-      const scoreValue = f.Score !== undefined ? f.Score : f.score;
-      return !scoreValue || parseFloat(scoreValue) === 0;
-    });
+    console.log(`Nombre total de fournisseurs: ${dataArray.length}`);
     
-    console.log(`Nombre de fournisseurs sans note de risque: ${fournisseursSansNote.length}`);
+    // Afficher les premiers éléments pour déboguer et identifier les noms de colonnes
+    if (dataArray.length > 0) {
+      console.log('Premier élément des données:', dataArray[0]);
+      console.log('Noms des colonnes disponibles:', Object.keys(dataArray[0]));
+    }
     
-    // Compter les informations manquantes pour chaque fournisseur sans note
-    const informationsManquantes = fournisseursSansNote.map(f => {
-      // Vérifier la présence des 4 informations nécessaires au calcul du risque
-      const regionManquante = !f['ORGANIZATION ZONE'] || f['ORGANIZATION ZONE'].trim() === '';
-      const paysManquant = !f['ORGANIZATION COUNTRY'] || f['ORGANIZATION COUNTRY'].trim() === '';
-      const localisationManquante = !f['Country of Supplier Contact'] || f['Country of Supplier Contact'].trim() === '';
-      const natureTierManquante = !f['Activity Area'] || f['Activity Area'].trim() === '';
-      
-      return {
-        fournisseur: f['PARTNERS GROUP'] || 'Inconnu',
-        regionManquante,
-        paysManquant,
-        localisationManquante,
-        natureTierManquante
-      };
-    });
+    // Fonction utilitaire pour vérifier si un champ est vide
+    const estVide = (valeur) => {
+      return valeur === null || valeur === undefined || valeur === '' || 
+             (typeof valeur === 'string' && valeur.trim() === '');
+    };
     
-    // Compter le nombre de chaque type d'information manquante qui empêche le calcul du risque
+    // Compter directement le nombre de champs vides pour chaque catégorie
     const compteurTypes = {
       region: 0,
       pays: 0,
@@ -324,11 +336,32 @@ const Analyse = () => {
       natureTier: 0
     };
     
-    informationsManquantes.forEach(info => {
-      if (info.regionManquante) compteurTypes.region++;
-      if (info.paysManquant) compteurTypes.pays++;
-      if (info.localisationManquante) compteurTypes.localisation++;
-      if (info.natureTierManquante) compteurTypes.natureTier++;
+    // Parcourir tous les fournisseurs et compter les champs vides
+    dataArray.forEach(f => {
+      // Vérifier uniquement les 4 colonnes spécifiques mentionnées par l'utilisateur
+      if (estVide(f['Région d\'intervention'])) {
+        compteurTypes.region++;
+      }
+      
+      if (estVide(f['Pays d\'intervention'])) {
+        compteurTypes.pays++;
+      }
+      
+      if (estVide(f['Localisation'])) {
+        compteurTypes.localisation++;
+      }
+      
+      if (estVide(f['Nature du tiers'])) {
+        compteurTypes.natureTier++;
+      }
+    });
+    
+    // Ajouter un log pour voir le nombre total d'informations manquantes
+    console.log('Nombre total d\'informations manquantes:', {
+      'Région d\'intervention': compteurTypes.region,
+      'Pays d\'intervention': compteurTypes.pays,
+      'Localisation': compteurTypes.localisation,
+      'Nature du tiers': compteurTypes.natureTier
     });
     
     return [
@@ -503,6 +536,68 @@ const Analyse = () => {
     return stats;
   };
 
+  // Fonction pour calculer le pourcentage de remplissage de chaque colonne
+  const getColumnFillRates = () => {
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // Fonction pour vérifier si une valeur est vide
+    const estVide = (valeur) => {
+      return valeur === null || valeur === undefined || valeur === '' || 
+             (typeof valeur === 'string' && valeur.trim() === '');
+    };
+
+    const totalRows = data.length;
+    const fillRates = [];
+    
+    // Récupérer l'ordre des colonnes depuis le backend
+    const fetchColumnOrder = async () => {
+      try {
+        const response = await axios.get(`${config.apiUrl}/table-structure/columns/${selectedTable}`);
+        
+        if (response.data && response.data.columns) {
+          // Trier les colonnes par position
+          const sortedColumns = response.data.columns.sort((a, b) => a.position - b.position);
+          return sortedColumns.map(col => col.name);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération de l\'ordre des colonnes:', error);
+      }
+      
+      // En cas d'erreur, utiliser l'ordre par défaut des colonnes
+      return Object.keys(data[0] || {});
+    };
+    
+    // Obtenir toutes les colonnes disponibles dans les données
+    const columns = Object.keys(data[0]);
+
+    // Calculer le pourcentage de remplissage pour chaque colonne
+    columns.forEach(column => {
+      let filledCount = 0;
+
+      // Compter le nombre de cellules remplies dans cette colonne
+      data.forEach(row => {
+        if (!estVide(row[column])) {
+          filledCount++;
+        }
+      });
+
+      // Calculer le pourcentage de remplissage
+      const fillRate = (filledCount / totalRows) * 100;
+
+      fillRates.push({
+        column: column,
+        fillRate: fillRate.toFixed(2),
+        filledCount: filledCount,
+        totalRows: totalRows
+      });
+    });
+
+    // Conserver l'ordre original des colonnes (comme dans la page Home)
+    return fillRates;
+  };
+
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -558,6 +653,7 @@ const Analyse = () => {
         <Tab label="Vue d'ensemble" />
         <Tab label="Analyse géographique" />
         <Tab label="Analyse détaillée" />
+        <Tab label="REMPLISSAGE" />
         <Tab label="Matrice des risques" />
       </Tabs>
 
@@ -891,6 +987,68 @@ const Analyse = () => {
       )}
 
       {tabValue === 3 && (
+        <Grid container spacing={3}>
+          {/* Tableau détaillé du taux de remplissage */}
+          <Grid item xs={12}>
+            <Paper elevation={3} sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Détail du Taux de Remplissage par Colonne
+              </Typography>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="body2" color="textSecondary">
+                  Ce tableau montre le pourcentage de remplissage de chaque colonne dans la table sélectionnée.
+                  L'ordre des colonnes est le même que dans le tableau de la page d'accueil.
+                </Typography>
+              </Box>
+              <TableContainer sx={{ maxHeight: 600 }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Colonne</TableCell>
+                      <TableCell>Taux de Remplissage</TableCell>
+                      <TableCell>Cellules Remplies</TableCell>
+                      <TableCell>Total Lignes</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {getColumnFillRates().map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{row.column}</TableCell>
+                        <TableCell>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ 
+                              width: '100px', 
+                              mr: 1, 
+                              bgcolor: '#e0e0e0', 
+                              borderRadius: 1, 
+                              height: '10px' 
+                            }}>
+                              <Box 
+                                sx={{ 
+                                  width: `${row.fillRate}%`, 
+                                  bgcolor: parseFloat(row.fillRate) < 50 ? '#f44336' : 
+                                           parseFloat(row.fillRate) < 80 ? '#ff9800' : '#4caf50', 
+                                  height: '10px',
+                                  borderRadius: 1
+                                }} 
+                              />
+                            </Box>
+                            <Typography variant="body2">{row.fillRate}%</Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell>{row.filledCount}</TableCell>
+                        <TableCell>{row.totalRows}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
+        </Grid>
+      )}
+
+      {tabValue === 4 && (
         <Grid container spacing={3}>
           {/* Matrice des risques */}
           <Grid item xs={12}>
