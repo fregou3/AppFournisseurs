@@ -33,38 +33,144 @@ const Analyse = () => {
     totalFournisseurs: 0,
     risqueEleve: 0,
     risqueMoyen: 0,
-    risqueFaible: 0
+    risqueFaible: 0,
+    nonEvalues: 0
   });
   const [scoreFilter, setScoreFilter] = useState(7);
+  const [tables, setTables] = useState([]);
+  const [selectedTable, setSelectedTable] = useState('fournisseurs');
+  const [loadingTables, setLoadingTables] = useState(false);
 
   const COLORS = ['#4caf50', '#ff9800', '#f44336', '#2196f3'];
 
   useEffect(() => {
-    fetchData();
+    // Charger la liste des tables au chargement du composant
+    fetchTables();
   }, []);
+  
+  useEffect(() => {
+    if (selectedTable) {
+      fetchData(selectedTable);
+    }
+  }, [selectedTable]);
+  
+  // Réinitialiser la page lorsque le filtre de score change
+  useEffect(() => {
+    setPage(0);
+    // Pas besoin de recharger les données, juste de réinitialiser la pagination
+    console.log(`Filtre de score changé à: ${scoreFilter}`);
+  }, [scoreFilter]);
 
-  const fetchData = async () => {
+  const fetchTables = async () => {
     try {
-      const response = await axios.get(`${config.apiUrl}/fournisseurs`);
-      // Extraire le tableau de données de la réponse
-    setData(response.data.data || []);
-    
-      calculateStats(response.data.data || []);
-      setLoading(false);
+      setLoadingTables(true);
+      const response = await axios.get(`${config.apiUrl}/fournisseurs/tables`);
+      const tablesList = response.data.tables || [];
+      setTables(tablesList);
+      
+      // Toujours sélectionner une table par défaut
+      if (tablesList.length > 0) {
+        // Essayer de trouver une table avec "fournisseurs" dans le nom
+        const defaultTable = tablesList.find(table => 
+          table.toLowerCase().includes('fournisseurs')
+        ) || tablesList[0];
+        
+        console.log(`Sélection de la table par défaut: ${defaultTable}`);
+        setSelectedTable(defaultTable);
+      }
+      
+      setLoadingTables(false);
     } catch (error) {
-      console.error('Erreur lors de la récupération des données:', error);
+      console.error('Erreur lors de la récupération des tables:', error);
+      setLoadingTables(false);
+    }
+  };
+
+  const fetchData = async (tableName) => {
+    if (!tableName) {
+      console.error('Aucune table sélectionnée pour le chargement des données');
+      return;
+    }
+    
+    console.log(`Chargement des données de la table: ${tableName}`);
+    
+    try {
+      setLoading(true);
+      const url = tableName === 'fournisseurs' 
+        ? `${config.apiUrl}/fournisseurs?pageSize=15000` 
+        : `${config.apiUrl}/fournisseurs/table/${tableName}?pageSize=15000`;
+      
+      console.log(`Récupération des données de la table ${tableName}:`, url);
+      const response = await axios.get(url);
+      
+      // Extraire le tableau de données de la réponse
+      let tableData = [];
+      
+      if (response.data && Array.isArray(response.data.data)) {
+        // Format avec pagination
+        tableData = response.data.data;
+      } else if (Array.isArray(response.data)) {
+        // Format tableau simple
+        tableData = response.data;
+      } else if (response.data && typeof response.data === 'object') {
+        // Si c'est un objet mais pas un tableau, essayer de le convertir
+        try {
+          tableData = Object.values(response.data);
+        } catch (e) {
+          console.error('Impossible de convertir les données en tableau:', e);
+          tableData = [];
+        }
+      }
+      
+      console.log(`Données récupérées pour ${tableName}: ${tableData.length} lignes`);
+      setData(tableData);
+      calculateStats(tableData);
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des données de ${tableName}:`, error);
+      setData([]);
+      setStats({
+        totalFournisseurs: 0,
+        risqueEleve: 0,
+        risqueMoyen: 0,
+        risqueFaible: 0
+      });
+    } finally {
       setLoading(false);
     }
   };
 
   const calculateStats = (fournisseurs) => {
     // Calcul des statistiques réelles
+    // Vérifier si les scores sont stockés sous 'score' ou 'Score'
     const realStats = {
       totalFournisseurs: fournisseurs.length,
-      risqueEleve: fournisseurs.filter(f => f.score >= 7).length,
-      risqueMoyen: fournisseurs.filter(f => f.score >= 4 && f.score < 7).length,
-      risqueFaible: fournisseurs.filter(f => f.score < 4).length
+      risqueEleve: fournisseurs.filter(f => {
+        const score = f.Score !== undefined ? f.Score : f.score;
+        return score !== undefined && score !== null && score >= 7;
+      }).length,
+      risqueMoyen: fournisseurs.filter(f => {
+        const score = f.Score !== undefined ? f.Score : f.score;
+        return score !== undefined && score !== null && score >= 4 && score < 7;
+      }).length,
+      risqueFaible: fournisseurs.filter(f => {
+        const score = f.Score !== undefined ? f.Score : f.score;
+        return score !== undefined && score !== null && score < 4;
+      }).length,
+      nonEvalues: fournisseurs.filter(f => {
+        const score = f.Score !== undefined ? f.Score : f.score;
+        return score === undefined || score === null;
+      }).length
     };
+    
+    // Afficher des informations de débogage
+    console.log('Statistiques calculées:', realStats);
+    if (fournisseurs.length > 0) {
+      const firstItem = fournisseurs[0];
+      console.log('Premier élément:', firstItem);
+      console.log('Propriétés disponibles:', Object.keys(firstItem));
+      console.log('Score (minuscule):', firstItem.score);
+      console.log('Score (majuscule):', firstItem.Score);
+    }
     
     // Enrichissement avec des données fictives
     const enhancedStats = generateEnhancedStats(realStats);
@@ -92,7 +198,8 @@ const Analyse = () => {
   const getRisquesData = () => [
     { name: 'Risque Faible', value: stats.risqueFaible },
     { name: 'Risque Moyen', value: stats.risqueMoyen },
-    { name: 'Risque Élevé', value: stats.risqueEleve }
+    { name: 'Risque Élevé', value: stats.risqueEleve },
+    { name: 'Non Évalués', value: stats.nonEvalues }
   ];
 
   const getScoresParZone = () => {
@@ -178,11 +285,58 @@ const Analyse = () => {
     }));
   };
 
-  // Données pour l'évolution des risques
-  const getEvolutionRisque = () => {
-    // Utilisation de la fonction pour générer des données d'évolution des risques
-    const evolution = generateRiskEvolution(stats);
-    return evolution;
+  // Données pour les informations manquantes nécessaires au calcul du risque
+  const getInformationsManquantes = () => {
+    // Vérifier que data est bien un tableau
+    const dataArray = Array.isArray(data) ? data : [];
+    
+    // Filtrer les fournisseurs qui n'ont pas de note de risque (score)
+    const fournisseursSansNote = dataArray.filter(f => {
+      // Vérifier si le score est absent ou égal à zéro
+      const scoreValue = f.Score !== undefined ? f.Score : f.score;
+      return !scoreValue || parseFloat(scoreValue) === 0;
+    });
+    
+    console.log(`Nombre de fournisseurs sans note de risque: ${fournisseursSansNote.length}`);
+    
+    // Compter les informations manquantes pour chaque fournisseur sans note
+    const informationsManquantes = fournisseursSansNote.map(f => {
+      // Vérifier la présence des 4 informations nécessaires au calcul du risque
+      const regionManquante = !f['ORGANIZATION ZONE'] || f['ORGANIZATION ZONE'].trim() === '';
+      const paysManquant = !f['ORGANIZATION COUNTRY'] || f['ORGANIZATION COUNTRY'].trim() === '';
+      const localisationManquante = !f['Country of Supplier Contact'] || f['Country of Supplier Contact'].trim() === '';
+      const natureTierManquante = !f['Activity Area'] || f['Activity Area'].trim() === '';
+      
+      return {
+        fournisseur: f['PARTNERS GROUP'] || 'Inconnu',
+        regionManquante,
+        paysManquant,
+        localisationManquante,
+        natureTierManquante
+      };
+    });
+    
+    // Compter le nombre de chaque type d'information manquante qui empêche le calcul du risque
+    const compteurTypes = {
+      region: 0,
+      pays: 0,
+      localisation: 0,
+      natureTier: 0
+    };
+    
+    informationsManquantes.forEach(info => {
+      if (info.regionManquante) compteurTypes.region++;
+      if (info.paysManquant) compteurTypes.pays++;
+      if (info.localisationManquante) compteurTypes.localisation++;
+      if (info.natureTierManquante) compteurTypes.natureTier++;
+    });
+    
+    return [
+      { name: 'Région d\'intervention', value: compteurTypes.region },
+      { name: 'Pays d\'intervention', value: compteurTypes.pays },
+      { name: 'Localisation', value: compteurTypes.localisation },
+      { name: 'Nature du tiers', value: compteurTypes.natureTier }
+    ];
   };
 
   // Tableau des fournisseurs à haut risque
@@ -192,16 +346,27 @@ const Analyse = () => {
     
     // Obtenir les données réelles
     const realData = dataArray
-      .filter(f => Math.round(f.score) === scoreFilter)
-      .sort((a, b) => b.score - a.score)
+      .filter(f => {
+        // Vérifier si le score est stocké sous 'score' ou 'Score'
+        const scoreValue = f.Score !== undefined ? f.Score : f.score;
+        if (!scoreValue) return false;
+        
+        const scoreNumber = parseFloat(scoreValue);
+        return Math.round(scoreNumber) === scoreFilter;
+      })
+      .sort((a, b) => {
+        const scoreA = parseFloat(a.Score !== undefined ? a.Score : a.score) || 0;
+        const scoreB = parseFloat(b.Score !== undefined ? b.Score : b.score) || 0;
+        return scoreB - scoreA;
+      })
       .map(f => ({
-        nom: f['PARTNERS GROUP'],
-        score: f.score,
-        zone: f['ORGANIZATION ZONE'],
-        region: f['ORGANIZATION 1'], 
-        pays: f['ORGANIZATION COUNTRY'], 
-        localisation: f['Country of Supplier Contact'], 
-        natureTier: f['Activity Area'] 
+        nom: f['PARTNERS GROUP'] || 'Inconnu',
+        score: parseFloat(f.Score !== undefined ? f.Score : f.score) || 0,
+        zone: f['ORGANIZATION ZONE'] || '',
+        region: f['ORGANIZATION 1'] || '', 
+        pays: f['ORGANIZATION COUNTRY'] || '', 
+        localisation: f['Country of Supplier Contact'] || '', 
+        natureTier: f['Activity Area'] || ''
       }));
     
     // Enrichir avec des données fictives
@@ -280,19 +445,35 @@ const Analyse = () => {
 
   // Fonction pour calculer les statistiques par région géographique
   const getGeographicStats = () => {
+    // Vérifier si data est défini et non vide
+    if (!data || data.length === 0) {
+      console.log("Aucune donnée disponible pour l'analyse géographique");
+      return new Map(); // Retourner une Map vide pour éviter les erreurs
+    }
+    
     const stats = new Map();
+    
+    // Afficher un échantillon pour le débogage
+    console.log('Analyse géographique - Premier élément:', data[0]);
+    console.log('Propriétés disponibles:', Object.keys(data[0]));
 
     // Traiter chaque fournisseur
     data.forEach(f => {
+      // Vérifier si les propriétés existent
       const continent = f['ORGANIZATION ZONE'] || 'Non spécifié';
       const pays = f['ORGANIZATION COUNTRY'] || 'Non spécifié';
-      const score = parseFloat(f.score) || 0;
+      
+      // Vérifier si le score est stocké sous 'score' ou 'Score'
+      const scoreValue = f.Score !== undefined ? f.Score : f.score;
+      const score = parseFloat(scoreValue) || 0;
 
       // Initialiser les données du continent s'il n'existe pas encore
       if (!stats.has(continent)) {
         stats.set(continent, {
+          continent: continent,
           totalFournisseurs: 0,
           scoreTotal: 0,
+          moyenneScore: 0,
           pays: new Map()
         });
       }
@@ -301,12 +482,22 @@ const Analyse = () => {
       const continentData = stats.get(continent);
       continentData.totalFournisseurs += 1;
       continentData.scoreTotal += score;
+      continentData.moyenneScore = continentData.scoreTotal / continentData.totalFournisseurs;
 
       // Mettre à jour les données du pays
       if (!continentData.pays.has(pays)) {
-        continentData.pays.set(pays, 0);
+        continentData.pays.set(pays, {
+          pays: pays,
+          totalFournisseurs: 0,
+          scoreTotal: 0,
+          moyenneScore: 0
+        });
       }
-      continentData.pays.set(pays, continentData.pays.get(pays) + 1);
+      
+      const paysData = continentData.pays.get(pays);
+      paysData.totalFournisseurs += 1;
+      paysData.scoreTotal += score;
+      paysData.moyenneScore = paysData.scoreTotal / paysData.totalFournisseurs;
     });
 
     return stats;
@@ -324,11 +515,44 @@ const Analyse = () => {
     );
   }
 
+  // Gestionnaire de changement de table
+  const handleTableChange = (event) => {
+    setSelectedTable(event.target.value);
+  };
+
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+      <Typography variant="h4" gutterBottom sx={{ mb: 2 }}>
         Tableau de Bord d'Analyse des Risques Fournisseurs
       </Typography>
+      
+      {/* Sélecteur de table */}
+      <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+        <Typography variant="subtitle1" sx={{ mr: 2 }}>
+          Sélectionner une table :
+        </Typography>
+        {loadingTables ? (
+          <CircularProgress size={24} sx={{ ml: 2 }} />
+        ) : (
+          <select 
+            value={selectedTable} 
+            onChange={handleTableChange}
+            style={{ 
+              padding: '8px 12px', 
+              borderRadius: '4px', 
+              border: '1px solid #ccc',
+              fontSize: '16px',
+              minWidth: '200px'
+            }}
+          >
+            {tables.map((table) => (
+              <option key={table} value={table}>
+                {table}
+              </option>
+            ))}
+          </select>
+        )}
+      </Box>
 
       <Tabs value={tabValue} onChange={handleTabChange} sx={{ mb: 3 }}>
         <Tab label="Vue d'ensemble" />
@@ -346,21 +570,25 @@ const Analyse = () => {
                 Statistiques Générales
               </Typography>
               <Grid container spacing={3}>
-                <Grid item xs={3}>
+                <Grid item xs={12} md={2} lg={2}>
                   <Typography variant="h4">{stats.totalFournisseurs}</Typography>
                   <Typography color="textSecondary">Total Fournisseurs</Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} md={2} lg={2}>
                   <Typography variant="h4" color="error">{stats.risqueEleve}</Typography>
                   <Typography color="textSecondary">Risque Élevé</Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} md={2} lg={2}>
                   <Typography variant="h4" sx={{ color: '#ff9800' }}>{stats.risqueMoyen}</Typography>
                   <Typography color="textSecondary">Risque Moyen</Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} md={2} lg={2}>
                   <Typography variant="h4" sx={{ color: '#4caf50' }}>{stats.risqueFaible}</Typography>
                   <Typography color="textSecondary">Risque Faible</Typography>
+                </Grid>
+                <Grid item xs={6} md={2} lg={2}>
+                  <Typography variant="h4" sx={{ color: '#9e9e9e' }}>{stats.nonEvalues}</Typography>
+                  <Typography color="textSecondary">Non Évalués</Typography>
                 </Grid>
               </Grid>
             </Paper>
@@ -384,7 +612,7 @@ const Analyse = () => {
                     label
                   >
                     {getRisquesData().map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                      <Cell key={`cell-${index}`} fill={index === 3 ? '#9e9e9e' : COLORS[index]} />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -393,22 +621,21 @@ const Analyse = () => {
             </Paper>
           </Grid>
 
-          {/* Évolution des risques */}
+          {/* Informations manquantes pour le calcul du risque */}
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 3, height: 400 }}>
               <Typography variant="h6" gutterBottom>
-                Évolution des Risques
+                Informations Manquantes Empêchant le Calcul du Risque
               </Typography>
               <ResponsiveContainer>
-                <ComposedChart data={getEvolutionRisque()}>
+                <BarChart data={getInformationsManquantes()} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="mois" />
-                  <YAxis />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" width={150} />
                   <Tooltip />
-                  <Area type="monotone" dataKey="risqueFaible" fill="#4caf50" stroke="#4caf50" />
-                  <Area type="monotone" dataKey="risqueMoyen" fill="#ff9800" stroke="#ff9800" />
-                  <Area type="monotone" dataKey="risqueEleve" fill="#f44336" stroke="#f44336" />
-                </ComposedChart>
+                  <Legend />
+                  <Bar dataKey="value" fill="#1976d2" name="Nombre d'informations manquantes pour calculer la note de risque" />
+                </BarChart>
               </ResponsiveContainer>
             </Paper>
           </Grid>
@@ -511,20 +738,20 @@ const Analyse = () => {
                         >
                           <TableCell><strong>{continentData.continent}</strong></TableCell>
                           <TableCell>Tous les pays</TableCell>
-                          <TableCell>{continentData.fournisseurs.size}</TableCell>
-                          <TableCell>{continentData.moyenneScore.toFixed(2)}</TableCell>
+                          <TableCell>{continentData.totalFournisseurs}</TableCell>
+                          <TableCell>{continentData.moyenneScore ? continentData.moyenneScore.toFixed(2) : '0.00'}</TableCell>
                         </TableRow>,
                         // Lignes pour chaque pays du continent
                         Array.from(continentData.pays.values()).map(paysData => (
                           <TableRow key={`${continentData.continent}-${paysData.pays}`}>
                             <TableCell></TableCell>
                             <TableCell>{paysData.pays}</TableCell>
-                            <TableCell>{paysData.fournisseurs.size}</TableCell>
-                            <TableCell>{paysData.moyenneScore.toFixed(2)}</TableCell>
+                            <TableCell>{paysData.totalFournisseurs}</TableCell>
+                            <TableCell>{paysData.moyenneScore ? paysData.moyenneScore.toFixed(2) : '0.00'}</TableCell>
                           </TableRow>
                         ))
                       ];
-                    })}
+                    }).flat()}
                   </TableBody>
                 </Table>
               </TableContainer>
