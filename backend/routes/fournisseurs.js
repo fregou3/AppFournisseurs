@@ -719,6 +719,38 @@ router.get('/export/:tableName', async (req, res) => {
 // Stockage des tâches en cours
 const runningTasks = {};
 
+// Route pour récupérer la liste des tables disponibles
+router.get('/tables', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    console.log('Récupération de la liste des tables');
+    
+    // Requête pour obtenir toutes les tables de la base de données (sauf les tables système)
+    const query = `
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_type = 'BASE TABLE' 
+      ORDER BY table_name
+    `;
+    
+    const result = await client.query(query);
+    const tables = result.rows.map(row => row.table_name);
+    
+    console.log(`${tables.length} tables trouvées:`, tables);
+    
+    res.json({ tables });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des tables:', error);
+    res.status(500).json({ 
+      error: 'Erreur lors de la récupération des tables', 
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
+});
+
 // Route pour vérifier l'état d'une tâche de calcul
 router.get('/calculate-scores/status/:taskId', (req, res) => {
   const { taskId } = req.params;

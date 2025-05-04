@@ -109,12 +109,14 @@ const fournisseursRoutes = require('./routes/fournisseurs');
 const evaluation2Routes = require('./routes/evaluation2');
 const groupsRoutes = require('./routes/groups');
 const settingsRoutes = require('./routes/settings');
+const scoresRoutes = require('./routes/scores');
 
 // Routes sans préfixe /api en mode développement local
 app.use('/fournisseurs', fournisseursRoutes);
 app.use('/evaluation2', evaluation2Routes);
 app.use('/groups', groupsRoutes);
 app.use('/settings', settingsRoutes);
+app.use('/scores', scoresRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

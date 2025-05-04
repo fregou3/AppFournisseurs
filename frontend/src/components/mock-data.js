@@ -119,11 +119,13 @@ export const fictiveZoneScores = [
 
 // Fonction pour générer des statistiques enrichies
 export const generateEnhancedStats = (realStats) => {
+  // Utiliser les statistiques réelles au lieu de données fictives
   return {
-    totalFournisseurs: Math.max(realStats.totalFournisseurs || 0, 6500) + Math.floor(Math.random() * 1500),
-    risqueEleve: Math.max(realStats.risqueEleve || 0, 850) + Math.floor(Math.random() * 250),
-    risqueMoyen: Math.max(realStats.risqueMoyen || 0, 2200) + Math.floor(Math.random() * 500),
-    risqueFaible: Math.max(realStats.risqueFaible || 0, 3000) + Math.floor(Math.random() * 750)
+    totalFournisseurs: realStats.totalFournisseurs || 0,
+    risqueEleve: realStats.risqueEleve || 0,
+    risqueMoyen: realStats.risqueMoyen || 0,
+    risqueFaible: realStats.risqueFaible || 0,
+    nonEvalues: realStats.nonEvalues || 0
   };
 };
 
