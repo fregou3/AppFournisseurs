@@ -4,6 +4,24 @@
 # Auteur: Cascade AI
 # Date: 2025-05-05
 
+# Vérifier si psql est installé
+if ! command -v psql &> /dev/null; then
+  echo "ERREUR: La commande psql n'est pas installée."
+  echo "Veuillez installer le client PostgreSQL avec une des commandes suivantes:"
+  echo "  - Sur Ubuntu/Debian: sudo apt-get install postgresql-client"
+  echo "  - Sur Amazon Linux/RHEL: sudo yum install postgresql"
+  echo "  - Sur Alpine: apk add postgresql-client"
+  
+  # Alternative: utiliser Docker si disponible
+  if command -v docker &> /dev/null; then
+    echo ""
+    echo "Alternative: Vous pouvez utiliser Docker pour exécuter le script SQL:"
+    echo "docker run --rm -v \"$(pwd):/scripts\" -e PGPASSWORD=\"\$DB_PASSWORD\" postgres:13 psql -h \$DB_HOST -p \$DB_PORT -U \$DB_USER -d \$DB_NAME -f /scripts/create_group_metadata_table.sql"
+  fi
+  
+  exit 1
+fi
+
 # Charger les variables d'environnement
 if [ -f ../.env ]; then
   export $(grep -v '^#' ../.env | xargs)
