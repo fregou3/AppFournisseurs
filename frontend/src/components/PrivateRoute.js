@@ -12,13 +12,13 @@ const PrivateRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
   const lastLoginTime = localStorage.getItem('lastLoginTime');
 
-  // Vérifier si la session a expiré (8 heures)
+  // Vérifier si la session a expiré (3 heures)
   if (lastLoginTime) {
     const loginTime = new Date(lastLoginTime);
     const now = new Date();
     const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
     
-    if (hoursDiff > 8) {
+    if (hoursDiff > 3) {
       localStorage.removeItem('isAuthenticated');
       localStorage.removeItem('lastLoginTime');
       return <Navigate to="/login" state={{ from: location }} />;
