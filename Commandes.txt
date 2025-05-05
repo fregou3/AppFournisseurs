@@ -114,6 +114,37 @@ sudo usermod -aG docker ${USER}
 chmod +x scripts/deploy-postgres-docker.sh
 sudo scripts/deploy-postgres-docker.sh
 
+
+*******créer table system_group_metadata*******
+docker exec -it  postgres_fournisseurs psql -U admin gestion_fournisseurs
+
+-- Script pour créer la table system_group_metadata avec la structure spécifiée
+-- Date: 2025-05-05
+
+-- Supprimer la table et ses dépendances si elle existe
+DROP TABLE IF EXISTS system_group_metadata CASCADE;
+
+-- Recréer la table avec la définition exacte spécifiée
+CREATE TABLE system_group_metadata (
+  group_name text NOT NULL,
+  created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+  filters jsonb,
+  visible_columns jsonb,
+  table_name text,
+  original_column_names jsonb,
+  CONSTRAINT system_group_metadata_pkey PRIMARY KEY (group_name)
+);
+
+-- Créer l'index unique sur group_name
+CREATE UNIQUE INDEX system_group_metadata_pkey ON public.system_group_metadata USING btree (group_name);
+
+-- Afficher un message de confirmation
+DO $$
+BEGIN
+    RAISE NOTICE 'Table system_group_metadata supprimée et recréée avec succès.';
+END $$;
+
+
 ****************************************
 
 # Commandes pour push Git
@@ -206,8 +237,10 @@ ssh -i "C:\Users\frede\.ssh\clarins-trc-1.pem" ubuntu@35.181.84.154
 git pull
 sudo bash scripts/update-prod.sh
 
-C:\Users\frede\Documents\tab1.xlsx
-fournisseurs_tab_03052025
+restart front :
+sudo chown -R ubuntu:ubuntu /home/ubuntu/AppGetionFournisseurs_3.9_EN/AppFournisseurs/frontend/build
+sudo rm -rf /home/ubuntu/AppGetionFournisseurs_3.9_EN/AppFournisseurs/frontend/build
+npm run build
 
 
 *********calcul de score sur serveur distant*********
@@ -232,4 +265,42 @@ PRODUCTION_DOMAIN=http://app2.communify.solutions
 # Chemin de base pour l'API en production
 BASE_PATH=/fournisseurs/api
 
-************
+https************
+#!/bin/bash
+
+# Mise à jour du système
+sudo apt update
+sudo apt upgrade -y
+
+# Installation de Nginx si ce n'est pas déjà fait
+sudo apt install -y nginx
+
+# Installation de Certbot
+sudo apt install -y certbot python3-certbot-nginx
+
+# Configuration du pare-feu
+sudo ufw allow 'Nginx Full'
+sudo ufw allow ssh
+sudo ufw enable
+
+# Obtention des certificats et configuration automatique de Nginx
+# Remplacez example.com par votre domaine
+read -p "Configurer SSL pour app2.communify.solutions? (y/n) " configure_app2
+if [ "$configure_app2" = "y" ]; then
+    sudo certbot --nginx -d app2.communify.solutions
+fi
+
+read -p "Configurer SSL pour supplier-prd.communify.solutions? (y/n) " configure_supplier
+if [ "$configure_supplier" = "y" ]; then
+    sudo certbot --nginx -d supplier-prd.communify.solutions
+fi
+
+# Vérification de la configuration Nginx
+sudo nginx -t && sudo systemctl reload nginx
+
+# Test du renouvellement automatique
+sudo certbot renew --dry-run
+
+echo "Configuration SSL terminée!"
+***************************
+
