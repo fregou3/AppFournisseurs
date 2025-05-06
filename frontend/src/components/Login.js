@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import config from '../config';
 import {
   Box,
   TextField,
@@ -17,6 +18,37 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Vérifier si nous sommes sur un environnement de production
+  useEffect(() => {
+    // Vérifier si nous sommes déjà authentifiés
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const lastLoginTime = localStorage.getItem('lastLoginTime');
+    
+    console.log('=== VÉRIFICATION AUTHENTIFICATION LOGIN.JS ===');
+    console.log('Hostname:', config.hostname);
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('lastLoginTime:', lastLoginTime);
+    
+    // Si nous sommes déjà authentifiés, rediriger vers la page d'accueil
+    if (isAuthenticated && lastLoginTime) {
+      // Vérifier si la session a expiré (3 heures)
+      const loginTime = new Date(lastLoginTime);
+      const now = new Date();
+      const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+      
+      console.log('Heures écoulées depuis la dernière connexion:', hoursDiff);
+      
+      if (hoursDiff <= 3) {
+        console.log('Session valide, redirection vers la page d\'accueil');
+        navigate('/');
+      } else {
+        console.log('Session expirée, suppression des informations d\'authentification');
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('lastLoginTime');
+      }
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
