@@ -577,23 +577,31 @@ const Compare = () => {
       const annualSpendCol1 = annualSpendColumns1[0];
       const annualSpendCol2 = annualSpendColumns2[0];
       
-      // Créer un index pour la table 2 basé sur Supplier_ID et Partners
+      // Créer un index pour la table 2 basé sur Supplier_ID, Partners et SUBSIDIARY
       const table2Index = {};
       table2Data.forEach(row => {
         const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
         const partners = row.partners || row.Partners || row.PARTNERS || '';
+        const subsidiary = row.subsidiary || row.Subsidiary || row.SUBSIDIARY || '';
         
         // Normaliser les identifiants
         const normalizedSupplierId = String(supplierId).toLowerCase().trim();
         const normalizedPartners = String(partners).toLowerCase().trim();
+        const normalizedSubsidiary = String(subsidiary).toLowerCase().trim();
         
-        // Créer une clé composée
-        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}`;
+        // Créer une clé composée avec les trois champs
+        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}|${normalizedSubsidiary}`;
         
         // Stocker la référence à la ligne
         table2Index[compositeKey] = row;
         
-        // Créer également un index secondaire basé uniquement sur Supplier_ID
+        // Créer également un index secondaire basé sur Supplier_ID et Partners
+        const supplierPartnersKey = `${normalizedSupplierId}|${normalizedPartners}`;
+        if (!table2Index[supplierPartnersKey]) {
+          table2Index[supplierPartnersKey] = row;
+        }
+        
+        // Créer également un index tertiaire basé uniquement sur Supplier_ID
         if (normalizedSupplierId && !table2Index[normalizedSupplierId]) {
           table2Index[normalizedSupplierId] = row;
         }
@@ -606,22 +614,31 @@ const Compare = () => {
         // Extraire les identifiants
         const supplierId = row1.supplier_id || row1.Supplier_ID || row1.SUPPLIER_ID || 'N/A';
         const partners = row1.partners || row1.Partners || row1.PARTNERS || 'N/A';
+        const subsidiary = row1.subsidiary || row1.Subsidiary || row1.SUBSIDIARY || 'N/A';
         
         // Normaliser les identifiants
         const normalizedSupplierId = String(supplierId).toLowerCase().trim();
         const normalizedPartners = String(partners).toLowerCase().trim();
+        const normalizedSubsidiary = String(subsidiary).toLowerCase().trim();
         
-        // Créer une clé composée
-        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}`;
+        // Créer une clé composée avec les trois champs
+        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}|${normalizedSubsidiary}`;
         
         // Chercher la ligne correspondante dans la table 2
         let row2 = table2Index[compositeKey];
-        let matchType = 'supplier_id_and_partners';
+        let matchType = 'supplier_id_partners_subsidiary';
         
-        // Si pas de correspondance exacte, essayer avec seulement Supplier_ID
+        // Si pas de correspondance exacte, essayer avec Supplier_ID et Partners
+        if (!row2) {
+          const supplierPartnersKey = `${normalizedSupplierId}|${normalizedPartners}`;
+          row2 = table2Index[supplierPartnersKey];
+          if (row2) matchType = 'supplier_id_and_partners';
+        }
+        
+        // Si toujours pas de correspondance, essayer avec seulement Supplier_ID
         if (!row2 && normalizedSupplierId) {
           row2 = table2Index[normalizedSupplierId];
-          matchType = 'supplier_id';
+          if (row2) matchType = 'supplier_id';
         }
         
         if (row2) {
@@ -636,6 +653,8 @@ const Compare = () => {
           comparisonResults.push({
             supplierId,
             partners,
+            subsidiary,
+            matchType,
             annualSpend1,
             annualSpend2,
             difference,
@@ -649,6 +668,8 @@ const Compare = () => {
           comparisonResults.push({
             supplierId,
             partners,
+            subsidiary,
+            matchType: 'none',
             annualSpend1,
             annualSpend2: 0,
             difference: annualSpend1,
@@ -1019,6 +1040,8 @@ const Compare = () => {
                 <TableRow>
                   <TableCell>Supplier ID</TableCell>
                   <TableCell>PARTNERS</TableCell>
+                  <TableCell>SUBSIDIARY</TableCell>
+                  <TableCell>Type de correspondance</TableCell>
                   <TableCell>{spendCompareResult.annualSpendCol1} ({spendCompareResult.table1Name})</TableCell>
                   <TableCell>{spendCompareResult.annualSpendCol2} ({spendCompareResult.table2Name})</TableCell>
                   <TableCell>Différence</TableCell>
@@ -1038,6 +1061,18 @@ const Compare = () => {
                     >
                       <TableCell>{row.supplierId}</TableCell>
                       <TableCell>{row.partners}</TableCell>
+                      <TableCell>{row.subsidiary}</TableCell>
+                      <TableCell>
+                        {row.matchType === 'supplier_id_partners_subsidiary' ? (
+                          <Chip size="small" label="Exact" color="success" />
+                        ) : row.matchType === 'supplier_id_and_partners' ? (
+                          <Chip size="small" label="Sans SUBSIDIARY" color="warning" />
+                        ) : row.matchType === 'supplier_id' ? (
+                          <Chip size="small" label="Supplier ID uniquement" color="error" />
+                        ) : (
+                          <Chip size="small" label="Aucune correspondance" color="default" />
+                        )}
+                      </TableCell>
                       <TableCell>
                         {row.annualSpend1.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                       </TableCell>
