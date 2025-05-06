@@ -292,7 +292,7 @@ const Home = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
-      setSnackbar({
+      setNotification({
         open: true,
         message: `Export ${exportFormat.toUpperCase()} réussi`,
         severity: 'success'

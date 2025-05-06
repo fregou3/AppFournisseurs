@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const XLSX = require('xlsx');
+const ExcelJS = require('exceljs');
+const { Parser } = require('json2csv');
 const path = require('path');
 const pool = require('../db');
 const multer = require('multer');
@@ -874,6 +876,156 @@ router.post('/calculate-scores/:tableName', (req, res) => {
     };
     runningTasks[taskId].endTime = new Date();
   });
+});
+
+// Route pour exporter les données d'une table au format Excel ou CSV
+router.post('/export/:format', async (req, res) => {
+  console.log('=== Export Fournisseurs ===');
+  console.log('URL:', req.url);
+  console.log('Format:', req.params.format);
+  console.log('Body:', req.body);
+  
+  if (!req.body || !req.body.tableName) {
+    console.error('Nom de la table manquant dans la requête');
+    return res.status(400).json({ error: 'Le nom de la table est requis' });
+  }
+
+  const { tableName, filters, visibleColumns } = req.body;
+  const format = req.params.format.toLowerCase();
+  
+  if (!['excel', 'csv'].includes(format)) {
+    return res.status(400).json({ error: 'Format non supporté. Utilisez excel ou csv.' });
+  }
+
+  console.log('Nom de la table à exporter:', tableName);
+  console.log('Format d\'export:', format);
+  console.log('Filtres:', filters);
+  console.log('Colonnes visibles:', visibleColumns);
+  
+  const client = await pool.connect();
+
+  try {
+    // Vérifier si la table existe
+    const exists = await client.query(`
+      SELECT EXISTS (
+        SELECT 1 FROM pg_tables 
+        WHERE schemaname = 'public' 
+        AND tablename = $1
+      )
+    `, [tableName]);
+
+    if (!exists.rows[0].exists) {
+      return res.status(404).json({ error: 'Table non trouvée' });
+    }
+
+    // Construire la requête SQL avec filtres et colonnes visibles
+    let query = `SELECT `;
+    
+    // Sélectionner toutes les colonnes ou seulement les colonnes visibles
+    if (visibleColumns && visibleColumns.length > 0) {
+      // Échapper les noms de colonnes pour éviter les injections SQL
+      const escapedColumns = visibleColumns.map(col => `"${col}"`).join(', ');
+      query += escapedColumns;
+    } else {
+      query += '* ';
+    }
+    
+    query += ` FROM "${tableName}"`;
+    
+    // Ajouter les filtres à la requête si présents
+    const queryParams = [];
+    if (filters && Object.keys(filters).length > 0) {
+      const filterConditions = [];
+      
+      Object.entries(filters).forEach(([column, values], index) => {
+        if (values && values.length > 0) {
+          // Pour chaque valeur de filtre, créer une condition
+          const conditions = values.map((_, valueIndex) => {
+            const paramIndex = queryParams.length + 1;
+            queryParams.push(values[valueIndex]);
+            return `"${column}" = $${paramIndex}`;
+          });
+          
+          // Combiner les conditions pour cette colonne avec OR
+          filterConditions.push(`(${conditions.join(' OR ')})`);
+        }
+      });
+      
+      // Ajouter la clause WHERE si des filtres sont présents
+      if (filterConditions.length > 0) {
+        query += ` WHERE ${filterConditions.join(' AND ')}`;
+      }
+    }
+    
+    console.log('Requête SQL:', query);
+    console.log('Paramètres:', queryParams);
+    
+    // Exécuter la requête
+    const result = await client.query(query, queryParams);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Aucune donnée trouvée dans la table avec les filtres spécifiés' });
+    }
+
+    if (format === 'csv') {
+      // Export CSV
+      const json2csvParser = new Parser();
+      const csv = json2csvParser.parse(result.rows);
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="${tableName}_${new Date().toISOString().split('T')[0]}.csv"`
+      );
+
+      res.send(csv);
+    } else {
+      // Export Excel
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet(tableName);
+
+      // Ajouter les en-têtes
+      if (result.rows.length > 0) {
+        worksheet.columns = Object.keys(result.rows[0]).map(key => ({
+          header: key,
+          key: key,
+          width: 15
+        }));
+      }
+
+      // Ajouter les données
+      worksheet.addRows(result.rows);
+
+      // Appliquer un style aux en-têtes
+      worksheet.getRow(1).font = { bold: true };
+      worksheet.getRow(1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFD3D3D3' } // Couleur gris clair
+      };
+
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      );
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="${tableName}_${new Date().toISOString().split('T')[0]}.xlsx"`
+      );
+
+      await workbook.xlsx.write(res);
+      res.end();
+    }
+
+  } catch (error) {
+    console.error(`Erreur lors de l'export ${format}:`, error);
+    res.status(500).json({ 
+      error: `Erreur lors de l'export ${format}`,
+      details: error.message 
+    });
+  } finally {
+    client.release();
+  }
 });
 
 module.exports = router;
