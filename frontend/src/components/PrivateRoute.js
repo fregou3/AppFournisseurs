@@ -51,13 +51,18 @@ const PrivateRoute = ({ children }) => {
       localStorage.removeItem('isAuthenticated');
       localStorage.removeItem('lastLoginTime');
       
-      // Construire l'URL de redirection en fonction du domaine
-      const loginUrl = `https://${hostname}/fournisseurs/login`;
-      console.log('Redirection vers:', loginUrl);
+      // Utiliser React Router pour la redirection
+      console.log('Session expirée, redirection vers la page de login');
       
-      // Rediriger vers la page de login
+      // Supprimer les informations d'authentification
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('lastLoginTime');
+      
+      // Afficher une alerte
       alert('Votre session a expiré. Vous allez être redirigé vers la page de connexion.');
-      window.location.href = loginUrl;
+      
+      // Rediriger vers la page de login en utilisant le chemin relatif
+      window.location.href = '/fournisseurs/login';
       return null;
     }
   }
@@ -65,13 +70,11 @@ const PrivateRoute = ({ children }) => {
   if (!isAuthenticated) {
     console.log('%cUtilisateur non authentifié, redirection vers la page de login', 'color: red; font-weight: bold;');
     
-    // Construire l'URL de redirection en fonction du domaine
-    const loginUrl = `https://${hostname}/fournisseurs/login`;
-    console.log('Redirection vers:', loginUrl);
-    
-    // Rediriger vers la page de login
+    // Afficher une alerte
     alert('Authentification requise. Vous allez être redirigé vers la page de connexion.');
-    window.location.href = loginUrl;
+    
+    // Rediriger vers la page de login en utilisant le chemin relatif
+    window.location.href = '/fournisseurs/login';
     return null;
   }
 

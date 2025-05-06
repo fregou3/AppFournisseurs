@@ -42,7 +42,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Routes>
+        {/* Route de login accessible via /login et /fournisseurs/login */}
         <Route path="/login" element={<Login />} />
+        <Route path="/fournisseurs/login" element={<Login />} />
         
         {/* Route pour le composant SimpleDataView */}
         <Route path="/simple-view" element={
