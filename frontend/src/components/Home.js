@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Alert, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, Paper, Button, Tooltip, Snackbar } from '@mui/material';
+import { Box, Alert, CircularProgress, FormControl, InputLabel, Select, MenuItem, Typography, Paper, Button, Tooltip, Snackbar, Dialog, DialogTitle, DialogContent, DialogActions, RadioGroup, Radio, FormControlLabel, TextField } from '@mui/material';
 import axios from 'axios';
 import DataTable from './DataTable';
 import config from '../config';
 import CalculateIcon from '@mui/icons-material/Calculate';
-import SaveIcon from '@mui/icons-material/Save';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
@@ -26,6 +26,13 @@ const Home = () => {
   const [filters, setFilters] = useState({});
   const [visibleColumns, setVisibleColumns] = useState(new Set());
   const [savedFilterSettings, setSavedFilterSettings] = useState({});
+  
+  // États pour l'export
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportFormat, setExportFormat] = useState('excel');
+  const [fileName, setFileName] = useState('');
+  const [exportError, setExportError] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
 
   // Fonction pour récupérer la table par défaut
   const fetchDefaultTable = async () => {
@@ -247,7 +254,69 @@ const Home = () => {
     }
   }, [selectedTable, fetchData]);
   
-  // Fonction pour sauvegarder les paramètres de filtres et colonnes visibles
+  // Fonction pour gérer l'export
+  const handleExport = async () => {
+    if (!fileName) {
+      setExportError('Veuillez spécifier un nom de fichier');
+      return;
+    }
+
+    setIsExporting(true);
+    try {
+      const extension = exportFormat === 'excel' ? '.xlsx' : '.csv';
+      const fullFileName = fileName.endsWith(extension) ? fileName : `${fileName}${extension}`;
+
+      const response = await axios({
+        url: `${config.apiUrl}/fournisseurs/export/${exportFormat}`,
+        method: 'POST',
+        data: { 
+          tableName: selectedTable,
+          filters: filters,
+          visibleColumns: Array.from(visibleColumns)
+        },
+        responseType: 'blob'
+      });
+
+      const blob = new Blob([response.data], {
+        type: exportFormat === 'excel' 
+          ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          : 'text/csv'
+      });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fullFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      setSnackbar({
+        open: true,
+        message: `Export ${exportFormat.toUpperCase()} réussi`,
+        severity: 'success'
+      });
+      setExportDialogOpen(false);
+      setFileName('');
+      setExportError('');
+    } catch (error) {
+      console.error('Erreur lors de l\'export:', error);
+      setExportError('Erreur lors de l\'export. Veuillez réessayer.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  // Réinitialiser les états lors de la fermeture du dialogue
+  const handleCloseExportDialog = () => {
+    setExportDialogOpen(false);
+    setFileName('');
+    setExportError('');
+    setIsExporting(false);
+  };
+  
+  // Fonction pour sauvegarder les paramètres de filtres et colonnes visibles (conservée mais non utilisée)
   const saveFilterSettings = useCallback(() => {
     setSavedFilterSettings(prev => ({
       ...prev,
@@ -387,10 +456,10 @@ const Home = () => {
         <Button
           variant="outlined"
           color="primary"
-          startIcon={<SaveIcon />}
-          onClick={saveFilterSettings}
+          startIcon={<FileDownloadIcon />}
+          onClick={() => setExportDialogOpen(true)}
         >
-          Sauvegarder les filtres et colonnes
+          Exporter
         </Button>
       </Box>
       
@@ -403,6 +472,71 @@ const Home = () => {
         onDataUpdate={(updatedData) => setData(updatedData)}
         tableName={selectedTable}
       />
+      
+      {/* Dialog pour l'export */}
+      <Dialog 
+        open={exportDialogOpen} 
+        onClose={handleCloseExportDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Exporter les données</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Format d'export
+            </Typography>
+            <RadioGroup
+              value={exportFormat}
+              onChange={(e) => {
+                setExportFormat(e.target.value);
+                setFileName('');
+                setExportError('');
+              }}
+              row
+            >
+              <FormControlLabel 
+                value="excel" 
+                control={<Radio />} 
+                label="Excel (.xlsx)" 
+              />
+              <FormControlLabel 
+                value="csv" 
+                control={<Radio />} 
+                label="CSV (.csv)" 
+              />
+            </RadioGroup>
+
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="subtitle1" gutterBottom>
+                Nom du fichier
+              </Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder={`export_${selectedTable || 'donnees'}_${new Date().toISOString().split('T')[0]}`}
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                error={!!exportError}
+                helperText={exportError}
+              />
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseExportDialog} disabled={isExporting}>
+            Annuler
+          </Button>
+          <Button 
+            onClick={handleExport} 
+            variant="contained" 
+            color="primary"
+            disabled={isExporting}
+          >
+            {isExporting ? <CircularProgress size={24} /> : 'Exporter'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
