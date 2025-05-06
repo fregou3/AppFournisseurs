@@ -48,6 +48,15 @@ const Compare = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
   const [selectedRow, setSelectedRow] = useState(null);
 
+  // États pour la comparaison d'Annual Spend
+  const [selectedSpendTable1, setSelectedSpendTable1] = useState('');
+  const [selectedSpendTable2, setSelectedSpendTable2] = useState('');
+  const [spendCompareResult, setSpendCompareResult] = useState(null);
+  const [spendLoading, setSpendLoading] = useState(false);
+  const [spendError, setSpendError] = useState(null);
+  const [spendPage, setSpendPage] = useState(0);
+  const [spendRowsPerPage, setSpendRowsPerPage] = useState(10);
+
   // État pour la pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -462,15 +471,208 @@ const Compare = () => {
     }
   };
 
-  // Gestion du changement de page
+  // Fonction pour gérer le changement de page
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  // Gestion du changement de nombre de lignes par page
+  // Fonction pour gérer le changement du nombre de lignes par page
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+  
+  // Fonction pour gérer le changement de page pour la comparaison d'Annual Spend
+  const handleSpendChangePage = (event, newPage) => {
+    setSpendPage(newPage);
+  };
+
+  // Fonction pour gérer le changement du nombre de lignes par page pour la comparaison d'Annual Spend
+  const handleSpendChangeRowsPerPage = (event) => {
+    setSpendRowsPerPage(parseInt(event.target.value, 10));
+    setSpendPage(0);
+  };
+  
+  // Fonction pour comparer l'Annual Spend entre deux tables
+  const compareAnnualSpend = async () => {
+    if (!selectedSpendTable1 || !selectedSpendTable2) {
+      setSnackbar({
+        open: true,
+        message: 'Veuillez sélectionner deux tables à comparer',
+        severity: 'warning'
+      });
+      return;
+    }
+
+    if (selectedSpendTable1 === selectedSpendTable2) {
+      setSnackbar({
+        open: true,
+        message: 'Veuillez sélectionner deux tables différentes',
+        severity: 'warning'
+      });
+      return;
+    }
+
+    try {
+      setSpendLoading(true);
+      setSpendError(null);
+      setSpendCompareResult(null);
+
+      // Afficher un message pour indiquer que la récupération des données est en cours
+      setSnackbar({
+        open: true,
+        message: 'Récupération des données pour la comparaison d\'Annual Spend...',
+        severity: 'info'
+      });
+
+      // Récupérer toutes les données des deux tables avec pagination
+      const [table1Data, table2Data] = await Promise.all([
+        fetchAllTableData(selectedSpendTable1),
+        fetchAllTableData(selectedSpendTable2)
+      ]);
+
+      // Informer l'utilisateur du nombre de lignes récupérées
+      setSnackbar({
+        open: true,
+        message: `Comparaison de l'Annual Spend entre ${table1Data.length} lignes de ${selectedSpendTable1} et ${table2Data.length} lignes de ${selectedSpendTable2}`,
+        severity: 'info'
+      });
+
+      // Comparer les données d'Annual Spend
+      const result = compareAnnualSpendData(table1Data, table2Data);
+      setSpendCompareResult(result);
+
+    } catch (error) {
+      console.error('Erreur lors de la comparaison de l\'Annual Spend:', error);
+      setSpendError('Erreur lors de la comparaison de l\'Annual Spend');
+      setSnackbar({
+        open: true,
+        message: 'Erreur lors de la comparaison de l\'Annual Spend',
+        severity: 'error'
+      });
+    } finally {
+      setSpendLoading(false);
+    }
+  };
+  
+  // Fonction pour comparer les données d'Annual Spend entre deux tables
+  const compareAnnualSpendData = (table1Data, table2Data) => {
+    try {
+      console.log(`Début de la comparaison d'Annual Spend: ${table1Data.length} lignes dans table1, ${table2Data.length} lignes dans table2`);
+      
+      // Identifier les colonnes Annual Spend dans les deux tables
+      const annualSpendColumns1 = Object.keys(table1Data[0] || {}).filter(col => 
+        col.toLowerCase().startsWith('annual spend'));
+      const annualSpendColumns2 = Object.keys(table2Data[0] || {}).filter(col => 
+        col.toLowerCase().startsWith('annual spend'));
+      
+      console.log(`Colonnes Annual Spend dans table1: ${annualSpendColumns1.join(', ')}`);
+      console.log(`Colonnes Annual Spend dans table2: ${annualSpendColumns2.join(', ')}`);
+      
+      if (annualSpendColumns1.length === 0 || annualSpendColumns2.length === 0) {
+        throw new Error('Aucune colonne Annual Spend trouvée dans une ou les deux tables');
+      }
+      
+      // Utiliser la première colonne Annual Spend trouvée dans chaque table
+      const annualSpendCol1 = annualSpendColumns1[0];
+      const annualSpendCol2 = annualSpendColumns2[0];
+      
+      // Créer un index pour la table 2 basé sur Supplier_ID et Partners
+      const table2Index = {};
+      table2Data.forEach(row => {
+        const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
+        const partners = row.partners || row.Partners || row.PARTNERS || '';
+        
+        // Normaliser les identifiants
+        const normalizedSupplierId = String(supplierId).toLowerCase().trim();
+        const normalizedPartners = String(partners).toLowerCase().trim();
+        
+        // Créer une clé composée
+        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}`;
+        
+        // Stocker la référence à la ligne
+        table2Index[compositeKey] = row;
+        
+        // Créer également un index secondaire basé uniquement sur Supplier_ID
+        if (normalizedSupplierId && !table2Index[normalizedSupplierId]) {
+          table2Index[normalizedSupplierId] = row;
+        }
+      });
+      
+      // Comparer les valeurs d'Annual Spend
+      const comparisonResults = [];
+      
+      table1Data.forEach(row1 => {
+        // Extraire les identifiants
+        const supplierId = row1.supplier_id || row1.Supplier_ID || row1.SUPPLIER_ID || 'N/A';
+        const partners = row1.partners || row1.Partners || row1.PARTNERS || 'N/A';
+        
+        // Normaliser les identifiants
+        const normalizedSupplierId = String(supplierId).toLowerCase().trim();
+        const normalizedPartners = String(partners).toLowerCase().trim();
+        
+        // Créer une clé composée
+        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}`;
+        
+        // Chercher la ligne correspondante dans la table 2
+        let row2 = table2Index[compositeKey];
+        let matchType = 'supplier_id_and_partners';
+        
+        // Si pas de correspondance exacte, essayer avec seulement Supplier_ID
+        if (!row2 && normalizedSupplierId) {
+          row2 = table2Index[normalizedSupplierId];
+          matchType = 'supplier_id';
+        }
+        
+        if (row2) {
+          // Extraire les valeurs d'Annual Spend
+          const annualSpend1 = parseFloat(row1[annualSpendCol1] || 0);
+          const annualSpend2 = parseFloat(row2[annualSpendCol2] || 0);
+          
+          // Calculer la différence
+          const difference = annualSpend1 - annualSpend2;
+          const percentDifference = annualSpend2 !== 0 ? (difference / annualSpend2) * 100 : 0;
+          
+          comparisonResults.push({
+            supplierId,
+            partners,
+            annualSpend1,
+            annualSpend2,
+            difference,
+            percentDifference,
+            existsInBothTables: true
+          });
+        } else {
+          // La ligne n'existe que dans la table 1
+          const annualSpend1 = parseFloat(row1[annualSpendCol1] || 0);
+          
+          comparisonResults.push({
+            supplierId,
+            partners,
+            annualSpend1,
+            annualSpend2: 0,
+            difference: annualSpend1,
+            percentDifference: 100,
+            existsInBothTables: false
+          });
+        }
+      });
+      
+      // Trier les résultats par différence absolue (du plus grand au plus petit)
+      comparisonResults.sort((a, b) => Math.abs(b.difference) - Math.abs(a.difference));
+      
+      return {
+        table1Name: selectedSpendTable1,
+        table2Name: selectedSpendTable2,
+        annualSpendCol1,
+        annualSpendCol2,
+        results: comparisonResults
+      };
+      
+    } catch (error) {
+      console.error('Erreur lors de la comparaison des données d\'Annual Spend:', error);
+      throw error;
+    }
   };
 
   // Filtrer les résultats pour n'afficher que les différences si demandé
@@ -726,6 +928,146 @@ const Compare = () => {
           </>
         )}
       </Dialog>
+
+      {/* Section de comparaison de l'Annual Spend */}
+      <Typography variant="h4" gutterBottom sx={{ mt: 6 }}>
+        Comparaison de l'Annual Spend
+      </Typography>
+      
+      <Paper sx={{ p: 3, mb: 3 }}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel id="spend-table1-label">Table 1</InputLabel>
+            <Select
+              labelId="spend-table1-label"
+              value={selectedSpendTable1}
+              label="Table 1"
+              onChange={(e) => setSelectedSpendTable1(e.target.value)}
+              disabled={loading || spendLoading}
+            >
+              {tables.map((table) => (
+                <MenuItem key={`spend-table1-${table}`} value={table}>
+                  {table}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel id="spend-table2-label">Table 2</InputLabel>
+            <Select
+              labelId="spend-table2-label"
+              value={selectedSpendTable2}
+              label="Table 2"
+              onChange={(e) => setSelectedSpendTable2(e.target.value)}
+              disabled={loading || spendLoading}
+            >
+              {tables.map((table) => (
+                <MenuItem key={`spend-table2-${table}`} value={table}>
+                  {table}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          
+          <Button
+            variant="contained"
+            startIcon={<CompareArrowsIcon />}
+            onClick={compareAnnualSpend}
+            disabled={loading || spendLoading || !selectedSpendTable1 || !selectedSpendTable2}
+          >
+            {spendLoading ? <CircularProgress size={24} /> : 'COMPARER'}
+          </Button>
+        </Box>
+      </Paper>
+      
+      {spendError && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {spendError}
+        </Alert>
+      )}
+      
+      {spendCompareResult && (
+        <>
+          <Paper sx={{ p: 3, mb: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              Résumé de la comparaison d'Annual Spend
+            </Typography>
+            
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
+              <Chip 
+                label={`Total: ${spendCompareResult.results.length} lignes comparées`} 
+                color="primary" 
+                variant="outlined"
+              />
+              <Chip 
+                label={`Colonne dans ${spendCompareResult.table1Name}: ${spendCompareResult.annualSpendCol1}`} 
+                color="info" 
+                variant="outlined"
+              />
+              <Chip 
+                label={`Colonne dans ${spendCompareResult.table2Name}: ${spendCompareResult.annualSpendCol2}`} 
+                color="info" 
+                variant="outlined"
+              />
+            </Box>
+          </Paper>
+          
+          <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Supplier ID</TableCell>
+                  <TableCell>PARTNERS</TableCell>
+                  <TableCell>{spendCompareResult.annualSpendCol1} ({spendCompareResult.table1Name})</TableCell>
+                  <TableCell>{spendCompareResult.annualSpendCol2} ({spendCompareResult.table2Name})</TableCell>
+                  <TableCell>Différence</TableCell>
+                  <TableCell>Différence (%)</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {spendCompareResult.results
+                  .slice(spendPage * spendRowsPerPage, spendPage * spendRowsPerPage + spendRowsPerPage)
+                  .map((row, index) => (
+                    <TableRow key={index} 
+                      style={{
+                        backgroundColor: !row.existsInBothTables ? '#ffebee' : // Rouge clair pour lignes non présentes dans les deux tables
+                                          Math.abs(row.difference) > 10000 ? '#fff8e1' : // Jaune clair pour différences importantes
+                                          'inherit' // Couleur par défaut pour les autres lignes
+                      }}
+                    >
+                      <TableCell>{row.supplierId}</TableCell>
+                      <TableCell>{row.partners}</TableCell>
+                      <TableCell>
+                        {row.annualSpend1.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+                      </TableCell>
+                      <TableCell>
+                        {row.annualSpend2.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+                      </TableCell>
+                      <TableCell>
+                        {row.difference.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+                      </TableCell>
+                      <TableCell>
+                        {row.percentDifference.toFixed(2)}%
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              component="div"
+              count={spendCompareResult.results.length}
+              rowsPerPage={spendRowsPerPage}
+              page={spendPage}
+              onPageChange={handleSpendChangePage}
+              onRowsPerPageChange={handleSpendChangeRowsPerPage}
+              labelRowsPerPage="Lignes par page:"
+              labelDisplayedRows={({ from, to, count }) => `${from}-${to} sur ${count}`}
+            />
+          </TableContainer>
+        </>
+      )}
 
       <Snackbar
         open={snackbar.open}
