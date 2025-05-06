@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import config from '../config';
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
@@ -53,6 +54,7 @@ const PrivateRoute = ({ children }) => {
       
       // Utiliser React Router pour la redirection
       console.log('Session expirée, redirection vers la page de login');
+      console.log('baseUrl de la configuration:', config.baseUrl);
       
       // Supprimer les informations d'authentification
       localStorage.removeItem('isAuthenticated');
@@ -61,8 +63,8 @@ const PrivateRoute = ({ children }) => {
       // Afficher une alerte
       alert('Votre session a expiré. Vous allez être redirigé vers la page de connexion.');
       
-      // Rediriger vers la page de login en utilisant le chemin relatif
-      window.location.href = '/fournisseurs/login';
+      // Rediriger vers la page de login en utilisant le baseUrl de la configuration
+      window.location.href = `${config.baseUrl}/login`;
       return null;
     }
   }
@@ -73,8 +75,9 @@ const PrivateRoute = ({ children }) => {
     // Afficher une alerte
     alert('Authentification requise. Vous allez être redirigé vers la page de connexion.');
     
-    // Rediriger vers la page de login en utilisant le chemin relatif
-    window.location.href = '/fournisseurs/login';
+    // Rediriger vers la page de login en utilisant le baseUrl de la configuration
+    console.log('Redirection vers:', `${config.baseUrl}/login`);
+    window.location.href = `${config.baseUrl}/login`;
     return null;
   }
 
