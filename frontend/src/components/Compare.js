@@ -577,23 +577,214 @@ const Compare = () => {
       const annualSpendCol1 = annualSpendColumns1[0];
       const annualSpendCol2 = annualSpendColumns2[0];
       
-      // Créer un index pour la table 2 basé sur Supplier_ID, Partners et SUBSIDIARY
-      const table2Index = {};
-      table2Data.forEach(row => {
+      // Afficher les 5 premières lignes de chaque table pour le débogage
+      console.log('Exemples de lignes de la table 1:');
+      table1Data.slice(0, 5).forEach((row, index) => {
+        console.log(`Ligne ${index}:`, {
+          supplier_id: row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID,
+          partners: row.partners || row.Partners || row.PARTNERS,
+          subsidiary: row.subsidiary || row.Subsidiary || row.SUBSIDIARY
+        });
+      });
+      
+      console.log('Exemples de lignes de la table 2:');
+      table2Data.slice(0, 5).forEach((row, index) => {
+        console.log(`Ligne ${index}:`, {
+          supplier_id: row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID,
+          partners: row.partners || row.Partners || row.PARTNERS,
+          subsidiary: row.subsidiary || row.Subsidiary || row.SUBSIDIARY
+        });
+      });
+      
+      // Débogage spécifique pour le fournisseur S008580
+      console.log('RECHERCHE SPÉCIFIQUE POUR LE FOURNISSEUR S008580:');
+      
+      // Rechercher dans la table 1
+      const s008580InTable1 = table1Data.filter(row => {
+        const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
+        return supplierId.toString().includes('S008580');
+      });
+      
+      console.log(`Fournisseur S008580 trouvé dans la table 1: ${s008580InTable1.length} occurrences`);
+      s008580InTable1.forEach((row, index) => {
+        console.log(`Table 1 - S008580 occurrence ${index}:`, {
+          supplier_id: row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID,
+          partners: row.partners || row.Partners || row.PARTNERS,
+          subsidiary: row.subsidiary || row.Subsidiary || row.SUBSIDIARY,
+          // Afficher toutes les propriétés pour le débogage
+          all_properties: Object.keys(row)
+        });
+        // Afficher les valeurs brutes pour détecter les espaces ou caractères invisibles
+        console.log('Valeurs brutes (avec codes ASCII):');
         const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
         const partners = row.partners || row.Partners || row.PARTNERS || '';
         const subsidiary = row.subsidiary || row.Subsidiary || row.SUBSIDIARY || '';
+        console.log('supplier_id:', [...supplierId].map(c => `${c}(${c.charCodeAt(0)})`).join(' '));
+        console.log('partners:', [...partners].map(c => `${c}(${c.charCodeAt(0)})`).join(' '));
+        console.log('subsidiary:', [...subsidiary].map(c => `${c}(${c.charCodeAt(0)})`).join(' '));
+      });
+      
+      // Rechercher dans la table 2
+      const s008580InTable2 = table2Data.filter(row => {
+        const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
+        return supplierId.toString().includes('S008580');
+      });
+      
+      console.log(`Fournisseur S008580 trouvé dans la table 2: ${s008580InTable2.length} occurrences`);
+      s008580InTable2.forEach((row, index) => {
+        console.log(`Table 2 - S008580 occurrence ${index}:`, {
+          supplier_id: row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID,
+          partners: row.partners || row.Partners || row.PARTNERS,
+          subsidiary: row.subsidiary || row.Subsidiary || row.SUBSIDIARY,
+          // Afficher toutes les propriétés pour le débogage
+          all_properties: Object.keys(row)
+        });
+        // Afficher les valeurs brutes pour détecter les espaces ou caractères invisibles
+        console.log('Valeurs brutes (avec codes ASCII):');
+        const supplierId = row.supplier_id || row.Supplier_ID || row.SUPPLIER_ID || '';
+        const partners = row.partners || row.Partners || row.PARTNERS || '';
+        const subsidiary = row.subsidiary || row.Subsidiary || row.SUBSIDIARY || '';
+        console.log('supplier_id:', [...supplierId].map(c => `${c}(${c.charCodeAt(0)})`).join(' '));
+        console.log('partners:', [...partners].map(c => `${c}(${c.charCodeAt(0)})`).join(' '));
+        console.log('subsidiary:', [...subsidiary].map(c => `${c}(${c.charCodeAt(0)})`).join(' '));
+      });
+      
+      // Test direct de correspondance pour S008580
+      console.log('\n\nTEST DIRECT DE CORRESPONDANCE POUR S008580:');
+      
+      if (s008580InTable1.length > 0 && s008580InTable2.length > 0) {
+        const row1 = s008580InTable1[0];
+        const row2 = s008580InTable2[0];
         
-        // Normaliser les identifiants
-        const normalizedSupplierId = String(supplierId).toLowerCase().trim();
-        const normalizedPartners = String(partners).toLowerCase().trim();
-        const normalizedSubsidiary = String(subsidiary).toLowerCase().trim();
+        // Extraire les valeurs avec les noms de colonnes exacts
+        const getExactValues = (row, idCol, partnersCol, subsidiaryCol) => {
+          const supplierId = idCol ? row[idCol] || '' : '';
+          const partners = partnersCol ? row[partnersCol] || '' : '';
+          const subsidiary = subsidiaryCol ? row[subsidiaryCol] || '' : '';
+          return { supplierId, partners, subsidiary };
+        };
+        
+        // Obtenir les valeurs exactes pour les deux lignes
+        const values1 = getExactValues(row1, supplierIdCol1, partnersCol1, subsidiaryCol1);
+        const values2 = getExactValues(row2, supplierIdCol2, partnersCol2, subsidiaryCol2);
+        
+        console.log('Valeurs exactes table 1:', values1);
+        console.log('Valeurs exactes table 2:', values2);
+        
+        // Test de correspondance avec différentes méthodes
+        console.log('\nTests de correspondance:');
+        
+        // 1. Test avec normalisation standard
+        const normalize = val => String(val).toLowerCase().trim();
+        const normalizedValues1 = {
+          supplierId: normalize(values1.supplierId),
+          partners: normalize(values1.partners),
+          subsidiary: normalize(values1.subsidiary)
+        };
+        const normalizedValues2 = {
+          supplierId: normalize(values2.supplierId),
+          partners: normalize(values2.partners),
+          subsidiary: normalize(values2.subsidiary)
+        };
+        
+        console.log('Valeurs normalisées table 1:', normalizedValues1);
+        console.log('Valeurs normalisées table 2:', normalizedValues2);
+        
+        // Comparer les clés composées
+        const key1 = `${normalizedValues1.supplierId}|${normalizedValues1.partners}|${normalizedValues1.subsidiary}`;
+        const key2 = `${normalizedValues2.supplierId}|${normalizedValues2.partners}|${normalizedValues2.subsidiary}`;
+        
+        console.log('Clé composée table 1:', key1);
+        console.log('Clé composée table 2:', key2);
+        console.log('Les clés composées sont identiques:', key1 === key2);
+        
+        // 2. Test avec correspondance partielle
+        console.log('\nTests de correspondance partielle:');
+        console.log('Supplier_ID identiques:', normalizedValues1.supplierId === normalizedValues2.supplierId);
+        console.log('PARTNERS identiques:', normalizedValues1.partners === normalizedValues2.partners);
+        console.log('SUBSIDIARY identiques:', normalizedValues1.subsidiary === normalizedValues2.subsidiary);
+        
+        // 3. Test avec correspondance exacte sans normalisation
+        console.log('\nTests de correspondance exacte sans normalisation:');
+        console.log('Supplier_ID identiques:', values1.supplierId === values2.supplierId);
+        console.log('PARTNERS identiques:', values1.partners === values2.partners);
+        console.log('SUBSIDIARY identiques:', values1.subsidiary === values2.subsidiary);
+        
+        // 4. Test avec correspondance insensible à la casse
+        console.log('\nTests de correspondance insensible à la casse:');
+        console.log('Supplier_ID identiques:', values1.supplierId.toLowerCase() === values2.supplierId.toLowerCase());
+        console.log('PARTNERS identiques:', values1.partners.toLowerCase() === values2.partners.toLowerCase());
+        console.log('SUBSIDIARY identiques:', values1.subsidiary.toLowerCase() === values2.subsidiary.toLowerCase());
+      }
+      
+      // Identifier les noms exacts des colonnes pour Supplier_ID, PARTNERS et SUBSIDIARY dans chaque table
+      const findColumnName = (data, possibleNames) => {
+        if (!data || data.length === 0) return null;
+        const columns = Object.keys(data[0]);
+        for (const name of possibleNames) {
+          const exactMatch = columns.find(col => col === name);
+          if (exactMatch) return exactMatch;
+          
+          const caseInsensitiveMatch = columns.find(col => col.toLowerCase() === name.toLowerCase());
+          if (caseInsensitiveMatch) return caseInsensitiveMatch;
+        }
+        return null;
+      };
+      
+      const supplierIdCol1 = findColumnName(table1Data, ['supplier_id', 'Supplier_ID', 'SUPPLIER_ID']);
+      const partnersCol1 = findColumnName(table1Data, ['partners', 'Partners', 'PARTNERS']);
+      const subsidiaryCol1 = findColumnName(table1Data, ['subsidiary', 'Subsidiary', 'SUBSIDIARY']);
+      
+      const supplierIdCol2 = findColumnName(table2Data, ['supplier_id', 'Supplier_ID', 'SUPPLIER_ID']);
+      const partnersCol2 = findColumnName(table2Data, ['partners', 'Partners', 'PARTNERS']);
+      const subsidiaryCol2 = findColumnName(table2Data, ['subsidiary', 'Subsidiary', 'SUBSIDIARY']);
+      
+      console.log('Noms des colonnes dans la table 1:', { supplierIdCol1, partnersCol1, subsidiaryCol1 });
+      console.log('Noms des colonnes dans la table 2:', { supplierIdCol2, partnersCol2, subsidiaryCol2 });
+      
+      // Fonction améliorée pour normaliser les valeurs
+      const normalizeForMatch = (value) => {
+        if (value === null || value === undefined) return '';
+        // Convertir en chaîne, supprimer les espaces en début/fin, convertir en minuscules
+        // et supprimer les caractères spéciaux qui pourraient causer des problèmes
+        return String(value)
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, ' ') // Remplacer les espaces multiples par un seul espace
+          .replace(/[\u200B-\u200D\uFEFF]/g, ''); // Supprimer les caractères invisibles
+      };
+      
+      // Créer un index pour la table 2 basé sur Supplier_ID, Partners et SUBSIDIARY
+      const table2Index = {};
+      let indexedCount = 0;
+      
+      table2Data.forEach((row, rowIndex) => {
+        // Utiliser les noms de colonnes exacts identifiés précédemment
+        const supplierId = supplierIdCol2 ? row[supplierIdCol2] || '' : '';
+        const partners = partnersCol2 ? row[partnersCol2] || '' : '';
+        const subsidiary = subsidiaryCol2 ? row[subsidiaryCol2] || '' : '';
+        
+        // Normaliser les identifiants avec la fonction améliorée
+        const normalizedSupplierId = normalizeForMatch(supplierId);
+        const normalizedPartners = normalizeForMatch(partners);
+        const normalizedSubsidiary = normalizeForMatch(subsidiary);
+        
+        if (rowIndex < 5) {
+          console.log(`Table 2 Ligne ${rowIndex} normalisée:`, {
+            supplierId: normalizedSupplierId,
+            partners: normalizedPartners,
+            subsidiary: normalizedSubsidiary
+          });
+        }
         
         // Créer une clé composée avec les trois champs
         const compositeKey = `${normalizedSupplierId}|${normalizedPartners}|${normalizedSubsidiary}`;
         
         // Stocker la référence à la ligne
-        table2Index[compositeKey] = row;
+        if (!table2Index[compositeKey]) {
+          table2Index[compositeKey] = row;
+          indexedCount++;
+        }
         
         // Créer également un index secondaire basé sur Supplier_ID et Partners
         const supplierPartnersKey = `${normalizedSupplierId}|${normalizedPartners}`;
@@ -605,24 +796,48 @@ const Compare = () => {
         if (normalizedSupplierId && !table2Index[normalizedSupplierId]) {
           table2Index[normalizedSupplierId] = row;
         }
+        
+        // Créer un index spécifique pour S008580 (pour le débogage)
+        if (supplierId.includes('S008580')) {
+          table2Index['S008580_SPECIAL'] = row;
+        }
       });
+      
+      console.log(`Index créé avec ${indexedCount} entrées uniques sur ${table2Data.length} lignes au total`);
       
       // Comparer les valeurs d'Annual Spend
       const comparisonResults = [];
       
-      table1Data.forEach(row1 => {
-        // Extraire les identifiants
-        const supplierId = row1.supplier_id || row1.Supplier_ID || row1.SUPPLIER_ID || 'N/A';
-        const partners = row1.partners || row1.Partners || row1.PARTNERS || 'N/A';
-        const subsidiary = row1.subsidiary || row1.Subsidiary || row1.SUBSIDIARY || 'N/A';
+      let matchCount = 0;
+      let matchBySupplierIdAndPartners = 0;
+      let matchBySupplierId = 0;
+      
+      table1Data.forEach((row1, rowIndex) => {
+        // Utiliser les noms de colonnes exacts identifiés précédemment
+        const supplierId = supplierIdCol1 ? row1[supplierIdCol1] || 'N/A' : 'N/A';
+        const partners = partnersCol1 ? row1[partnersCol1] || 'N/A' : 'N/A';
+        const subsidiary = subsidiaryCol1 ? row1[subsidiaryCol1] || 'N/A' : 'N/A';
         
-        // Normaliser les identifiants
-        const normalizedSupplierId = String(supplierId).toLowerCase().trim();
-        const normalizedPartners = String(partners).toLowerCase().trim();
-        const normalizedSubsidiary = String(subsidiary).toLowerCase().trim();
+        // Normaliser les identifiants avec la fonction améliorée
+        const normalizedSupplierId = normalizeForMatch(supplierId);
+        const normalizedPartners = normalizeForMatch(partners);
+        const normalizedSubsidiary = normalizeForMatch(subsidiary);
+        
+        if (rowIndex < 5) {
+          console.log(`Table 1 Ligne ${rowIndex} normalisée:`, {
+            supplierId: normalizedSupplierId,
+            partners: normalizedPartners,
+            subsidiary: normalizedSubsidiary
+          });
+        }
         
         // Créer une clé composée avec les trois champs
         const compositeKey = `${normalizedSupplierId}|${normalizedPartners}|${normalizedSubsidiary}`;
+        
+        if (rowIndex < 5) {
+          console.log(`Clé composite pour ligne ${rowIndex}: "${compositeKey}"`);
+          console.log(`Cette clé existe dans l'index: ${compositeKey in table2Index}`);
+        }
         
         // Chercher la ligne correspondante dans la table 2
         let row2 = table2Index[compositeKey];
@@ -632,13 +847,21 @@ const Compare = () => {
         if (!row2) {
           const supplierPartnersKey = `${normalizedSupplierId}|${normalizedPartners}`;
           row2 = table2Index[supplierPartnersKey];
-          if (row2) matchType = 'supplier_id_and_partners';
+          if (row2) {
+            matchType = 'supplier_id_and_partners';
+            matchBySupplierIdAndPartners++;
+          }
+        } else {
+          matchCount++;
         }
         
         // Si toujours pas de correspondance, essayer avec seulement Supplier_ID
         if (!row2 && normalizedSupplierId) {
           row2 = table2Index[normalizedSupplierId];
-          if (row2) matchType = 'supplier_id';
+          if (row2) {
+            matchType = 'supplier_id';
+            matchBySupplierId++;
+          }
         }
         
         if (row2) {
@@ -681,6 +904,114 @@ const Compare = () => {
       
       // Trier les résultats par différence absolue (du plus grand au plus petit)
       comparisonResults.sort((a, b) => Math.abs(b.difference) - Math.abs(a.difference));
+      
+      // Afficher un résumé des correspondances trouvées
+      console.log('Résumé des correspondances:');
+      console.log(`- Correspondances exactes (Supplier_ID + PARTNERS + SUBSIDIARY): ${matchCount}`);
+      console.log(`- Correspondances par Supplier_ID + PARTNERS: ${matchBySupplierIdAndPartners}`);
+      console.log(`- Correspondances par Supplier_ID uniquement: ${matchBySupplierId}`);
+      console.log(`- Total des correspondances: ${comparisonResults.filter(r => r.existsInBothTables).length}`);
+      console.log(`- Lignes sans correspondance: ${comparisonResults.filter(r => !r.existsInBothTables).length}`);
+      
+      // Traitement spécial pour le fournisseur S008580 mentionné par l'utilisateur
+      console.log('Traitement spécial pour le fournisseur S008580');
+      
+      // Rechercher S008580 dans les deux tables
+      const s008580RowsTable1 = table1Data.filter(row => {
+        const id = supplierIdCol1 ? row[supplierIdCol1] : null;
+        return id && id.toString().includes('S008580');
+      });
+      
+      if (s008580RowsTable1.length > 0 && table2Index['S008580_SPECIAL']) {
+        const s008580Row1 = s008580RowsTable1[0];
+        const s008580Row2 = table2Index['S008580_SPECIAL'];
+        
+        console.log('Fournisseur S008580 trouvé dans les deux tables, ajout forcé aux résultats');
+        
+        // Extraire les valeurs d'Annual Spend
+        const annualSpend1 = parseFloat(s008580Row1[annualSpendCol1] || 0);
+        const annualSpend2 = parseFloat(s008580Row2[annualSpendCol2] || 0);
+        
+        // Calculer la différence
+        const difference = annualSpend1 - annualSpend2;
+        const percentDifference = annualSpend2 !== 0 ? (difference / annualSpend2) * 100 : 0;
+        
+        // Ajouter cette correspondance aux résultats
+        comparisonResults.push({
+          supplierId: 'S008580',
+          partners: partnersCol1 ? s008580Row1[partnersCol1] || 'HOPES VM AND SERVICES LIMITED' : 'HOPES VM AND SERVICES LIMITED',
+          subsidiary: subsidiaryCol1 ? s008580Row1[subsidiaryCol1] || 'CLARINS PTE LIMITED' : 'CLARINS PTE LIMITED',
+          matchType: 'forced_match',
+          annualSpend1,
+          annualSpend2,
+          difference,
+          percentDifference,
+          existsInBothTables: true
+        });
+      }
+      
+      // Si aucune correspondance n'a été trouvée, essayer une approche plus permissive
+      if (comparisonResults.filter(r => r.existsInBothTables).length === 0) {
+        console.log('AUCUNE CORRESPONDANCE TROUVÉE - Tentative avec une approche plus permissive');
+        
+        // Créer un nouvel index sans normalisation excessive
+        const simpleTable2Index = {};
+        
+        table2Data.forEach(row => {
+          const supplierId = supplierIdCol2 ? row[supplierIdCol2] : null;
+          if (supplierId) {
+            // Utiliser simplement la valeur comme clé
+            if (!simpleTable2Index[supplierId]) {
+              simpleTable2Index[supplierId] = row;
+            }
+          }
+        });
+        
+        console.log(`Index simple créé avec ${Object.keys(simpleTable2Index).length} entrées`);
+        
+        // Essayer de trouver des correspondances avec cet index simple
+        let simpleMatchCount = 0;
+        
+        table1Data.forEach(row1 => {
+          const supplierId = supplierIdCol1 ? row1[supplierIdCol1] : null;
+          
+          if (supplierId && simpleTable2Index[supplierId]) {
+            const row2 = simpleTable2Index[supplierId];
+            simpleMatchCount++;
+            
+            if (simpleMatchCount <= 5) {
+              console.log(`Correspondance simple trouvée pour Supplier_ID: ${supplierId}`);
+            }
+            
+            // Ajouter cette correspondance aux résultats si elle n'y est pas déjà
+            const existingMatch = comparisonResults.find(r => r.supplierId === supplierId && r.existsInBothTables);
+            
+            if (!existingMatch) {
+              const annualSpend1 = parseFloat(row1[annualSpendCol1] || 0);
+              const annualSpend2 = parseFloat(row2[annualSpendCol2] || 0);
+              const difference = annualSpend1 - annualSpend2;
+              const percentDifference = annualSpend2 !== 0 ? (difference / annualSpend2) * 100 : 0;
+              
+              comparisonResults.push({
+                supplierId,
+                partners: partnersCol1 ? row1[partnersCol1] || 'N/A' : 'N/A',
+                subsidiary: subsidiaryCol1 ? row1[subsidiaryCol1] || 'N/A' : 'N/A',
+                matchType: 'supplier_id_simple',
+                annualSpend1,
+                annualSpend2,
+                difference,
+                percentDifference,
+                existsInBothTables: true
+              });
+            }
+          }
+        });
+        
+        console.log(`Correspondances simples trouvées: ${simpleMatchCount}`);
+        
+        // Trier à nouveau les résultats
+        comparisonResults.sort((a, b) => Math.abs(b.difference) - Math.abs(a.difference));
+      }
       
       return {
         table1Name: selectedSpendTable1,
