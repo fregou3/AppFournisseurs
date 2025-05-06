@@ -46,80 +46,96 @@ function App() {
         
         {/* Route pour le composant SimpleDataView */}
         <Route path="/simple-view" element={
-          <PrivateLayout>
-            <Container maxWidth={false} sx={{ padding: 2 }}>
-              <SimpleDataView />
-            </Container>
-          </PrivateLayout>
+          <PrivateRoute>
+            <PrivateLayout>
+              <Container maxWidth={false} sx={{ padding: 2 }}>
+                <SimpleDataView />
+              </Container>
+            </PrivateLayout>
+          </PrivateRoute>
         } />
         
         {/* Route pour le diagnostic de configuration */}
         <Route path="/debug" element={
-          <PrivateLayout>
-            <Container maxWidth={false} sx={{ padding: 2 }}>
-              <ConfigDebug />
-            </Container>
-          </PrivateLayout>
+          <PrivateRoute>
+            <PrivateLayout>
+              <Container maxWidth={false} sx={{ padding: 2 }}>
+                <ConfigDebug />
+              </Container>
+            </PrivateLayout>
+          </PrivateRoute>
         } />
         
         <Route
           path="/"
           element={
-            <PrivateLayout>
-              <Container maxWidth={false} sx={{ padding: 2 }}>
-                <Home />
-              </Container>
-            </PrivateLayout>
+            <PrivateRoute>
+              <PrivateLayout>
+                <Container maxWidth={false} sx={{ padding: 2 }}>
+                  <Home />
+                </Container>
+              </PrivateLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/upload"
           element={
-            <PrivateLayout>
-              <Container maxWidth={false} sx={{ padding: 2 }}>
-                <UploadFile />
-              </Container>
-            </PrivateLayout>
+            <PrivateRoute>
+              <PrivateLayout>
+                <Container maxWidth={false} sx={{ padding: 2 }}>
+                  <UploadFile />
+                </Container>
+              </PrivateLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/groupings"
           element={
-            <PrivateLayout>
-              <Container maxWidth={false} sx={{ padding: 2 }}>
-                <Groupings />
-              </Container>
-            </PrivateLayout>
+            <PrivateRoute>
+              <PrivateLayout>
+                <Container maxWidth={false} sx={{ padding: 2 }}>
+                  <Groupings />
+                </Container>
+              </PrivateLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/analyse"
           element={
-            <PrivateLayout>
-              <Container maxWidth={false} sx={{ padding: 2 }}>
-                <Analyse />
-              </Container>
-            </PrivateLayout>
+            <PrivateRoute>
+              <PrivateLayout>
+                <Container maxWidth={false} sx={{ padding: 2 }}>
+                  <Analyse />
+                </Container>
+              </PrivateLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/evaluation2"
           element={
-            <PrivateLayout>
-              <Container maxWidth={false} sx={{ padding: 2 }}>
-                <Evaluation2 />
-              </Container>
-            </PrivateLayout>
+            <PrivateRoute>
+              <PrivateLayout>
+                <Container maxWidth={false} sx={{ padding: 2 }}>
+                  <Evaluation2 />
+                </Container>
+              </PrivateLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/compare"
           element={
-            <PrivateLayout>
-              <Container maxWidth={false} sx={{ padding: 2 }}>
-                <Compare />
-              </Container>
-            </PrivateLayout>
+            <PrivateRoute>
+              <PrivateLayout>
+                <Container maxWidth={false} sx={{ padding: 2 }}>
+                  <Compare />
+                </Container>
+              </PrivateLayout>
+            </PrivateRoute>
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
