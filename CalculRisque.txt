@@ -59,8 +59,10 @@ Marchés internationaux - Amerique du Nord
 3. Points pour la localisation
 1 point supplémentaire :
 
-Si la localisation est "France" et que la région d'intervention est APAC, Future Growth Markets ou Global Travel Retail
-Si la localisation est "France" et qu'aucune région n'est spécifiée
+Si la localisation est "France" et qu'aucune région n'est spécifiée ou si la région est France - Siège, Europe ou Amérique du Nord
+
+Note : Contrairement à ce qu'on pourrait penser, la localisation "France" ne donne PAS de point supplémentaire lorsque la région d'intervention est APAC, Future Growth Markets ou Global Travel Retail
+
 Note importante
 Si l'une des quatre valeurs (nature du tiers, localisation, région d'intervention, pays d'intervention) n'est pas renseignée, le score sera considéré comme null (non calculable).
 

@@ -158,10 +158,8 @@ Function CalculEvaluationPremierNiveau(natureTier As String, localisation As Str
            InStr(regionInterventionLower, "future growth markets") > 0 Or _
            InStr(regionInterventionLower, "global travel retail") > 0 Then
         score = score + 3
-        If localisationLower = "france" Then
-            ' Ajouter le point France uniquement si la région n'est pas Europe/Amérique du Nord
-            score = score + 1
-        End If
+        ' Modification: Ne pas ajouter le point supplémentaire pour France avec APAC
+        ' pour correspondre à la macro originale
     ElseIf localisationLower = "france" Then
         ' Ajouter le point France si pas de région spécifiée dans les catégories précédentes
         score = score + 1
