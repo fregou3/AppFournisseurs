@@ -721,7 +721,50 @@ router.get('/export/:tableName', async (req, res) => {
 // Stockage des tâches en cours
 const runningTasks = {};
 
-// Route pour récupérer la liste des tables disponibles
+// Route pour récupérer les métadonnées des colonnes d'une table
+router.get('/columns/:tableName', async (req, res) => {
+  const { tableName } = req.params;
+  const client = await pool.connect();
+  
+  try {
+    console.log(`Récupération des métadonnées des colonnes pour la table ${tableName}`);
+    
+    // Vérifier si la table existe
+    const tableCheckQuery = `
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = $1
+      );
+    `;
+    
+    const tableExists = await client.query(tableCheckQuery, [tableName]);
+    
+    if (!tableExists.rows[0].exists) {
+      return res.status(404).json({ error: `La table ${tableName} n'existe pas` });
+    }
+    
+    // Récupérer les métadonnées des colonnes
+    const columnsQuery = `
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = $1
+      ORDER BY ordinal_position;
+    `;
+    
+    const result = await client.query(columnsQuery, [tableName]);
+    
+    console.log(`${result.rows.length} colonnes trouvées pour la table ${tableName}`);
+    
+    res.json(result.rows);
+  } catch (error) {
+    console.error(`Erreur lors de la récupération des métadonnées des colonnes pour ${tableName}:`, error);
+    res.status(500).json({ error: error.message });
+  } finally {
+    client.release();
+  }
+});
+
+// Route pour récupérer la liste des tables
 router.get('/tables', async (req, res) => {
   const client = await pool.connect();
   try {

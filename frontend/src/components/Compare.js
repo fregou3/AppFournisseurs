@@ -596,6 +596,31 @@ const Compare = () => {
         });
       });
       
+      // Identifier les noms exacts des colonnes pour Supplier_ID, PARTNERS et SUBSIDIARY dans chaque table
+      const findColumnName = (data, possibleNames) => {
+        if (!data || data.length === 0) return null;
+        const columns = Object.keys(data[0]);
+        for (const name of possibleNames) {
+          const exactMatch = columns.find(col => col === name);
+          if (exactMatch) return exactMatch;
+          
+          const caseInsensitiveMatch = columns.find(col => col.toLowerCase() === name.toLowerCase());
+          if (caseInsensitiveMatch) return caseInsensitiveMatch;
+        }
+        return null;
+      };
+      
+      const supplierIdCol1 = findColumnName(table1Data, ['supplier_id', 'Supplier_ID', 'SUPPLIER_ID']);
+      const partnersCol1 = findColumnName(table1Data, ['partners', 'Partners', 'PARTNERS']);
+      const subsidiaryCol1 = findColumnName(table1Data, ['subsidiary', 'Subsidiary', 'SUBSIDIARY']);
+      
+      const supplierIdCol2 = findColumnName(table2Data, ['supplier_id', 'Supplier_ID', 'SUPPLIER_ID']);
+      const partnersCol2 = findColumnName(table2Data, ['partners', 'Partners', 'PARTNERS']);
+      const subsidiaryCol2 = findColumnName(table2Data, ['subsidiary', 'Subsidiary', 'SUBSIDIARY']);
+      
+      console.log('Noms des colonnes dans la table 1:', { supplierIdCol1, partnersCol1, subsidiaryCol1 });
+      console.log('Noms des colonnes dans la table 2:', { supplierIdCol2, partnersCol2, subsidiaryCol2 });
+      
       // Débogage spécifique pour le fournisseur S008580
       console.log('RECHERCHE SPÉCIFIQUE POUR LE FOURNISSEUR S008580:');
       
@@ -717,31 +742,6 @@ const Compare = () => {
         console.log('SUBSIDIARY identiques:', values1.subsidiary.toLowerCase() === values2.subsidiary.toLowerCase());
       }
       
-      // Identifier les noms exacts des colonnes pour Supplier_ID, PARTNERS et SUBSIDIARY dans chaque table
-      const findColumnName = (data, possibleNames) => {
-        if (!data || data.length === 0) return null;
-        const columns = Object.keys(data[0]);
-        for (const name of possibleNames) {
-          const exactMatch = columns.find(col => col === name);
-          if (exactMatch) return exactMatch;
-          
-          const caseInsensitiveMatch = columns.find(col => col.toLowerCase() === name.toLowerCase());
-          if (caseInsensitiveMatch) return caseInsensitiveMatch;
-        }
-        return null;
-      };
-      
-      const supplierIdCol1 = findColumnName(table1Data, ['supplier_id', 'Supplier_ID', 'SUPPLIER_ID']);
-      const partnersCol1 = findColumnName(table1Data, ['partners', 'Partners', 'PARTNERS']);
-      const subsidiaryCol1 = findColumnName(table1Data, ['subsidiary', 'Subsidiary', 'SUBSIDIARY']);
-      
-      const supplierIdCol2 = findColumnName(table2Data, ['supplier_id', 'Supplier_ID', 'SUPPLIER_ID']);
-      const partnersCol2 = findColumnName(table2Data, ['partners', 'Partners', 'PARTNERS']);
-      const subsidiaryCol2 = findColumnName(table2Data, ['subsidiary', 'Subsidiary', 'SUBSIDIARY']);
-      
-      console.log('Noms des colonnes dans la table 1:', { supplierIdCol1, partnersCol1, subsidiaryCol1 });
-      console.log('Noms des colonnes dans la table 2:', { supplierIdCol2, partnersCol2, subsidiaryCol2 });
-      
       // Fonction améliorée pour normaliser les valeurs
       const normalizeForMatch = (value) => {
         if (value === null || value === undefined) return '';
@@ -777,8 +777,8 @@ const Compare = () => {
           });
         }
         
-        // Créer une clé composée avec les trois champs
-        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}|${normalizedSubsidiary}`;
+        // Créer une clé composée avec PARTNERS et SUBSIDIARY uniquement
+        const compositeKey = `${normalizedPartners}|${normalizedSubsidiary}`;
         
         // Stocker la référence à la ligne
         if (!table2Index[compositeKey]) {
@@ -786,15 +786,14 @@ const Compare = () => {
           indexedCount++;
         }
         
-        // Créer également un index secondaire basé sur Supplier_ID et Partners
-        const supplierPartnersKey = `${normalizedSupplierId}|${normalizedPartners}`;
-        if (!table2Index[supplierPartnersKey]) {
-          table2Index[supplierPartnersKey] = row;
+        // Créer également un index secondaire basé uniquement sur Partners
+        if (normalizedPartners && !table2Index[normalizedPartners]) {
+          table2Index[normalizedPartners] = row;
         }
         
-        // Créer également un index tertiaire basé uniquement sur Supplier_ID
-        if (normalizedSupplierId && !table2Index[normalizedSupplierId]) {
-          table2Index[normalizedSupplierId] = row;
+        // Conserver l'index par Supplier_ID pour le débogage uniquement
+        if (normalizedSupplierId && !table2Index[`ID_${normalizedSupplierId}`]) {
+          table2Index[`ID_${normalizedSupplierId}`] = row;
         }
         
         // Créer un index spécifique pour S008580 (pour le débogage)
@@ -831,43 +830,98 @@ const Compare = () => {
           });
         }
         
-        // Créer une clé composée avec les trois champs
-        const compositeKey = `${normalizedSupplierId}|${normalizedPartners}|${normalizedSubsidiary}`;
+        // Créer une clé composée pour la correspondance (PARTNERS et SUBSIDIARY uniquement)
+        const compositeKey = `${normalizedPartners}|${normalizedSubsidiary}`;
         
         if (rowIndex < 5) {
-          console.log(`Clé composite pour ligne ${rowIndex}: "${compositeKey}"`);
-          console.log(`Cette clé existe dans l'index: ${compositeKey in table2Index}`);
+          console.log(`Table 1 Ligne ${rowIndex} - clé composée: ${compositeKey}`);
         }
         
-        // Chercher la ligne correspondante dans la table 2
-        let row2 = table2Index[compositeKey];
-        let matchType = 'supplier_id_partners_subsidiary';
+        // Rechercher une correspondance dans la table 2
+        let matchingRow = table2Index[compositeKey];
+        let matchType = 'exact_match_partners_subsidiary';
         
-        // Si pas de correspondance exacte, essayer avec Supplier_ID et Partners
-        if (!row2) {
-          const supplierPartnersKey = `${normalizedSupplierId}|${normalizedPartners}`;
-          row2 = table2Index[supplierPartnersKey];
-          if (row2) {
-            matchType = 'supplier_id_and_partners';
-            matchBySupplierIdAndPartners++;
-          }
-        } else {
-          matchCount++;
+        // Si aucune correspondance exacte n'est trouvée, essayer avec Partners uniquement
+        if (!matchingRow && normalizedPartners) {
+          matchingRow = table2Index[normalizedPartners];
+          matchType = 'partners_only_match';
         }
         
-        // Si toujours pas de correspondance, essayer avec seulement Supplier_ID
-        if (!row2 && normalizedSupplierId) {
-          row2 = table2Index[normalizedSupplierId];
-          if (row2) {
-            matchType = 'supplier_id';
-            matchBySupplierId++;
-          }
+        // En dernier recours, essayer avec Supplier_ID (pour le débogage)
+        if (!matchingRow && normalizedSupplierId) {
+          matchingRow = table2Index[`ID_${normalizedSupplierId}`];
+          matchType = 'supplier_id_fallback_match';
         }
         
-        if (row2) {
-          // Extraire les valeurs d'Annual Spend
-          const annualSpend1 = parseFloat(row1[annualSpendCol1] || 0);
-          const annualSpend2 = parseFloat(row2[annualSpendCol2] || 0);
+        if (matchingRow) {
+          // Fonction améliorée pour normaliser les valeurs d'Annual Spend
+          const normalizeAnnualSpend = (value, columnName) => {
+            if (value === null || value === undefined) return 0;
+            
+            // Convertir en chaîne
+            let strValue = String(value);
+            let originalValue = strValue;
+            
+            // Détecter si la colonne contient "k€" dans son nom (valeurs en milliers d'euros)
+            const isKiloEuro = columnName && columnName.toLowerCase().includes('k€');
+            
+            // Détecter si la valeur contient un symbole de devise (€ ou $)
+            const hasCurrencySymbol = /[€$]/.test(strValue);
+            
+            // Supprimer les symboles de devise
+            strValue = strValue.replace(/[€$]/g, '');
+            
+            // Supprimer les espaces
+            strValue = strValue.replace(/\s/g, '');
+            
+            // Détecter le format du nombre (français ou anglais)
+            const isFrenchFormat = strValue.indexOf(',') > -1 && strValue.indexOf('.') === -1;
+            const hasThousandsSeparator = (strValue.match(/\./g) || []).length > 1 || (strValue.match(/,/g) || []).length > 1;
+            
+            // Traiter selon le format détecté
+            if (isFrenchFormat) {
+              // Format français: remplacer la virgule par un point pour la décimale
+              strValue = strValue.replace(',', '.');
+            } else if (hasThousandsSeparator) {
+              // Format avec séparateurs de milliers
+              if ((strValue.match(/\./g) || []).length > 1) {
+                // Format avec points comme séparateurs de milliers (ex: 1.234.567,89)
+                strValue = strValue.replace(/\./g, '').replace(',', '.');
+              } else if ((strValue.match(/,/g) || []).length > 1) {
+                // Format avec virgules comme séparateurs de milliers (ex: 1,234,567.89)
+                strValue = strValue.replace(/,/g, '');
+              }
+            } else if (strValue.indexOf(',') > -1) {
+              // Format anglais avec virgule comme séparateur de milliers
+              strValue = strValue.replace(/,/g, '');
+            }
+            
+            // Convertir en nombre
+            let numValue = parseFloat(strValue);
+            
+            // Traitement spécial pour les valeurs en milliers d'euros (k€)
+            if (isKiloEuro) {
+              // Si la colonne est en k€, multiplier par 1000 pour obtenir la valeur en euros
+              numValue = numValue * 1000;
+              console.log(`Valeur en k€ détectée, conversion: ${strValue} k€ -> ${numValue} €`);
+            }
+            
+            // Vérifier si la valeur est trop grande (probablement en centimes)
+            let finalValue = numValue;
+            if (!isKiloEuro && numValue > 10000000) {
+              finalValue = numValue / 1000;
+              console.log(`Valeur trop grande, division par 1000: ${numValue} -> ${finalValue}`);
+            }
+            
+            // Log pour débogage
+            console.log(`Normalisation: '${originalValue}' -> '${strValue}' -> ${numValue} -> ${finalValue}`);
+            
+            return isNaN(finalValue) ? 0 : finalValue;
+          };
+          
+          // Extraire et normaliser les valeurs d'Annual Spend
+          const annualSpend1 = normalizeAnnualSpend(row1[annualSpendCol1], annualSpendCol1);
+          const annualSpend2 = normalizeAnnualSpend(matchingRow[annualSpendCol2], annualSpendCol2);
           
           // Calculer la différence
           const difference = annualSpend1 - annualSpend2;
@@ -907,10 +961,24 @@ const Compare = () => {
       
       // Afficher un résumé des correspondances trouvées
       console.log('Résumé des correspondances:');
-      console.log(`- Correspondances exactes (Supplier_ID + PARTNERS + SUBSIDIARY): ${matchCount}`);
-      console.log(`- Correspondances par Supplier_ID + PARTNERS: ${matchBySupplierIdAndPartners}`);
-      console.log(`- Correspondances par Supplier_ID uniquement: ${matchBySupplierId}`);
-      console.log(`- Total des correspondances: ${comparisonResults.filter(r => r.existsInBothTables).length}`);
+      // Calculer les statistiques de correspondance
+      const matchStats = {
+        total: comparisonResults.filter(r => r.existsInBothTables).length,
+        byType: {}
+      };
+      
+      comparisonResults.forEach(r => {
+        if (r.existsInBothTables) {
+          matchStats.byType[r.matchType] = (matchStats.byType[r.matchType] || 0) + 1;
+        }
+      });
+      
+      // Afficher les statistiques
+      console.log(`- Total des correspondances: ${matchStats.total}`);
+      console.log(`- Par type de correspondance:`);
+      Object.entries(matchStats.byType).forEach(([type, count]) => {
+        console.log(`  - ${type}: ${count}`);
+      });
       console.log(`- Lignes sans correspondance: ${comparisonResults.filter(r => !r.existsInBothTables).length}`);
       
       // Traitement spécial pour le fournisseur S008580 mentionné par l'utilisateur
@@ -926,28 +994,109 @@ const Compare = () => {
         const s008580Row1 = s008580RowsTable1[0];
         const s008580Row2 = table2Index['S008580_SPECIAL'];
         
-        console.log('Fournisseur S008580 trouvé dans les deux tables, ajout forcé aux résultats');
+        // Vérifier si cette correspondance existe déjà dans les résultats
+        const alreadyExists = comparisonResults.some(r => 
+          r.supplierId === 'S008580' && r.existsInBothTables === true
+        );
         
-        // Extraire les valeurs d'Annual Spend
-        const annualSpend1 = parseFloat(s008580Row1[annualSpendCol1] || 0);
-        const annualSpend2 = parseFloat(s008580Row2[annualSpendCol2] || 0);
-        
-        // Calculer la différence
-        const difference = annualSpend1 - annualSpend2;
-        const percentDifference = annualSpend2 !== 0 ? (difference / annualSpend2) * 100 : 0;
-        
-        // Ajouter cette correspondance aux résultats
-        comparisonResults.push({
-          supplierId: 'S008580',
-          partners: partnersCol1 ? s008580Row1[partnersCol1] || 'HOPES VM AND SERVICES LIMITED' : 'HOPES VM AND SERVICES LIMITED',
-          subsidiary: subsidiaryCol1 ? s008580Row1[subsidiaryCol1] || 'CLARINS PTE LIMITED' : 'CLARINS PTE LIMITED',
-          matchType: 'forced_match',
-          annualSpend1,
-          annualSpend2,
-          difference,
-          percentDifference,
-          existsInBothTables: true
-        });
+        if (!alreadyExists) {
+          console.log('Fournisseur S008580 trouvé dans les deux tables, ajout forcé aux résultats');
+          
+          // Extraire les valeurs de PARTNERS et SUBSIDIARY pour le débogage
+          const partners1 = partnersCol1 ? s008580Row1[partnersCol1] || '' : '';
+          const subsidiary1 = subsidiaryCol1 ? s008580Row1[subsidiaryCol1] || '' : '';
+          const partners2 = partnersCol2 ? s008580Row2[partnersCol2] || '' : '';
+          const subsidiary2 = subsidiaryCol2 ? s008580Row2[subsidiaryCol2] || '' : '';
+          
+          console.log('Comparaison des valeurs pour S008580:');
+          console.log('Table 1 - PARTNERS:', partners1);
+          console.log('Table 2 - PARTNERS:', partners2);
+          console.log('Table 1 - SUBSIDIARY:', subsidiary1);
+          console.log('Table 2 - SUBSIDIARY:', subsidiary2);
+          
+          // Fonction améliorée pour normaliser les valeurs d'Annual Spend
+          const normalizeAnnualSpend = (value) => {
+            if (value === null || value === undefined) return 0;
+            
+            // Convertir en chaîne
+            let strValue = String(value);
+            let originalValue = strValue;
+            
+            // Détecter si la valeur contient un symbole de devise (€ ou $)
+            const hasCurrencySymbol = /[€$]/.test(strValue);
+            
+            // Supprimer les symboles de devise
+            strValue = strValue.replace(/[€$]/g, '');
+            
+            // Supprimer les espaces
+            strValue = strValue.replace(/\s/g, '');
+            
+            // Détecter le format du nombre (français ou anglais)
+            const isFrenchFormat = strValue.indexOf(',') > -1 && strValue.indexOf('.') === -1;
+            const hasThousandsSeparator = (strValue.match(/\./g) || []).length > 1 || (strValue.match(/,/g) || []).length > 1;
+            
+            // Traiter selon le format détecté
+            if (isFrenchFormat) {
+              // Format français: remplacer la virgule par un point pour la décimale
+              strValue = strValue.replace(',', '.');
+            } else if (hasThousandsSeparator) {
+              // Format avec séparateurs de milliers
+              if ((strValue.match(/\./g) || []).length > 1) {
+                // Format avec points comme séparateurs de milliers (ex: 1.234.567,89)
+                strValue = strValue.replace(/\./g, '').replace(',', '.');
+              } else if ((strValue.match(/,/g) || []).length > 1) {
+                // Format avec virgules comme séparateurs de milliers (ex: 1,234,567.89)
+                strValue = strValue.replace(/,/g, '');
+              }
+            } else if (strValue.indexOf(',') > -1) {
+              // Format anglais avec virgule comme séparateur de milliers
+              strValue = strValue.replace(/,/g, '');
+            }
+            
+            // Convertir en nombre
+            const numValue = parseFloat(strValue);
+            
+            // Vérifier si la valeur est trop grande (probablement en centimes ou millimes)
+            let finalValue = numValue;
+            if (numValue > 10000000) {
+              finalValue = numValue / 1000;
+            }
+            
+            // Log pour débogage
+            console.log(`Normalisation S008580: '${originalValue}' -> '${strValue}' -> ${numValue} -> ${finalValue}`);
+            
+            return isNaN(finalValue) ? 0 : finalValue;
+          };
+          
+          // Extraire et normaliser les valeurs d'Annual Spend
+          const annualSpend1 = normalizeAnnualSpend(s008580Row1[annualSpendCol1], annualSpendCol1);
+          const annualSpend2 = normalizeAnnualSpend(s008580Row2[annualSpendCol2], annualSpendCol2);
+          
+          console.log('Valeurs d\'Annual Spend pour S008580:');
+          console.log('Table 1 - Valeur brute:', s008580Row1[annualSpendCol1]);
+          console.log('Table 1 - Valeur normalisée:', annualSpend1);
+          console.log('Table 2 - Valeur brute:', s008580Row2[annualSpendCol2]);
+          console.log('Table 2 - Valeur normalisée:', annualSpend2);
+          
+          // Calculer la différence
+          const difference = annualSpend1 - annualSpend2;
+          const percentDifference = annualSpend2 !== 0 ? (difference / annualSpend2) * 100 : 0;
+          
+          // Ajouter cette correspondance aux résultats
+          comparisonResults.push({
+            supplierId: 'S008580',
+            partners: partners1 || 'HOPES VM AND SERVICES LIMITED',
+            subsidiary: subsidiary1 || 'CLARINS PTE LIMITED',
+            matchType: 's008580_special_match',
+            annualSpend1,
+            annualSpend2,
+            difference,
+            percentDifference,
+            existsInBothTables: true
+          });
+        } else {
+          console.log('Fournisseur S008580 déjà présent dans les résultats, pas d\'ajout forcé');
+        }
       }
       
       // Si aucune correspondance n'a été trouvée, essayer une approche plus permissive
@@ -1404,17 +1553,17 @@ const Compare = () => {
                           <Chip size="small" label="Aucune correspondance" color="default" />
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="right">
                         {row.annualSpend1.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="right">
                         {row.annualSpend2.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="right" style={{ color: row.difference > 0 ? 'green' : 'red' }}>
                         {row.difference.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                       </TableCell>
-                      <TableCell>
-                        {row.percentDifference.toFixed(2)}%
+                      <TableCell align="right" style={{ color: row.difference > 0 ? 'green' : 'red' }}>
+                        {Math.abs(row.percentDifference) > 1000 ? '> 1000%' : row.percentDifference.toFixed(2) + '%'}
                       </TableCell>
                     </TableRow>
                   ))}

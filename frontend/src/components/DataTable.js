@@ -654,11 +654,87 @@ const DataTable = ({
         return;
       }
       
-      // Utiliser directement les filtres sans correction
+      // Créer un mapping des noms d'affichage vers les noms de colonnes de la DB
+      const displayToDbName = {
+        'Supplier_ID': 'supplier_id',
+        'PROCUREMENT ORGA': 'procurement_orga',
+        'PARTNERS': 'partners',
+        'Evaluated / Not Evaluated': 'evaluated_not_evaluated',
+        'Ecovadis name': 'ecovadis_name',
+        'Score Ecovadis': 'ecovadis_score',
+        'Date': 'date',
+        'Ecovadis ID': 'ecovadis_id',
+        'ORGANIZATION 1': 'organization_1',
+        'ORGANIZATION 2': 'organization_2',
+        'ORGANIZATION COUNTRY': 'organization_country',
+        'SUBSIDIARY': 'subsidiary',
+        'ORIGINAL NAME PARTNER': 'original_name_partner',
+        'Country of Supplier Contact': 'country_of_supplier_contact',
+        'VAT number': 'vat_number',
+        'Activity Area': 'activity_area',
+        'Annual spend k€ A-2023': 'annual_spend_k_euros_a_2023',
+        'Supplier Contact First Name': 'supplier_contact_first_name',
+        'Supplier Contact Last Name': 'supplier_contact_last_name',
+        'Supplier Contact Email': 'supplier_contact_email',
+        'Supplier Contact Phone': 'supplier_contact_phone',
+        'Adresse': 'adresse',
+        'NATURE DU TIERS': 'nature_du_tiers',
+        'localisation': 'localisation',
+        "Pays d'intervention": 'pays_intervention',
+        "Région d'intervention": 'region_intervention',
+        'score': 'score'
+      };
+      
+      // Récupérer les noms de colonnes du backend pour vérification
+      console.log('Vérification des noms de colonnes dans la base de données...');
+      try {
+        // Faire une requête asynchrone pour obtenir les métadonnées des colonnes
+        axios.get(`${config.apiUrl}/fournisseurs/columns/${propTableName}`)
+          .then(response => {
+            console.log('Colonnes disponibles dans la base de données:', response.data);
+          })
+          .catch(err => {
+            console.error('Erreur lors de la récupération des colonnes:', err);
+          });
+      } catch (error) {
+        console.error('Erreur lors de la vérification des colonnes:', error);
+      }
+      
+      // Fonction pour normaliser les noms de colonnes pour la base de données
+      const normalizeColumnNameForDB = (columnName) => {
+        // Si le nom est déjà mappé, utiliser la valeur mappée
+        if (displayToDbName[columnName]) {
+          return displayToDbName[columnName];
+        }
+        
+        // Sinon, appliquer une normalisation standard
+        return columnName
+          .toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
+          .replace(/[^a-z0-9_]/g, '_') // Remplacer les caractères spéciaux par des underscores
+          .replace(/_{2,}/g, '_') // Remplacer les underscores multiples par un seul
+          .replace(/^_|_$/g, ''); // Supprimer les underscores au début et à la fin
+      };
+      
+      // Corriger les noms des colonnes dans les filtres
+      const correctedFilters = {};
+      Object.entries(filters).forEach(([key, values]) => {
+        const dbKey = normalizeColumnNameForDB(key);
+        correctedFilters[dbKey] = values;
+      });
+      
+      // Corriger les noms des colonnes visibles
+      const correctedColumns = realColumnNames.map(col => normalizeColumnNameForDB(col));
+      
+      console.log('Filtres originaux:', filters);
+      console.log('Filtres corrigés:', correctedFilters);
+      console.log('Colonnes originales:', realColumnNames);
+      console.log('Colonnes corrigées:', correctedColumns);
+      
       const groupData = {
         name: groupName,
-        filters: filters,
-        visibleColumns: realColumnNames,
+        filters: correctedFilters,
+        visibleColumns: correctedColumns,
         tableName: propTableName // Ajouter le nom de la table
       };
       

@@ -1,0 +1,67 @@
+Règles de calcul des scores de risque
+Le score total est calculé en additionnant les points attribués selon les critères suivants :
+
+1. Points pour la nature du tiers (0-10 points)
+10 points :
+
+Cible de croissance externe
+Client - Wholesalers
+Bénéficiaire d'actions de sponsoring / mécénat
+5 points :
+
+Client - Retailers
+Client - Department stores
+Four. / Presta. - Baux et loyers
+Four. / Presta. - Communication et média
+Four. / Presta. - Conseils (juridiques, stratégiques, etc.)
+Four. / Presta. - Fourniture de matériel de promotion
+Four. / Presta. - Fourniture de packaging
+Four. / Presta. - Fourniture de matières premières
+Four. / Presta. - Immobilier
+Four. / Presta. - Influenceurs
+Four. / Presta. - Intérimaires
+Four. / Presta. - Logistique
+Four. / Presta. - Organismes de recherche
+Four. / Presta. - Promotion de la marque
+Four. / Presta. - Sous-traitance production
+Four. / Presta. - Transport de marchandise et services liés
+Auditeurs / Organismes certificateurs (secteur privé)
+Agents publics
+3 points :
+
+Four. / Presta. - Equipement de sécurité
+Four. / Presta. - Installations et équipements techniques
+Four. / Presta. - Maintenance des bâtiments
+Four. / Presta. - Matériel informatique
+Four. / Presta. - Mobilier de bureau
+Four. / Presta. - Nourriture et boissons
+Four. / Presta. - Services de nettoyage
+Four. / Presta. - Services de sécurité
+Four. / Presta. - Services liés au e-commerce
+Four. / Presta. - Télécommunications
+Four. / Presta. - Transport de taxi et de personnel
+1 point :
+
+Four. / Presta. - Électricité et gaz
+Four. / Presta. - Hébergement
+Four. / Presta. - Maintenance informatique
+2. Points pour la région d'intervention (0-3 points)
+3 points :
+
+Marchés internationaux - APAC
+Marchés internationaux - Future Growth Markets
+Global Travel Retail
+1 point :
+
+France - Siège
+Marchés internationaux - Europe
+Marchés internationaux - Amerique du Nord
+3. Points pour la localisation
+1 point supplémentaire :
+
+Si la localisation est "France" et que la région d'intervention est APAC, Future Growth Markets ou Global Travel Retail
+Si la localisation est "France" et qu'aucune région n'est spécifiée
+Note importante
+Si l'une des quatre valeurs (nature du tiers, localisation, région d'intervention, pays d'intervention) n'est pas renseignée, le score sera considéré comme null (non calculable).
+
+Le score total représente le niveau de risque associé au fournisseur, avec un score plus élevé indiquant un risque plus important.
