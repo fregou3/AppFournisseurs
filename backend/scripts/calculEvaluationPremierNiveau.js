@@ -55,15 +55,19 @@ function calculEvaluationPremierNiveau(natureTier, localisation, regionIntervent
     }
 
     let score = 0;
+    
+    // Déclarer natureTierLower en dehors du bloc if pour pouvoir l'utiliser plus tard
+    const natureTierLower = natureTier ? natureTier.toLowerCase() : '';
 
     // 1. Points pour nature du tiers
     if (natureTier) {
-        const natureTierLower = natureTier.toLowerCase();
         
         // Catégories à 10 points
-        if (natureTierLower.includes('cible de croissance externe') ||
-            natureTierLower.includes('wholesalers') ||
-            natureTierLower.includes('bénéficiaire d\'actions de sponsoring')) {
+        // Utiliser indexOf pour une correspondance exacte avec la macro de référence
+        if (natureTierLower.indexOf('cible de croissance externe') !== -1 ||
+            natureTierLower.indexOf('wholesalers') !== -1 ||
+            natureTierLower.indexOf('bénéficiaire d\'actions de sponsoring') !== -1 ||
+            natureTierLower.indexOf('mecenat') !== -1) {
             score += 10;
         }
         // Catégories à 5 points
@@ -116,12 +120,18 @@ function calculEvaluationPremierNiveau(natureTier, localisation, regionIntervent
             regionInterventionLower.includes('europe') ||
             regionInterventionLower.includes('amerique du nord')) {
             score += 1;
+            // Selon la macro originale, ne pas ajouter de point supplémentaire pour la localisation France
+            // quelle que soit la région d'intervention (France - Siège, Europe, Amérique du Nord)
         } else if (regionInterventionLower.includes('apac') ||
                    regionInterventionLower.includes('future growth markets') ||
                    regionInterventionLower.includes('global travel retail')) {
             score += 3;
-            if (localisation.toLowerCase() === 'france') {
-                // Ajouter le point France uniquement si la région n'est pas Europe/Amérique du Nord
+            // Ajouter le point France uniquement si la région est APAC/Future Growth/Global Travel
+            // ET que la nature du tiers n'est PAS "Bénéficiaire d'actions de sponsoring / mécénat"
+            // conformément à la macro de référence
+            if (localisation.toLowerCase() === 'france' && 
+                !(natureTierLower.indexOf('bénéficiaire d\'actions de sponsoring') !== -1 || 
+                  natureTierLower.indexOf('mecenat') !== -1)) {
                 score += 1;
             }
         } else if (localisation.toLowerCase() === 'france') {

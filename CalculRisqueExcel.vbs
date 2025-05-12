@@ -104,7 +104,8 @@ Function CalculEvaluationPremierNiveau(natureTier As String, localisation As Str
     ' Catégories à 10 points
     If InStr(natureTierLower, "cible de croissance externe") > 0 Or _
        InStr(natureTierLower, "wholesalers") > 0 Or _
-       InStr(natureTierLower, "bénéficiaire d'actions de sponsoring") > 0 Then
+       InStr(natureTierLower, "bénéficiaire d'actions de sponsoring") > 0 Or _
+       InStr(natureTierLower, "mécénat") > 0 Then
         score = score + 10
         
     ' Catégories à 5 points
@@ -154,14 +155,21 @@ Function CalculEvaluationPremierNiveau(natureTier As String, localisation As Str
        InStr(regionInterventionLower, "europe") > 0 Or _
        InStr(regionInterventionLower, "amerique du nord") > 0 Then
         score = score + 1
+        ' Selon la macro originale, ne pas ajouter de point supplémentaire pour la localisation France
+        ' quelle que soit la région d'intervention (France - Siège, Europe, Amérique du Nord)
     ElseIf InStr(regionInterventionLower, "apac") > 0 Or _
            InStr(regionInterventionLower, "future growth markets") > 0 Or _
            InStr(regionInterventionLower, "global travel retail") > 0 Then
         score = score + 3
-        ' Modification: Ne pas ajouter le point supplémentaire pour France avec APAC
-        ' pour correspondre à la macro originale
+        ' Ajouter le point France uniquement si la région est APAC/Future Growth/Global Travel
+        ' ET que la nature du tiers n'est PAS "Bénéficiaire d'actions de sponsoring / mécénat"
+        ' conformément à la macro de référence
+        If localisationLower = "france" And _
+           Not (InStr(natureTierLower, "bénéficiaire d'actions de sponsoring") > 0 Or InStr(natureTierLower, "mécénat") > 0) Then
+            score = score + 1
+        End If
     ElseIf localisationLower = "france" Then
-        ' Ajouter le point France si pas de région spécifiée dans les catégories précédentes
+        ' Ajouter le point France si pas de région spécifiée
         score = score + 1
     End If
     
