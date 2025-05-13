@@ -105,46 +105,9 @@ const Groupings = () => {
       const response = await axios.get(`${config.apiUrl}/groups/${groupName}`);
       console.log('Données du groupe reçues:', response.data);
 
-      // Mapping des noms de colonnes de la DB vers les noms d'affichage
-      const dbToDisplayName = {
-        'id': 'id',
-        'supplier_id': 'Supplier_ID',
-        'procurement_orga': 'PROCUREMENT ORGA',
-        'partners': 'PARTNERS',
-        'evaluated_not_evaluated': 'Evaluated / Not Evaluated',
-        'ecovadis_name': 'Ecovadis name',
-        'ecovadis_score': 'Score Ecovadis',
-        'date': 'Date',
-        'ecovadis_id': 'Ecovadis ID',
-        'organization_1': 'ORGANIZATION 1',
-        'organization_2': 'ORGANIZATION 2',
-        'organization_country': 'ORGANIZATION COUNTRY',
-        'subsidiary': 'SUBSIDIARY',
-        'original_name_partner': 'ORIGINAL NAME PARTNER',
-        'country_of_supplier_contact': 'Country of Supplier Contact',
-        'vat_number': 'VAT number',
-        'activity_area': 'Activity Area',
-        'annual_spend_k_euros_a_2023': 'Annual spend k€ A-2023',
-        'supplier_contact_first_name': 'Supplier Contact First Name',
-        'supplier_contact_last_name': 'Supplier Contact Last Name',
-        'supplier_contact_email': 'Supplier Contact Email',
-        'supplier_contact_phone': 'Supplier Contact Phone',
-        'adresse': 'Adresse',
-        'nature_tiers': 'NATURE DU TIERS',
-        'localisation': 'localisation',
-        'pays_intervention': "Pays d'intervention",
-        'region_intervention': "Région d'intervention",
-        'score': 'score'
-      };
+                  // Utiliser les données telles quelles, les clés doivent correspondre exactement aux noms de colonnes de la table
+      const convertedData = response.data.data;
 
-      // Convertir les noms de colonnes dans les données
-      const convertedData = response.data.data.map(row => {
-        const newRow = {};
-        Object.entries(row).forEach(([key, value]) => {
-          newRow[dbToDisplayName[key] || key] = value;
-        });
-        return newRow;
-      });
 
       setGroupData(convertedData);
       setSelectedGroup(groupName);
@@ -171,22 +134,14 @@ const Groupings = () => {
         setSourceTableName(tableName);
       }
       
-      // Convertir les noms de colonnes dans les colonnes visibles
+            // Utiliser les colonnes visibles telles quelles
       if (savedColumns) {
-        const convertedColumns = new Set(
-          savedColumns.map(col => dbToDisplayName[col] || col)
-        );
-        setVisibleColumns(convertedColumns);
+        setVisibleColumns(new Set(savedColumns));
       }
       
-      // Convertir les noms de colonnes dans les filtres
+            // Utiliser les filtres tels quels
       if (savedFilters) {
-        const convertedFilters = {};
-        Object.entries(savedFilters).forEach(([key, values]) => {
-          const displayKey = dbToDisplayName[key] || key;
-          convertedFilters[displayKey] = values;
-        });
-        setFilters(convertedFilters);
+        setFilters(savedFilters);
       }
     } catch (error) {
       console.error('Erreur lors du chargement des données du groupe:', error);

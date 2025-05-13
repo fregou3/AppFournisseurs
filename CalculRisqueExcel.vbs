@@ -6,7 +6,7 @@ Option Explicit
 Sub CalculerScoresRisque()
     Dim ws As Worksheet
     Dim lastRow As Long
-    Dim i As Long
+    Dim i As Long, j As Long
     Dim regionIntervention As String
     Dim paysIntervention As String
     Dim localisation As String
@@ -17,6 +17,7 @@ Sub CalculerScoresRisque()
     Dim localisationCol As Integer
     Dim natureTiersCol As Integer
     Dim scoreCol As Integer
+    Dim scoreCount(1 To 14) As Long ' Tableau pour compter les occurrences de chaque score
     
     ' Définir la feuille de travail active
     Set ws = ActiveSheet
@@ -64,7 +65,57 @@ Sub CalculerScoresRisque()
         End If
     Next i
     
-    MsgBox "Calcul des scores terminé !", vbInformation
+    ' Créer un tableau agrégé des scores 2 colonnes à droite de la colonne score
+    Dim statsCol As Integer
+    statsCol = scoreCol + 2
+    
+    ' Effacer les données existantes dans la zone du tableau
+    ws.Range(ws.Cells(1, statsCol), ws.Cells(16, statsCol + 1)).ClearContents
+    
+    ' Ajouter les en-têtes du tableau
+    ws.Cells(1, statsCol).Value = "Score"
+    ws.Cells(1, statsCol + 1).Value = "Nombre de fournisseurs"
+    
+    ' Mettre en forme les en-têtes
+    With ws.Range(ws.Cells(1, statsCol), ws.Cells(1, statsCol + 1))
+        .Font.Bold = True
+        .Interior.Color = RGB(200, 200, 200)
+    End With
+    
+    ' Compter les occurrences de chaque score
+    For i = 1 To 14
+        scoreCount(i) = 0
+    Next i
+    
+    For i = 2 To lastRow
+        If IsNumeric(ws.Cells(i, scoreCol).Value) Then
+            score = ws.Cells(i, scoreCol).Value
+            If score >= 1 And score <= 14 Then
+                scoreCount(score) = scoreCount(score) + 1
+            End If
+        End If
+    Next i
+    
+    ' Remplir le tableau agrégé
+    For i = 1 To 14
+        ws.Cells(i + 1, statsCol).Value = i
+        ws.Cells(i + 1, statsCol + 1).Value = scoreCount(i)
+        
+        ' Appliquer le même formatage conditionnel que pour les scores
+        ApplyScoreFormatting ws.Cells(i + 1, statsCol), i
+    Next i
+    
+    ' Ajuster la largeur des colonnes
+    ws.Columns(statsCol).AutoFit
+    ws.Columns(statsCol + 1).AutoFit
+    
+    ' Ajouter une bordure au tableau
+    With ws.Range(ws.Cells(1, statsCol), ws.Cells(15, statsCol + 1)).Borders
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+    End With
+    
+    MsgBox "Calcul des scores terminé et tableau agrégé créé !", vbInformation
 End Sub
 
 ' Fonction pour trouver l'index d'une colonne par son en-tête

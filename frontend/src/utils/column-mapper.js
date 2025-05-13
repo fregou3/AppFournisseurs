@@ -1,10 +1,5 @@
 
-// Script de correction des noms de colonnes pour le frontend
-import axios from 'axios';
-import config from '../config';
-
-// Mapping par défaut des colonnes (utilisé si l'API n'est pas disponible)
-let columnMapping = {
+// Ce fichier est désormais obsolète : tous les composants doivent utiliser les noms de colonnes exacts de la base de données.
   // Mapping des colonnes du fichier Excel vers les colonnes de la base de données
   "Supplier_ID": "supplier_id",
   "PROCUREMENT ORGA": "procurement_orga",
