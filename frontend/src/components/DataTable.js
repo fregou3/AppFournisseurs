@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { correctColumnNames, correctFilters } from '../utils/column-mapper';
 import {
   Table,
   TableBody,
@@ -654,35 +653,11 @@ const DataTable = ({
         return;
       }
       
-      // Créer un mapping des noms d'affichage vers les noms de colonnes de la DB
+      // IMPORTANT: Ne pas utiliser de mapping pour les noms de colonnes
+      // Utiliser les noms exacts des colonnes tels qu'ils sont dans la base de données
+      // Ce mapping est désactivé pour éviter les erreurs SQL
       const displayToDbName = {
-        'Supplier_ID': 'supplier_id',
-        'PROCUREMENT ORGA': 'procurement_orga',
-        'PARTNERS': 'partners',
-        'Evaluated / Not Evaluated': 'evaluated_not_evaluated',
-        'Ecovadis name': 'ecovadis_name',
-        'Score Ecovadis': 'ecovadis_score',
-        'Date': 'date',
-        'Ecovadis ID': 'ecovadis_id',
-        'ORGANIZATION 1': 'organization_1',
-        'ORGANIZATION 2': 'organization_2',
-        'ORGANIZATION COUNTRY': 'organization_country',
-        'SUBSIDIARY': 'subsidiary',
-        'ORIGINAL NAME PARTNER': 'original_name_partner',
-        'Country of Supplier Contact': 'country_of_supplier_contact',
-        'VAT number': 'vat_number',
-        'Activity Area': 'activity_area',
-        'Annual spend k€ A-2023': 'annual_spend_k_euros_a_2023',
-        'Supplier Contact First Name': 'supplier_contact_first_name',
-        'Supplier Contact Last Name': 'supplier_contact_last_name',
-        'Supplier Contact Email': 'supplier_contact_email',
-        'Supplier Contact Phone': 'supplier_contact_phone',
-        'Adresse': 'adresse',
-        'NATURE DU TIERS': 'nature_du_tiers',
-        'localisation': 'localisation',
-        "Pays d'intervention": 'pays_intervention',
-        "Région d'intervention": 'region_intervention',
-        'score': 'score'
+        // Aucun mapping - utiliser les noms exacts des colonnes
       };
       
       // Récupérer les noms de colonnes du backend pour vérification
@@ -700,31 +675,29 @@ const DataTable = ({
         console.error('Erreur lors de la vérification des colonnes:', error);
       }
       
-      // Fonction pour normaliser les noms de colonnes pour la base de données
+      // IMPORTANT: Utiliser les noms exacts des colonnes tels qu'ils sont dans la base de données
+      // Ne pas normaliser les noms de colonnes pour éviter les erreurs SQL
       const normalizeColumnNameForDB = (columnName) => {
         // Si le nom est déjà mappé, utiliser la valeur mappée
         if (displayToDbName[columnName]) {
           return displayToDbName[columnName];
         }
         
-        // Sinon, appliquer une normalisation standard
-        return columnName
-          .toLowerCase()
-          .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
-          .replace(/[^a-z0-9_]/g, '_') // Remplacer les caractères spéciaux par des underscores
-          .replace(/_{2,}/g, '_') // Remplacer les underscores multiples par un seul
-          .replace(/^_|_$/g, ''); // Supprimer les underscores au début et à la fin
+        // IMPORTANT: Retourner le nom exact de la colonne sans normalisation
+        // pour qu'il corresponde exactement au nom dans la base de données
+        return columnName;
       };
       
-      // Corriger les noms des colonnes dans les filtres
+      // Utiliser les noms exacts des colonnes dans les filtres
+      // Ne pas normaliser les noms pour éviter les erreurs SQL
       const correctedFilters = {};
       Object.entries(filters).forEach(([key, values]) => {
-        const dbKey = normalizeColumnNameForDB(key);
-        correctedFilters[dbKey] = values;
+        // Utiliser le nom exact de la colonne tel qu'il est dans la base de données
+        correctedFilters[key] = values;
       });
       
-      // Corriger les noms des colonnes visibles
-      const correctedColumns = realColumnNames.map(col => normalizeColumnNameForDB(col));
+      // Utiliser les noms exacts des colonnes visibles
+      const correctedColumns = realColumnNames;
       
       console.log('Filtres originaux:', filters);
       console.log('Filtres corrigés:', correctedFilters);
