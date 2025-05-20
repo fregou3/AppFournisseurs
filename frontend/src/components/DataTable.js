@@ -355,6 +355,13 @@ const DataTable = ({
               lowerColName.includes('phone') || 
               lowerColName.includes('adresse')) {
         return '#C62828';
+
+  // Fonction pour vérifier si une colonne est liée au score
+  const isScoreColumn = (columnName) => {
+    const lowerCol = columnName.toLowerCase();
+    return lowerCol === 'score' || columnName === 'Score' || lowerCol.includes('score');
+  };
+
       }
       
       // Colonnes en #582900 (marron) - Nature et localisation
@@ -381,10 +388,7 @@ const DataTable = ({
   };
 
     // Fonction pour vérifier si une colonne est liée au score
-  const isScoreColumn = (columnName) => {
-    const lowerCol = columnName.toLowerCase();
-    return lowerCol === 'score' || columnName === 'Score' || lowerCol.includes('score');
-  };
+  
 
   // Style des cellules avec score
   const getScoreStyle = (score) => {
