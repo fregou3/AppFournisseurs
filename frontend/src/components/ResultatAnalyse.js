@@ -56,7 +56,11 @@ const calculateResults = (answers) => {
   let resultatAnalyse;
   if (hasCriticalRating) {
     resultatAnalyse = "Niveau de risque élevé (réponse critique)";
-  } else if (totalScore < 10) {
+  } else if (totalScore >= 0 && totalScore <= 1) {
+    resultatAnalyse = "Niveau de risque très faible";
+  } else if (totalScore >= 2 && totalScore <= 4) {
+    resultatAnalyse = "Niveau de risque faible";
+  } else if (totalScore >= 5 && totalScore <= 7) {
     resultatAnalyse = "Niveau de risque modéré";
   } else {
     resultatAnalyse = "Niveau de risque élevé";
@@ -65,14 +69,20 @@ const calculateResults = (answers) => {
   // Détermination de la catégorisation et des prochaines étapes
   let categorisation, prochaines_etapes;
   
-  if (resultatAnalyse === "Niveau de risque modéré") {
+  if (resultatAnalyse === "Niveau de risque très faible") {
+    categorisation = "Tiers de catégorie 1";
+    prochaines_etapes = "Aucune action supplémentaire n'est requise. Le tiers peut être engagé selon les procédures standard.";
+  } else if (resultatAnalyse === "Niveau de risque faible") {
     categorisation = "Tiers de catégorie 2";
+    prochaines_etapes = "Vérifications de base recommandées. Le tiers peut être engagé après validation par le responsable du département.";
+  } else if (resultatAnalyse === "Niveau de risque modéré") {
+    categorisation = "Tiers de catégorie 3";
     prochaines_etapes = "Envoyer les résultats de l'évaluation de second niveau au représentant compliance de l'entité. " +
                        "Les mesures suivantes seront mises en place : due diligence et décision par le Management de l'entité.";
   } else {
-    categorisation = "Tiers de catégorie 3";
+    categorisation = "Tiers de catégorie 4";
     prochaines_etapes = "Envoyer les résultats de l'évaluation de second niveau au représentant compliance de l'entité. " +
-                       "Les mesures suivantes seront mises en place : questionnaire compliance, due diligence et décision " +
+                       "Les mesures suivantes seront mises en place : questionnaire compliance, due diligence approfondie et décision " +
                        "par le Management du groupe";
   }
 
@@ -144,7 +154,11 @@ const ResultatAnalyse = ({ answers = {}, certificationChecked = false, onCertifi
     let newResultatAnalyse;
     if (hasCriticalRating) {
       newResultatAnalyse = "Niveau de risque élevé (réponse critique)";
-    } else if (newScore < 10) {
+    } else if (newScore >= 0 && newScore <= 1) {
+      newResultatAnalyse = "Niveau de risque très faible";
+    } else if (newScore >= 2 && newScore <= 4) {
+      newResultatAnalyse = "Niveau de risque faible";
+    } else if (newScore >= 5 && newScore <= 7) {
       newResultatAnalyse = "Niveau de risque modéré";
     } else {
       newResultatAnalyse = "Niveau de risque élevé";
@@ -152,14 +166,20 @@ const ResultatAnalyse = ({ answers = {}, certificationChecked = false, onCertifi
 
     // Déterminer la catégorisation et les prochaines étapes
     let newCategorisation, newProchaines_etapes;
-    if (newResultatAnalyse === "Niveau de risque modéré") {
+    if (newResultatAnalyse === "Niveau de risque très faible") {
+      newCategorisation = "Tiers de catégorie 1";
+      newProchaines_etapes = "Aucune action supplémentaire n'est requise. Le tiers peut être engagé selon les procédures standard.";
+    } else if (newResultatAnalyse === "Niveau de risque faible") {
       newCategorisation = "Tiers de catégorie 2";
+      newProchaines_etapes = "Vérifications de base recommandées. Le tiers peut être engagé après validation par le responsable du département.";
+    } else if (newResultatAnalyse === "Niveau de risque modéré") {
+      newCategorisation = "Tiers de catégorie 3";
       newProchaines_etapes = "Envoyer les résultats de l'évaluation de second niveau au représentant compliance de l'entité. " +
                        "Les mesures suivantes seront mises en place : due diligence et décision par le Management de l'entité.";
     } else {
-      newCategorisation = "Tiers de catégorie 3";
+      newCategorisation = "Tiers de catégorie 4";
       newProchaines_etapes = "Envoyer les résultats de l'évaluation de second niveau au représentant compliance de l'entité. " +
-                       "Les mesures suivantes seront mises en place : questionnaire compliance, due diligence et décision " +
+                       "Les mesures suivantes seront mises en place : questionnaire compliance, due diligence approfondie et décision " +
                        "par le Management du groupe";
     }
 

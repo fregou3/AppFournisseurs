@@ -388,59 +388,45 @@ const DataTable = ({
 
   // Style des cellules avec score
   const getScoreStyle = (score) => {
-    if (score === null) return {};
+  if (score === null) return {};
 
-    const scoreNum = parseInt(score);
-    const styles = {
-      2: {
-        backgroundColor: '#90EE90',
-        label: 'Risque très faible',
-        color: '#1b5e20'
-      },
-      4: {
-        backgroundColor: '#FFFF00',
-        label: 'Risque faible',
-        color: '#8b8000'
-      },
-      5: {
-        backgroundColor: '#FFA500',
-        label: 'Risque modéré',
-        color: '#804000'
-      },
-      6: {
-        backgroundColor: '#FFA500',
-        label: 'Risque modéré',
-        color: '#804000'
-      },
-      7: {
-        backgroundColor: '#FFA500',
-        label: 'Risque modéré',
-        color: '#804000'
-      },
-      8: {
-        backgroundColor: '#FF0000',
-        label: 'Risque élevé',
-        color: 'white'
-      },
-      9: {
-        backgroundColor: '#FF0000',
-        label: 'Risque élevé',
-        color: 'white'
-      },
-      11: {
-        backgroundColor: '#FF0000',
-        label: 'Risque élevé',
-        color: 'white'
-      },
-      13: {
-        backgroundColor: '#FF0000',
-        label: 'Risque élevé',
-        color: 'white'
-      }
+  const scoreNum = parseInt(score);
+  
+  // Nouvelles règles de couleurs :
+  // 0 à 1 : Niveau de risque très faible (vert)
+  // 2 à 4 : Niveau de risque faible (jaune)
+  // 5 à 7 : Niveau de risque modéré (orange)
+  // 8 et plus : Niveau de risque élevé (rouge)
+  
+  if (scoreNum >= 0 && scoreNum <= 1) {
+    return {
+      backgroundColor: '#90EE90', // Vert clair
+      label: 'Niveau de risque très faible',
+      color: '#1b5e20' // Vert foncé
     };
-
-    return styles[scoreNum] || {};
-  };
+  } else if (scoreNum >= 2 && scoreNum <= 4) {
+    return {
+      backgroundColor: '#FFFF00', // Jaune
+      label: 'Niveau de risque faible',
+      color: '#8b8000' // Jaune foncé
+    };
+  } else if (scoreNum >= 5 && scoreNum <= 7) {
+    return {
+      backgroundColor: '#FFA500', // Orange
+      label: 'Niveau de risque modéré',
+      color: '#804000' // Orange foncé
+    };
+  } else if (scoreNum >= 8) {
+    return {
+      backgroundColor: '#FF0000', // Rouge
+      label: 'Niveau de risque élevé',
+      color: 'white'
+    };
+  }
+  
+  // Valeur par défaut
+  return {};
+};
 
   const renderScoreCell = (score) => {
     if (score === null) return '';

@@ -31,9 +31,10 @@ const Analyse = () => {
   const [order, setOrder] = useState('desc');
   const [stats, setStats] = useState({
     totalFournisseurs: 0,
-    risqueEleve: 0,
-    risqueMoyen: 0,
+    risqueTresFaible: 0,
     risqueFaible: 0,
+    risqueMoyen: 0,
+    risqueEleve: 0,
     nonEvalues: 0
   });
   const [scoreFilter, setScoreFilter] = useState(7);
@@ -41,7 +42,8 @@ const Analyse = () => {
   const [selectedTable, setSelectedTable] = useState('fournisseurs');
   const [loadingTables, setLoadingTables] = useState(false);
 
-  const COLORS = ['#4caf50', '#ff9800', '#f44336', '#2196f3'];
+  // Couleurs pour les niveaux de risque : Très Faible, Faible, Modéré, Élevé, Non Évalués
+  const COLORS = ['#90EE90', '#FFFF00', '#FFA500', '#FF0000', '#2196f3'];
 
   // Fonction pour récupérer la table par défaut
   const fetchDefaultTable = async () => {
@@ -164,21 +166,30 @@ const Analyse = () => {
   };
 
   const calculateStats = (fournisseurs) => {
-    // Calcul des statistiques réelles
+    // Calcul des statistiques réelles selon les nouvelles règles de risque :
+    // 0 à 1 : Niveau de risque très faible
+    // 2 à 4 : Niveau de risque faible
+    // 5 à 7 : Niveau de risque modéré
+    // 8 et plus : Niveau de risque élevé
+    
     // Vérifier si les scores sont stockés sous 'score' ou 'Score'
     const realStats = {
       totalFournisseurs: fournisseurs.length,
-      risqueEleve: fournisseurs.filter(f => {
+      risqueTresFaible: fournisseurs.filter(f => {
         const score = f.Score !== undefined ? f.Score : f.score;
-        return score !== undefined && score !== null && score >= 7;
-      }).length,
-      risqueMoyen: fournisseurs.filter(f => {
-        const score = f.Score !== undefined ? f.Score : f.score;
-        return score !== undefined && score !== null && score >= 4 && score < 7;
+        return score !== undefined && score !== null && score >= 0 && score <= 1;
       }).length,
       risqueFaible: fournisseurs.filter(f => {
         const score = f.Score !== undefined ? f.Score : f.score;
-        return score !== undefined && score !== null && score < 4;
+        return score !== undefined && score !== null && score >= 2 && score <= 4;
+      }).length,
+      risqueMoyen: fournisseurs.filter(f => {
+        const score = f.Score !== undefined ? f.Score : f.score;
+        return score !== undefined && score !== null && score >= 5 && score <= 7;
+      }).length,
+      risqueEleve: fournisseurs.filter(f => {
+        const score = f.Score !== undefined ? f.Score : f.score;
+        return score !== undefined && score !== null && score >= 8;
       }).length,
       nonEvalues: fournisseurs.filter(f => {
         const score = f.Score !== undefined ? f.Score : f.score;
@@ -220,8 +231,9 @@ const Analyse = () => {
 
   // Données pour les différents graphiques
   const getRisquesData = () => [
+    { name: 'Risque Très Faible', value: stats.risqueTresFaible },
     { name: 'Risque Faible', value: stats.risqueFaible },
-    { name: 'Risque Moyen', value: stats.risqueMoyen },
+    { name: 'Risque Modéré', value: stats.risqueMoyen },
     { name: 'Risque Élevé', value: stats.risqueEleve },
     { name: 'Non Évalués', value: stats.nonEvalues }
   ];
@@ -671,16 +683,24 @@ const Analyse = () => {
                   <Typography color="textSecondary">Total Fournisseurs</Typography>
                 </Grid>
                 <Grid item xs={6} md={2} lg={2}>
-                  <Typography variant="h4" color="error">{stats.risqueEleve}</Typography>
-                  <Typography color="textSecondary">Risque Élevé</Typography>
+                  <Typography variant="h4" sx={{ color: '#FF0000' }}>{stats.risqueEleve}</Typography>
+                  <Typography color="textSecondary">Niveau de risque élevé</Typography>
+                  <Typography variant="caption" color="textSecondary">(8 et plus)</Typography>
                 </Grid>
                 <Grid item xs={6} md={2} lg={2}>
-                  <Typography variant="h4" sx={{ color: '#ff9800' }}>{stats.risqueMoyen}</Typography>
-                  <Typography color="textSecondary">Risque Moyen</Typography>
+                  <Typography variant="h4" sx={{ color: '#FFA500' }}>{stats.risqueMoyen}</Typography>
+                  <Typography color="textSecondary">Niveau de risque modéré</Typography>
+                  <Typography variant="caption" color="textSecondary">(5 à 7)</Typography>
                 </Grid>
                 <Grid item xs={6} md={2} lg={2}>
-                  <Typography variant="h4" sx={{ color: '#4caf50' }}>{stats.risqueFaible}</Typography>
-                  <Typography color="textSecondary">Risque Faible</Typography>
+                  <Typography variant="h4" sx={{ color: '#FFFF00' }}>{stats.risqueFaible}</Typography>
+                  <Typography color="textSecondary">Niveau de risque faible</Typography>
+                  <Typography variant="caption" color="textSecondary">(2 à 4)</Typography>
+                </Grid>
+                <Grid item xs={6} md={2} lg={2}>
+                  <Typography variant="h4" sx={{ color: '#90EE90' }}>{stats.risqueTresFaible}</Typography>
+                  <Typography color="textSecondary">Niveau de risque très faible</Typography>
+                  <Typography variant="caption" color="textSecondary">(0 à 1)</Typography>
                 </Grid>
                 <Grid item xs={6} md={2} lg={2}>
                   <Typography variant="h4" sx={{ color: '#9e9e9e' }}>{stats.nonEvalues}</Typography>
