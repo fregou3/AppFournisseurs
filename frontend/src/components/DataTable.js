@@ -324,9 +324,11 @@ const DataTable = ({
     // Fonction pour déterminer la couleur en fonction du nom de colonne
     const getColumnColor = (colName) => {
       // Fonction pour vérifier si une colonne est liée au score
-      // Déclaration de isScoreColumn déplacée à l'intérieur de getColumnColor
+      const isScoreColumn = (columnName) => {
+        const lowerCol = columnName.toLowerCase();
+        return lowerCol === 'score' || columnName === 'Score' || lowerCol.includes('score');
+      };
       
-
       const lowerColName = colName.toLowerCase();
       
       // Colonnes en #FF9800 (orange) - Identifiants et organisation
@@ -361,7 +363,10 @@ const DataTable = ({
         return '#C62828';
 
   // Fonction pour vérifier si une colonne est liée au score
-  // Déclaration de isScoreColumn déplacée à l'intérieur de getColumnColor
+  const isScoreColumn = (columnName) => {
+    const lowerCol = columnName.toLowerCase();
+    return lowerCol === 'score' || columnName === 'Score' || lowerCol.includes('score');
+  };
 
       }
       
@@ -377,6 +382,7 @@ const DataTable = ({
       
       // Couleur par défaut pour les autres colonnes
       return '#1976d2';
+    };
 
     // Si la colonne a un filtre actif, utiliser une couleur de fond plus claire
     // Utiliser le mapping spécifique ou la fonction générique
@@ -1202,4 +1208,3 @@ const DataTable = ({
 };
 
 export default DataTable;
-
